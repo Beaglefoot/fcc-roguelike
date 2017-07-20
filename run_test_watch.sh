@@ -6,5 +6,5 @@ mocha --compilers js:babel-core/register\
       --require ./test/setup.js\
       --watch\
       --watch-extensions jsx\
-      test/**/*.{js,jsx}\
+      test/**/*.js*\
       --colors
