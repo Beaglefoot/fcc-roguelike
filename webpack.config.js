@@ -81,10 +81,10 @@ module.exports = {
   ],
 
   devServer: {
-    contentBase: './',
     historyApiFallback: true,
     inline: true,
     hot: true,
-    open: true
+    open: true,
+    openPage: ''
   }
 };
