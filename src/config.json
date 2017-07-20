@@ -1,6 +1,7 @@
 {
   "world": {
-    "rows": 70,
-    "columns": 160
+    "rows": 40,
+    "columns": 60,
+    "tiles": []
   }
 }

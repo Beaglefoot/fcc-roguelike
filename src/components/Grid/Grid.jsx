@@ -1,17 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { cell, grid } from './Grid.scss';
+import classes, { tile, grid } from './Grid.scss';
 
-const Grid = props => (
+import { getTileId, getTileType } from 'src/helpers';
+
+const Grid = ({ rows, columns, tiles }) => (
   <table className={grid}>
     <tbody>
       {
-        new Array(props.rows).fill().map((_, index) => (
-          <tr key={index}>
+        new Array(rows).fill().map((_, rowIndex) => (
+          <tr key={rowIndex}>
             {
-              new Array(props.columns).fill().map((_, index) => (
-                <td key={index} className={cell} />
+              new Array(columns).fill().map((_, index) => (
+                <td key={index} className={tile}>
+                  <div
+                    className={classes[
+                      getTileType(tiles, getTileId(index, rowIndex, columns))
+                    ]}
+                  />
+                </td>
               ))
             }
           </tr>
@@ -21,6 +30,12 @@ const Grid = props => (
   </table>
 );
 
-const mapStateToProps = ({ rows, columns }) => ({ rows, columns });
+Grid.propTypes = {
+  rows: PropTypes.number.isRequired,
+  columns: PropTypes.number.isRequired,
+  tiles: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
+const mapStateToProps = ({ rows, columns, tiles }) => ({ rows, columns, tiles });
 
 export default connect(mapStateToProps)(Grid);

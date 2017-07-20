@@ -2,8 +2,10 @@ import React from 'react';
 
 import Grid from '../Grid/Grid';
 
+import { app } from './App.scss';
+
 const App = () => (
-  <div>
+  <div className={app}>
     <Grid />
   </div>
 );
