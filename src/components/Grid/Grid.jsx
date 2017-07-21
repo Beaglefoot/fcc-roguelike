@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 
 import classes, { tile, grid } from './Grid.scss';
@@ -33,9 +34,9 @@ const Grid = ({ rows, columns, tiles }) => (
 Grid.propTypes = {
   rows: PropTypes.number.isRequired,
   columns: PropTypes.number.isRequired,
-  tiles: PropTypes.arrayOf(PropTypes.object).isRequired
+  tiles: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired
 };
 
-const mapStateToProps = ({ rows, columns, tiles }) => ({ rows, columns, tiles });
+const mapStateToProps = state => ({ ...state.toObject() });
 
 export default connect(mapStateToProps)(Grid);
