@@ -18,7 +18,7 @@ const Grid = ({ rows, columns, tiles }) => (
                 <td key={index} className={tile}>
                   <div
                     className={classes[
-                      getTileType(tiles, getTileId(index, rowIndex, columns))
+                      getTileType(tiles, { x: index, y: rowIndex })
                     ]}
                   />
                 </td>
