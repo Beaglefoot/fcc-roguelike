@@ -37,6 +37,6 @@ Grid.propTypes = {
   tiles: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired
 };
 
-const mapStateToProps = state => ({ ...state.toObject() });
+const mapStateToProps = ({ rows, columns, tiles }) => ({ rows, columns, tiles });
 
 export default connect(mapStateToProps)(Grid);

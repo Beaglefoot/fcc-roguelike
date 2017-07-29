@@ -1,6 +1,6 @@
-import { List } from 'immutable';
+import { List, fromJS } from 'immutable';
 
-class Tile {
+export class Tile {
   constructor(position = { x: 0, y: 0 }, type = 'wall') {
     return { type, position };
   }
@@ -11,9 +11,9 @@ export const getPosition = (index = 0, columns = 1) => (
 );
 
 export const generateTiles = (amount = 0, columns = 1) => (
-  new Array(amount).fill().map(
+  fromJS(new Array(amount).fill().map(
     (_, index) => new Tile(getPosition(index, columns))
-  )
+  ))
 );
 
 export const getTile = (tiles, { x, y }) => (
