@@ -6,12 +6,12 @@ describe('reducer', () => {
     const state = reducer();
 
     expect(state).to.contain.all.keys('rows', 'columns', 'tiles');
-    expect(state.tiles).to.have.length.above(0);
+    expect(state.tiles.toJS()).to.have.length.above(0);
   });
 
-  it('should have tiles with id and type', () => {
+  it('should have tiles with position and type', () => {
     const state = reducer();
 
-    expect(state.tiles[0]).to.contain.all.keys('id', 'type');
+    expect(state.tiles.get(0).toJS()).to.contain.all.keys('position', 'type');
   });
 });
