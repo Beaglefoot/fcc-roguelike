@@ -1,11 +1,13 @@
 import { expect } from 'chai';
+import { fromJS } from 'immutable';
 
 import {
   Tile,
   getPosition,
   generateTiles,
   getTile,
-  getRoomCoordinates
+  getRoomCoordinates,
+  createRoom
 } from './helpers';
 
 describe('helper functions', () => {
@@ -57,6 +59,15 @@ describe('helper functions', () => {
           { x: 1, y: 3 },
           { x: 2, y: 3 }
         ]);
+    });
+  });
+
+  describe('createRoom()', () => {
+    it('should return tiles with provided room coordinates', () => {
+      expect(
+        createRoom(tiles, fromJS([{ x: 1, y: 1 }, { x: 2, y: 1 }])).toJS()
+      ).to.contain({ position: { x: 1, y: 1,}, type: 'room' })
+        .and.to.contain({ position: { x: 2, y: 1,}, type: 'room' });
     });
   });
 });

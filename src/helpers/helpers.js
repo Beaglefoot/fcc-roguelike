@@ -34,16 +34,17 @@ export const getRoomCoordinates = (tiles, { x, y }, sizeX, sizeY) => (
   ).flatten(true)
 );
 
-//
-// const createRoom = (tiles, roomCoordinates) => (
-//   tiles.map(tile => {
-//     const { position: { x, y }} = tile;
-//     const roomTileIndex = roomCoordinates.findIndex({ rx, ry } => rx === x && ry === y);
-//
-//     if (roomTileIndex !== -1) {
-//       delete roomCoordinates[roomTileIndex];
-//       return { ...tile, { type: 'room' }};
-//     }
-//   })
-// );
+export const createRoom = (tiles, roomCoordinates) => (
+  // TODO: replace map with reduce and delete used room coordinates
+  tiles.map(tile => {
+    const { position: { x, y }} = tile.toJS();
 
+    if (
+      roomCoordinates.some(room => (
+        room.get('x') === x && room.get('y') === y
+      ))
+    ) return tile.set('type', 'room');
+
+    return tile;
+  })
+);

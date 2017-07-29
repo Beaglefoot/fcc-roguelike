@@ -1,19 +1,26 @@
 import { world } from '../config';
 import { fromJS } from 'immutable';
 
-import { generateTiles, getRoomCoordinates } from '../helpers/helpers';
+import {
+  generateTiles,
+  createRoom
+} from '../helpers/helpers';
 
 const { rows, columns } = world;
 
 const initialState = {
   rows,
   columns,
-  tiles: generateTiles(rows * columns, columns)
-    .map((tile, index) => index > 260 ? tile.merge({ type: 'room' }) : tile)
+  tiles: createRoom(
+    generateTiles(rows * columns, columns),
+    fromJS([
+      { x: 3, y: 3 },
+      { x: 4, y: 3 },
+      { x: 3, y: 4 },
+      { x: 4, y: 4 },
+    ])
+  )
 };
-
-
-console.log(getRoomCoordinates(initialState.tiles, { x: 3, y: 3 }, 4, 5).toJS());
 
 
 
