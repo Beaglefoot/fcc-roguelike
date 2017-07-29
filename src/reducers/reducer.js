@@ -1,7 +1,7 @@
 import { world } from '../config';
 import { fromJS } from 'immutable';
 
-import { generateTiles, getRoomCoordinates } from '../helpers';
+import { generateTiles, getRoomCoordinates } from '../helpers/helpers';
 
 const { rows, columns } = world;
 

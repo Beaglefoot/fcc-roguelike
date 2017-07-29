@@ -6,7 +6,7 @@ import {
   generateTiles,
   getTile,
   getRoomCoordinates
-} from '../../src/helpers';
+} from './helpers';
 
 describe('helper functions', () => {
   describe('getPosition()', () => {

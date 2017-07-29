@@ -6,7 +6,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import App from './components/App/App';
 
-import reducer from './reducers';
+import reducer from './reducers/reducer';
 
 const store = createStore(
   reducer,

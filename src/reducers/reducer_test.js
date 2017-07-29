@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import reducer from '../../src/reducers';
+import reducer from './reducer';
 
 describe('reducer', () => {
   it('should have default state', () => {
