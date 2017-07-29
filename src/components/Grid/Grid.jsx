@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import classes, { tile, grid } from './Grid.scss';
 
-import { getTileId, getTileType } from 'src/helpers';
+import { getTileId, getTile } from 'src/helpers';
 
 const Grid = ({ rows, columns, tiles }) => (
   <table className={grid}>
@@ -18,7 +18,7 @@ const Grid = ({ rows, columns, tiles }) => (
                 <td key={index} className={tile}>
                   <div
                     className={classes[
-                      getTileType(tiles, { x: index, y: rowIndex })
+                      getTile(tiles, { x: index, y: rowIndex }).get('type')
                     ]}
                   />
                 </td>
