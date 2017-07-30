@@ -1,4 +1,5 @@
 import { List, fromJS } from 'immutable';
+import random from 'lodash/random';
 
 export class Tile {
   constructor(position = { x: 0, y: 0 }, type = 'wall') {
@@ -47,4 +48,24 @@ export const createRoom = (tiles, roomCoordinates) => (
 
     return tile;
   })
+);
+
+export const getWallTiles = tiles => (
+  tiles.filter(tile => tile.get('type') === 'wall')
+);
+
+export const getInnerTiles = (tiles, rows, columns) => (
+  tiles.filter(tile => {
+    const x = tile.getIn(['position', 'x']);
+    const y = tile.getIn(['position', 'y']);
+
+    return x !== 0
+      && x !== columns - 1
+      && y !== 0
+      && y !== rows - 1;
+  })
+);
+
+export const getRandomTile = tiles => (
+  tiles.get(random(0, tiles.size))
 );

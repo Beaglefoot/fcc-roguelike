@@ -3,7 +3,9 @@ import { fromJS } from 'immutable';
 
 import {
   generateTiles,
-  createRoom
+  createRoom,
+  getInnerTiles,
+  getRandomTile
 } from '../helpers/helpers';
 
 const { rows, columns } = world;
@@ -21,6 +23,9 @@ const initialState = {
     ])
   )
 };
+
+const inner = getInnerTiles(initialState.tiles, rows, columns);
+console.log(getRandomTile(inner).toJS());
 
 
 

@@ -7,7 +7,8 @@ import {
   generateTiles,
   getTile,
   getRoomCoordinates,
-  createRoom
+  createRoom,
+  getInnerTiles
 } from './helpers';
 
 describe('helper functions', () => {
@@ -68,6 +69,19 @@ describe('helper functions', () => {
         createRoom(tiles, fromJS([{ x: 1, y: 1 }, { x: 2, y: 1 }])).toJS()
       ).to.contain({ position: { x: 1, y: 1,}, type: 'room' })
         .and.to.contain({ position: { x: 2, y: 1,}, type: 'room' });
+    });
+  });
+
+  describe('getInnerTiles()', () => {
+    it('should return tiles which are not near the edges', () => {
+      expect(getInnerTiles(tiles, amount / columns, columns).toJS())
+        .to.include({ position: { x: 1, y: 1 }, type: 'wall' })
+        .and
+        .not.to.include({ position: { x: columns - 1, y: 1 }, type: 'wall' })
+        .and
+        .not.to.include({ position: { x: 1, y: amount / columns - 1 }, type: 'wall' })
+        .and
+        .not.to.include({ position: { x: 0, y: 0 }, type: 'wall' });
     });
   });
 });
