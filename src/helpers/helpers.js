@@ -1,4 +1,5 @@
-import { List, fromJS } from 'immutable';
+/* eslint no-unused-vars: off */
+import { List, Map, fromJS, isCollection } from 'immutable';
 import random from 'lodash/random';
 
 export class Tile {
@@ -24,15 +25,15 @@ export const getTile = (tiles, { x, y }) => (
   ))
 );
 
-export const getRoomCoordinates = (tiles, { x, y }, sizeX, sizeY) => (
-  List().setSize(sizeY).map(
+export const getRoomCoordinates = (tiles, { x, y }, { sizeX, sizeY }) => (
+  List().setSize(sizeY).flatMap(
     (_, rowIndex) => (
       List().setSize(sizeX - 1).reduce(
-        (prev, _, index) => prev.concat({ x: index + x + 1, y: y + rowIndex }),
-        List.of({ x, y: y + rowIndex })
+        (prev, _, index) => prev.push(Map({ x: index + x + 1, y: y + rowIndex })),
+        List.of(Map({ x, y: y + rowIndex }))
       )
     )
-  ).flatten(true)
+  )
 );
 
 export const createRoom = (tiles, roomCoordinates) => (
@@ -69,3 +70,11 @@ export const getInnerTiles = (tiles, rows, columns) => (
 export const getRandomTile = tiles => (
   tiles.get(random(0, tiles.size))
 );
+
+export const getRandomSizeForRoom =
+  (minSizeX = 3, maxSizeX = 10, minSizeY = 3, maxSizeY = 10) => (
+    {
+      sizeX: random(minSizeX, maxSizeX),
+      sizeY: random(minSizeY, maxSizeY)
+    }
+  );

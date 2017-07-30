@@ -53,7 +53,7 @@ describe('helper functions', () => {
 
   describe('getRoomCoordinates()', () => {
     it('should return correct room coordinates', () => {
-      expect(getRoomCoordinates(tiles, { x: 1, y: 2 }, 2, 2).toJS())
+      expect(getRoomCoordinates(tiles, { x: 1, y: 2 }, { sizeX: 2, sizeY: 2 }).toJS())
         .to.deep.equal([
           { x: 1, y: 2 },
           { x: 2, y: 2 },
