@@ -1,3 +1,4 @@
+/* eslint no-unused-vars: off */
 import { world } from '../config';
 // import { fromJS } from 'immutable';
 
@@ -7,7 +8,8 @@ import {
   getInnerTiles,
   getRandomTile,
   getRandomSizeForRoom,
-  getRoomCoordinates
+  getRoomCoordinates,
+  splitTiles
 } from '../helpers/helpers';
 
 const { rows, columns } = world;
@@ -19,26 +21,40 @@ const coord = getRoomCoordinates(
   getRandomTile(innerTiles)
     .get('position')
     .toJS(),
-  // { x: 58, y: 38 },
   getRandomSizeForRoom()
 );
 
-console.log(coord.toJS());
+// console.log(
+//   splitTiles(tiles, 2).flatten(1).toJS().length
+// );
 
 const initialState = {
   rows,
   columns,
-  tiles: createRoom(
-    tiles,
-    coord
+  tiles: splitTiles(tiles, 2).flatten(1)
+    .map(part => createRoom(
+      part,
+      getRoomCoordinates(
+        part,
+        getRandomTile(getInnerTiles(part)).get('position').toJS(),
+        getRandomSizeForRoom()
+      )
+    ))
+    .flatten(1)
+
+  // tiles: createRoom(
+  //   tiles,
+  //   coord
     // fromJS([
     //   { x: 3, y: 3 },
     //   { x: 4, y: 3 },
     //   { x: 3, y: 4 },
     //   { x: 4, y: 4 },
     // ])
-  )
+  // )
 };
+
+console.log(initialState.tiles.toJS());
 
 
 

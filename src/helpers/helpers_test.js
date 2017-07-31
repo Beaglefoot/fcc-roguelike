@@ -8,7 +8,8 @@ import {
   getTile,
   getRoomCoordinates,
   createRoom,
-  getInnerTiles
+  getInnerTiles,
+  splitTiles
 } from './helpers';
 
 describe('helper functions', () => {
@@ -63,8 +64,6 @@ describe('helper functions', () => {
     });
 
     it('should modify starting position in case of overlapping borders', () => {
-      console.log(tiles.toJS());
-      console.log(getRoomCoordinates(tiles, { x: 4, y: 4 }, { sizeX: 2, sizeY: 2 }).toJS());
       expect(getRoomCoordinates(tiles, { x: 4, y: 4 }, { sizeX: 2, sizeY: 2 }).toJS())
         .to.deep.equal([
           { x: 2, y: 2 },
@@ -94,6 +93,32 @@ describe('helper functions', () => {
         .not.to.include({ position: { x: 1, y: amount / columns - 1 }, type: 'wall' })
         .and
         .not.to.include({ position: { x: 0, y: 0 }, type: 'wall' });
+    });
+  });
+
+  describe('splitTiles()', () => {
+    it('should split titles into 2 parts horizontally', () => {
+      const split = splitTiles(tiles, 1, 0.5, 0.5, 'y').toJS();
+
+      expect(split)
+        .to.be.an('array')
+        .and.have.a.lengthOf(2);
+
+      expect(split[0].map(tile => tile.position))
+        .to.include.deep.members([
+          { x: 0, y: 0 },
+          { x: 1, y: 0 },
+          { x: 3, y: 1 },
+          { x: 4, y: 1 }
+        ]);
+
+      expect(split[1].map(tile => tile.position))
+        .to.include.deep.members([
+          { x: 0, y: 2 },
+          { x: 1, y: 2 },
+          { x: 3, y: 4 },
+          { x: 4, y: 4 }
+        ]);
     });
   });
 });

@@ -1,7 +1,9 @@
 {
   "world": {
-    "rows": 40,
-    "columns": 60,
-    "tiles": []
+    "rows": 20,
+    "columns": 30,
+    "tiles": [],
+    "minRoomLength": 3,
+    "maxRoomLength": 6
   }
 }

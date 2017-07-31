@@ -2,11 +2,17 @@
 import { List, Map, fromJS } from 'immutable';
 import random from 'lodash/random';
 
+import { world } from '../config';
+
+const { minRoomLength, maxRoomLength } = world;
+
+
 export class Tile {
   constructor(position = { x: 0, y: 0 }, type = 'wall') {
     return { type, position };
   }
 }
+
 
 export const getPosition = (index = 0, columns = 1) => (
   { x: index % columns, y: Math.floor(index / columns) }
@@ -26,7 +32,7 @@ export const getTile = (tiles, { x, y }) => (
 );
 
 export const getRoomCoordinates = (tiles, { x, y }, { sizeX, sizeY }) => {
-  console.log(`x: ${x}, y: ${y}, sizeX: ${sizeX}, sizeY: ${sizeY}`);
+  // console.log(`x: ${x}, y: ${y}, sizeX: ${sizeX}, sizeY: ${sizeY}`);
   const { x: columns, y: rows } = tiles.last().get('position').toJS();
 
   // Allign starting position when room has tiles beyond tiles borders
@@ -80,10 +86,30 @@ export const getRandomTile = tiles => (
   tiles.get(random(0, tiles.size))
 );
 
-export const getRandomSizeForRoom =
-  (minSizeX = 3, maxSizeX = 10, minSizeY = 3, maxSizeY = 10) => (
-    {
-      sizeX: random(minSizeX, maxSizeX),
-      sizeY: random(minSizeY, maxSizeY)
-    }
-  );
+export const getRandomSizeForRoom = () => (
+  {
+    sizeX: random(minRoomLength, maxRoomLength),
+    sizeY: random(minRoomLength, maxRoomLength)
+  }
+);
+
+export const splitTiles = (tiles, depth = 1, minProportion = 0.3, maxProportion = 0.7, splitDirection) => {
+  if (!depth) return tiles;
+  if (splitDirection === undefined) splitDirection = random() ? 'x' : 'y';
+
+  const proportion = random(minProportion, maxProportion);
+  const startLineNum = tiles.first().getIn(['position', splitDirection]);
+  const endLineNum = tiles.last().getIn(['position', splitDirection]);
+
+  const splitLineNum = startLineNum + Math.floor((endLineNum - startLineNum) * proportion);
+
+  console.log(splitDirection, proportion, splitLineNum, `depth: ${depth}`);
+
+
+  return tiles.reduce((split, tile) => (
+    tile.getIn(['position', splitDirection]) < splitLineNum
+      ? split.set(0, split.get(0).push(tile))
+      : split.set(1, split.get(1).push(tile))
+  ), fromJS([[],[]]))
+    .map(part => splitTiles(part, depth - 1));
+};
