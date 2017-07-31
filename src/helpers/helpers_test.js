@@ -38,7 +38,7 @@ describe('helper functions', () => {
   });
 
 
-  const amount = 20;
+  const amount = 25;
   const columns = 5;
   const tiles = generateTiles(amount, columns);
 
@@ -59,6 +59,18 @@ describe('helper functions', () => {
           { x: 2, y: 2 },
           { x: 1, y: 3 },
           { x: 2, y: 3 }
+        ]);
+    });
+
+    it('should modify starting position in case of overlapping borders', () => {
+      console.log(tiles.toJS());
+      console.log(getRoomCoordinates(tiles, { x: 4, y: 4 }, { sizeX: 2, sizeY: 2 }).toJS());
+      expect(getRoomCoordinates(tiles, { x: 4, y: 4 }, { sizeX: 2, sizeY: 2 }).toJS())
+        .to.deep.equal([
+          { x: 2, y: 2 },
+          { x: 3, y: 2 },
+          { x: 2, y: 3 },
+          { x: 3, y: 3 }
         ]);
     });
   });

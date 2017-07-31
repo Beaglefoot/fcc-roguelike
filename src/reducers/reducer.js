@@ -13,18 +13,24 @@ import {
 const { rows, columns } = world;
 const tiles = generateTiles(rows * columns, columns);
 
+let innerTiles = getInnerTiles(tiles);
+const coord = getRoomCoordinates(
+  tiles,
+  getRandomTile(innerTiles)
+    .get('position')
+    .toJS(),
+  // { x: 58, y: 38 },
+  getRandomSizeForRoom()
+);
+
+console.log(coord.toJS());
+
 const initialState = {
   rows,
   columns,
   tiles: createRoom(
     tiles,
-    getRoomCoordinates(
-      tiles,
-      getRandomTile(getInnerTiles(tiles, rows, columns))
-        .get('position')
-        .toJS(),
-      getRandomSizeForRoom()
-    )
+    coord
     // fromJS([
     //   { x: 3, y: 3 },
     //   { x: 4, y: 3 },
