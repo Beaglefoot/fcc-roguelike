@@ -4,7 +4,12 @@ import random from 'lodash/random';
 
 import { world } from '../config';
 
-const { minRoomLength, maxRoomLength } = world;
+const {
+  minRoomLength,
+  maxRoomLength,
+  minSplitProportion,
+  maxSplitProportion
+} = world;
 
 
 export class Tile {
@@ -32,7 +37,7 @@ export const getTile = (tiles, { x, y }) => (
 );
 
 export const getRoomCoordinates = (tiles, { x, y }, { sizeX, sizeY }) => {
-  console.log(`x: ${x}, y: ${y}, sizeX: ${sizeX}, sizeY: ${sizeY}`);
+  // console.log(`x: ${x}, y: ${y}, sizeX: ${sizeX}, sizeY: ${sizeY}`);
 
   const { x: columns, y: rows } = tiles.last().get('position').toJS();
 
@@ -96,9 +101,24 @@ export const getSidesLength = tiles => ({
   )
 });
 
-export const splitTiles = (tiles, depth = 1, minProportion = 0.45, maxProportion = 0.55, splitDirection) => {
+export const getSidesProportion = ({ lengthX, lengthY }) => lengthX / lengthY;
+
+export const splitTiles = (
+  tiles,
+  depth = 1,
+  minProportion = minSplitProportion,
+  maxProportion = maxSplitProportion,
+  splitDirection
+) => {
   if (!depth) return tiles;
-  if (splitDirection === undefined) splitDirection = random() ? 'x' : 'y';
+
+  const sidesProportion = getSidesProportion(getSidesLength(tiles));
+
+  if (splitDirection === undefined) {
+    if (sidesProportion < 0.75) splitDirection = 'y';
+    else if (sidesProportion > 1.5) splitDirection = 'x';
+    else splitDirection = random() ? 'x' : 'y';
+  }
 
   const proportion = random(minProportion, maxProportion);
   const startLineNum = tiles.first().getIn(['position', splitDirection]);
@@ -106,7 +126,7 @@ export const splitTiles = (tiles, depth = 1, minProportion = 0.45, maxProportion
 
   const splitLineNum = startLineNum + Math.floor((endLineNum - startLineNum) * proportion);
 
-  console.log(splitDirection, proportion, splitLineNum, `depth: ${depth}`);
+  // console.log(splitDirection, proportion, splitLineNum, `depth: ${depth}`);
 
 
   return tiles.reduce((split, tile) => (

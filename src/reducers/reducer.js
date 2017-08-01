@@ -11,7 +11,13 @@ import {
   splitTiles
 } from '../helpers/helpers';
 
-const { rows, columns, splitDepth } = world;
+const {
+  rows,
+  columns,
+  splitDepth,
+  minRoomToSectionProportion,
+  maxRoomToSectionProportion
+} = world;
 const tiles = generateTiles(rows * columns, columns);
 
 const initialState = {
@@ -21,12 +27,12 @@ const initialState = {
     .map(part => {
       const { lengthX, lengthY } = getSidesLength(part);
 
-      const minSizeX = Math.ceil(lengthX / 2);
-      const minSizeY = Math.ceil(lengthY / 2);
-      const maxSizeX = Math.floor(lengthX * 0.9);
-      const maxSizeY = Math.floor(lengthY * 0.9);
+      const minSizeX = Math.ceil(lengthX * minRoomToSectionProportion);
+      const minSizeY = Math.ceil(lengthY * minRoomToSectionProportion);
+      const maxSizeX = Math.floor(lengthX * maxRoomToSectionProportion);
+      const maxSizeY = Math.floor(lengthY * maxRoomToSectionProportion);
 
-      console.log('roomSize restrictions: ', minSizeX, minSizeY, maxSizeX, maxSizeY);
+      // console.log('roomSize restrictions: ', minSizeX, minSizeY, maxSizeX, maxSizeY);
 
       return createRoom(
         part,
