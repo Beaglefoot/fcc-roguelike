@@ -32,7 +32,8 @@ export const getTile = (tiles, { x, y }) => (
 );
 
 export const getRoomCoordinates = (tiles, { x, y }, { sizeX, sizeY }) => {
-  // console.log(`x: ${x}, y: ${y}, sizeX: ${sizeX}, sizeY: ${sizeY}`);
+  console.log(`x: ${x}, y: ${y}, sizeX: ${sizeX}, sizeY: ${sizeY}`);
+
   const { x: columns, y: rows } = tiles.last().get('position').toJS();
 
   // Allign starting position when room has tiles beyond tiles borders
@@ -68,32 +69,23 @@ export const getWallTiles = tiles => (
   tiles.filter(tile => tile.get('type') === 'wall')
 );
 
-export const getInnerTiles = tiles => {
-  const { x: columns, y: rows } = tiles.last().get('position').toJS();
-
-  return tiles.filter(tile => {
-    const x = tile.getIn(['position', 'x']);
-    const y = tile.getIn(['position', 'y']);
-
-    return x !== 0
-      && x !== columns
-      && y !== 0
-      && y !== rows;
-  });
-};
-
 export const getRandomTile = tiles => (
   tiles.get(random(0, tiles.size))
 );
 
-export const getRandomSizeForRoom = () => (
+export const getRandomSizeForRoom = (
+  minSizeX = minRoomLength,
+  minSizeY = minRoomLength,
+  maxSizeX = maxRoomLength,
+  maxSizeY = maxRoomLength
+) => (
   {
-    sizeX: random(minRoomLength, maxRoomLength),
-    sizeY: random(minRoomLength, maxRoomLength)
+    sizeX: random(minSizeX, maxSizeX),
+    sizeY: random(minSizeY, maxSizeY)
   }
 );
 
-export const splitTiles = (tiles, depth = 1, minProportion = 0.3, maxProportion = 0.7, splitDirection) => {
+export const splitTiles = (tiles, depth = 1, minProportion = 0.45, maxProportion = 0.55, splitDirection) => {
   if (!depth) return tiles;
   if (splitDirection === undefined) splitDirection = random() ? 'x' : 'y';
 

@@ -1,60 +1,52 @@
 /* eslint no-unused-vars: off */
 import { world } from '../config';
-// import { fromJS } from 'immutable';
 
 import {
   generateTiles,
   createRoom,
-  getInnerTiles,
   getRandomTile,
   getRandomSizeForRoom,
   getRoomCoordinates,
   splitTiles
 } from '../helpers/helpers';
 
-const { rows, columns } = world;
+const { rows, columns, splitDepth } = world;
 const tiles = generateTiles(rows * columns, columns);
-
-let innerTiles = getInnerTiles(tiles);
-const coord = getRoomCoordinates(
-  tiles,
-  getRandomTile(innerTiles)
-    .get('position')
-    .toJS(),
-  getRandomSizeForRoom()
-);
-
-// console.log(
-//   splitTiles(tiles, 2).flatten(1).toJS().length
-// );
 
 const initialState = {
   rows,
   columns,
-  tiles: splitTiles(tiles, 2).flatten(1)
-    .map(part => createRoom(
-      part,
-      getRoomCoordinates(
-        part,
-        getRandomTile(getInnerTiles(part)).get('position').toJS(),
-        getRandomSizeForRoom()
-      )
-    ))
-    .flatten(1)
+  tiles: splitTiles(tiles, splitDepth).flatten(splitDepth - 1)
+    .map(part => {
+      const lengthX = (
+        part.last().getIn(['position', 'x']) -
+        part.first().getIn(['position', 'x'])
+      );
+      const lengthY = (
+        part.last().getIn(['position', 'y']) -
+        part.first().getIn(['position', 'y'])
+      );
 
-  // tiles: createRoom(
-  //   tiles,
-  //   coord
-    // fromJS([
-    //   { x: 3, y: 3 },
-    //   { x: 4, y: 3 },
-    //   { x: 3, y: 4 },
-    //   { x: 4, y: 4 },
-    // ])
-  // )
+      const minSizeX = Math.ceil(lengthX / 2);
+      const minSizeY = Math.ceil(lengthY / 2);
+      const maxSizeX = Math.floor(lengthX * 0.9);
+      const maxSizeY = Math.floor(lengthY * 0.9);
+
+      console.log('roomSize restrictions: ', minSizeX, minSizeY, maxSizeX, maxSizeY);
+
+      return createRoom(
+        part,
+        getRoomCoordinates(
+          part,
+          getRandomTile(part).get('position').toJS(),
+          getRandomSizeForRoom(minSizeX, minSizeY, maxSizeX, maxSizeY)
+        )
+      );
+    })
+    .flatten(1)
 };
 
-console.log(initialState.tiles.toJS());
+// console.log(initialState.tiles.toJS());
 
 
 
