@@ -8,7 +8,8 @@ import {
   getTile,
   getRoomCoordinates,
   createRoom,
-  splitTiles
+  splitTiles,
+  getSidesLength
 } from './helpers';
 
 describe('helper functions', () => {
@@ -105,6 +106,12 @@ describe('helper functions', () => {
           { x: 3, y: 4 },
           { x: 4, y: 4 }
         ]);
+    });
+  });
+
+  describe('getSidesLength()', () => {
+    it('should return object with length of sides for a rectangle of tiles', () => {
+      expect(getSidesLength(tiles)).to.deep.equal({ lengthX: 5, lengthY: 5 });
     });
   });
 });

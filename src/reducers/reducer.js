@@ -7,6 +7,7 @@ import {
   getRandomTile,
   getRandomSizeForRoom,
   getRoomCoordinates,
+  getSidesLength,
   splitTiles
 } from '../helpers/helpers';
 
@@ -18,14 +19,7 @@ const initialState = {
   columns,
   tiles: splitTiles(tiles, splitDepth).flatten(splitDepth - 1)
     .map(part => {
-      const lengthX = (
-        part.last().getIn(['position', 'x']) -
-        part.first().getIn(['position', 'x'])
-      );
-      const lengthY = (
-        part.last().getIn(['position', 'y']) -
-        part.first().getIn(['position', 'y'])
-      );
+      const { lengthX, lengthY } = getSidesLength(part);
 
       const minSizeX = Math.ceil(lengthX / 2);
       const minSizeY = Math.ceil(lengthY / 2);

@@ -85,6 +85,17 @@ export const getRandomSizeForRoom = (
   }
 );
 
+export const getSidesLength = tiles => ({
+  lengthX: (
+    tiles.last().getIn(['position', 'x']) -
+    tiles.first().getIn(['position', 'x']) + 1
+  ),
+  lengthY: (
+    tiles.last().getIn(['position', 'y']) -
+    tiles.first().getIn(['position', 'y']) + 1
+  )
+});
+
 export const splitTiles = (tiles, depth = 1, minProportion = 0.45, maxProportion = 0.55, splitDirection) => {
   if (!depth) return tiles;
   if (splitDirection === undefined) splitDirection = random() ? 'x' : 'y';
