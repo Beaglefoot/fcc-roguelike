@@ -9,7 +9,9 @@ import {
   getRoomCoordinates,
   createRoom,
   splitTiles,
-  getSidesLength
+  getSidesLength,
+  getNumbersBetweenTwoCuts,
+  getDirectCorridorCoord
 } from './helpers';
 
 describe('helper functions', () => {
@@ -112,6 +114,38 @@ describe('helper functions', () => {
   describe('getSidesLength()', () => {
     it('should return object with length of sides for a rectangle of tiles', () => {
       expect(getSidesLength(tiles)).to.deep.equal({ lengthX: 5, lengthY: 5 });
+    });
+  });
+
+  describe('getNumbersBetweenTwoCuts()', () => {
+    it('should return how many numbers between two cuts', () => {
+      expect(getNumbersBetweenTwoCuts([1, 3], [6, 10])).to.include.members([4, 5]);
+      expect(getNumbersBetweenTwoCuts([6, 10], [1, 3])).to.include.members([4, 5]);
+      expect(getNumbersBetweenTwoCuts([1, 3], [1, 3])).to.have.a.lengthOf(0);
+    });
+  });
+
+
+  describe.skip('getDirectCorridorCoord()', () => {
+    it('should return corridor coordinates for two rooms', () => {
+      const room1 = fromJS([
+        { x: 1, y: 1 },
+        { x: 2, y: 1 },
+        { x: 1, y: 2 },
+        { x: 2, y: 2 }
+      ]);
+
+      const room2 = [
+        { x: 5, y: 2 },
+        { x: 6, y: 2 },
+        { x: 5, y: 3 },
+        { x: 6, y: 3 }
+      ];
+
+      expect(getDirectCorridorCoord(room1, room2)).to.include.members([
+        { x: 3, y: 2 },
+        { x: 4, y: 2 }
+      ]);
     });
   });
 });

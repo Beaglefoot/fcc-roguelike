@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: off */
-import { List, Map, fromJS } from 'immutable';
+import { List, Map, Set, fromJS } from 'immutable';
 import random from 'lodash/random';
 
 import { world } from '../config';
@@ -130,4 +130,36 @@ export const splitTiles = (
       : split.set(1, split.get(1).push(tile))
   ), fromJS([[],[]]))
     .map(part => splitTiles(part, depth - 1));
+};
+
+export const getNumbersBetweenTwoCuts = (cut1 = [], cut2 = []) => {
+  if (cut1[1] < cut2[0]) {
+    return Array(cut2[0] - cut1[1] - 1).fill().map(() => ++cut1[1]);
+  }
+  else if (cut2[1] < cut1[0]) {
+    return Array(cut1[0] - cut2[1] - 1).fill().map(() => ++cut2[1]);
+  }
+  else return [];
+};
+
+export const getDirectCorridorCoord = (
+  roomCoordinates1 = List(),
+  roomCoordinates2 = List()
+) => {
+  const [room1Xs, room2Xs] = [roomCoordinates1, roomCoordinates2].map(r => r.map(c => c.get('x')));
+  const borders = [
+    [
+      roomCoordinates1.first(),
+      roomCoordinates1.last()
+    ],
+    [
+      roomCoordinates2.first(),
+      roomCoordinates2.last()
+    ]
+  ];
+  const xIntersection = Set(room1Xs).intersect(Set(room2Xs));
+
+  if (xIntersection.size) {
+    const choosenX = xIntersection.get(random(0, xIntersection.size - 1));
+  }
 };
