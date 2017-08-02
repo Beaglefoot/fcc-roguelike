@@ -37,8 +37,6 @@ export const getTile = (tiles, { x, y }) => (
 );
 
 export const getRoomCoordinates = (tiles, { x, y }, { sizeX, sizeY }) => {
-  // console.log(`x: ${x}, y: ${y}, sizeX: ${sizeX}, sizeY: ${sizeY}`);
-
   const { x: columns, y: rows } = tiles.last().get('position').toJS();
 
   // Allign starting position when room has tiles beyond tiles borders
@@ -125,9 +123,6 @@ export const splitTiles = (
   const endLineNum = tiles.last().getIn(['position', splitDirection]);
 
   const splitLineNum = startLineNum + Math.floor((endLineNum - startLineNum) * proportion);
-
-  // console.log(splitDirection, proportion, splitLineNum, `depth: ${depth}`);
-
 
   return tiles.reduce((split, tile) => (
     tile.getIn(['position', splitDirection]) < splitLineNum

@@ -27,12 +27,15 @@ const initialState = {
     .map(part => {
       const { lengthX, lengthY } = getSidesLength(part);
 
-      const minSizeX = Math.ceil(lengthX * minRoomToSectionProportion);
-      const minSizeY = Math.ceil(lengthY * minRoomToSectionProportion);
-      const maxSizeX = Math.floor(lengthX * maxRoomToSectionProportion);
-      const maxSizeY = Math.floor(lengthY * maxRoomToSectionProportion);
-
-      // console.log('roomSize restrictions: ', minSizeX, minSizeY, maxSizeX, maxSizeY);
+      const [
+        [minSizeX, maxSizeX],
+        [minSizeY, maxSizeY]
+      ] = [lengthX, lengthY].map(
+        len => [
+          Math.ceil(len * minRoomToSectionProportion),
+          Math.floor(len * maxRoomToSectionProportion)
+        ]
+      );
 
       return createRoom(
         part,
@@ -45,9 +48,6 @@ const initialState = {
     })
     .flatten(1)
 };
-
-// console.log(initialState.tiles.toJS());
-
 
 
 
