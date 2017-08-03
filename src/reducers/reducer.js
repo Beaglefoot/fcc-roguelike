@@ -4,12 +4,13 @@ import { Map, List, fromJS } from 'immutable';
 
 import {
   generateTiles,
-  createRoom,
+  createOfType,
   getRandomTile,
   getRandomSizeForRoom,
   getRoomCoordinates,
   getSidesLength,
-  splitTiles
+  splitTiles,
+  getDirectCorridorCoord
 } from '../helpers/helpers';
 
 const {
@@ -42,13 +43,14 @@ const initialState = {
         ]
       );
 
-      return createRoom(
+      return createOfType(
         part,
         getRoomCoordinates(
           part,
           getRandomTile(part).get('position').toJS(),
           getRandomSizeForRoom(minSizeX, minSizeY, maxSizeX, maxSizeY)
-        )
+        ),
+        'room'
       );
     })
     // At this point there is an array of sections of tiles.
@@ -60,7 +62,20 @@ const initialState = {
       if (!prev.size) return Map({ result, prev: section });
       // Sections are combined into bigger ones
       else {
-        return Map({ result: result.push(prev.concat(section)), prev: List() });
+        const [
+          roomCoordinates1,
+          roomCoordinates2
+        ] = [prev, section].map(s => (
+          s.filter(tile => tile.get('type') === 'room')
+            .map(tile => tile.get('position'))
+        ));
+        const combinedSectionWithCorridor = createOfType(
+          prev.concat(section),
+          getDirectCorridorCoord(roomCoordinates1, roomCoordinates2),
+          'corridor'
+        );
+
+        return Map({ result: result.push(combinedSectionWithCorridor), prev: List() });
       }
 
     }, Map({ result: List(), prev: List() }))

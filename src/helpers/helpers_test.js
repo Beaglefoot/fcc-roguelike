@@ -7,7 +7,7 @@ import {
   generateTiles,
   getTile,
   getRoomCoordinates,
-  createRoom,
+  createOfType,
   splitTiles,
   getSidesLength,
   getNumbersBetweenTwoCuts,
@@ -76,10 +76,10 @@ describe('helper functions', () => {
     });
   });
 
-  describe('createRoom()', () => {
+  describe('createOfType()', () => {
     it('should return tiles with provided room coordinates', () => {
       expect(
-        createRoom(tiles, fromJS([{ x: 1, y: 1 }, { x: 2, y: 1 }])).toJS()
+        createOfType(tiles, fromJS([{ x: 1, y: 1 }, { x: 2, y: 1 }]), 'room').toJS()
       ).to.contain({ position: { x: 1, y: 1,}, type: 'room' })
         .and.to.contain({ position: { x: 2, y: 1,}, type: 'room' });
     });
@@ -119,9 +119,9 @@ describe('helper functions', () => {
 
   describe('getNumbersBetweenTwoCuts()', () => {
     it('should return how many numbers between two cuts', () => {
-      expect(getNumbersBetweenTwoCuts([1, 3], [6, 10])).to.include.members([4, 5]);
-      expect(getNumbersBetweenTwoCuts([6, 10], [1, 3])).to.include.members([4, 5]);
-      expect(getNumbersBetweenTwoCuts([1, 3], [1, 3])).to.have.a.lengthOf(0);
+      expect(getNumbersBetweenTwoCuts([1, 3], [6, 10]).toJS()).to.include.members([4, 5]);
+      expect(getNumbersBetweenTwoCuts([6, 10], [1, 3]).toJS()).to.include.members([4, 5]);
+      expect(getNumbersBetweenTwoCuts([1, 3], [1, 3]).toJS()).to.have.a.lengthOf(0);
     });
   });
 
@@ -142,7 +142,7 @@ describe('helper functions', () => {
         { x: 6, y: 3 }
       ]);
 
-      expect(getDirectCorridorCoord(room1, room2)).to.deep.equal([
+      expect(getDirectCorridorCoord(room1, room2).toJS()).to.deep.equal([
         { x: 3, y: 2 },
         { x: 4, y: 2 }
       ]);
@@ -161,7 +161,7 @@ describe('helper functions', () => {
         { x: 3, y: 6 }
       ]);
 
-      expect(getDirectCorridorCoord(room3, room4)).to.deep.equal([
+      expect(getDirectCorridorCoord(room3, room4).toJS()).to.deep.equal([
         { x: 2, y: 3 },
         { x: 2, y: 4 }
       ]);

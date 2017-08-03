@@ -53,16 +53,16 @@ export const getRoomCoordinates = (tiles, { x, y }, { sizeX, sizeY }) => {
   );
 };
 
-export const createRoom = (tiles, roomCoordinates) => (
+export const createOfType = (tiles, coordinates, type) => (
   // TODO: replace map with reduce and delete used room coordinates
   tiles.map(tile => {
     const { position: { x, y }} = tile.toJS();
 
     if (
-      roomCoordinates.some(room => (
+      coordinates.some(room => (
         room.get('x') === x && room.get('y') === y
       ))
-    ) return tile.set('type', 'room');
+    ) return tile.set('type', type);
 
     return tile;
   })
@@ -134,12 +134,12 @@ export const splitTiles = (
 
 export const getNumbersBetweenTwoCuts = (cut1 = [], cut2 = []) => {
   if (cut1[1] < cut2[0]) {
-    return Array(cut2[0] - cut1[1] - 1).fill().map(() => ++cut1[1]);
+    return List(Array(cut2[0] - cut1[1] - 1).fill().map(() => ++cut1[1]));
   }
   else if (cut2[1] < cut1[0]) {
-    return Array(cut1[0] - cut2[1] - 1).fill().map(() => ++cut2[1]);
+    return List(Array(cut1[0] - cut2[1] - 1).fill().map(() => ++cut2[1]));
   }
-  else return [];
+  else return List();
 };
 
 export const getDirectCorridorCoord = (
@@ -163,8 +163,10 @@ export const getDirectCorridorCoord = (
 
   if (xIntersection.size) {
     const chosenX = xIntersection.get(random(0, xIntersection.size - 1));
-    return getNumbersBetweenTwoCuts(...borders.map(b => b.map(c => c.get('y'))))
-      .map(y => ({ x: chosenX, y }));
+    return (
+      getNumbersBetweenTwoCuts(...borders.map(b => b.map(c => c.get('y'))))
+        .map(y => Map({ x: chosenX, y }))
+    );
   }
   else {
     const [room1Ys, room2Ys] = [roomCoordinates1, roomCoordinates2].map(r => Set(r.map(c => c.get('y'))));
@@ -172,9 +174,11 @@ export const getDirectCorridorCoord = (
 
     if (yIntersection.size) {
       const chosenY = yIntersection.get(random(0, yIntersection.size - 1));
-      return getNumbersBetweenTwoCuts(...borders.map(b => b.map(c => c.get('x'))))
-        .map(x => ({ x, y: chosenY }));
+      return (
+        getNumbersBetweenTwoCuts(...borders.map(b => b.map(c => c.get('x'))))
+          .map(x => Map({ x, y: chosenY }))
+      );
     }
-    else return [];
+    else return List();
   }
 };
