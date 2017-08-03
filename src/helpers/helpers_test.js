@@ -126,7 +126,7 @@ describe('helper functions', () => {
   });
 
 
-  describe.skip('getDirectCorridorCoord()', () => {
+  describe('getDirectCorridorCoord()', () => {
     it('should return corridor coordinates for two rooms', () => {
       const room1 = fromJS([
         { x: 1, y: 1 },
@@ -135,16 +135,35 @@ describe('helper functions', () => {
         { x: 2, y: 2 }
       ]);
 
-      const room2 = [
+      const room2 = fromJS([
         { x: 5, y: 2 },
         { x: 6, y: 2 },
         { x: 5, y: 3 },
         { x: 6, y: 3 }
-      ];
+      ]);
 
-      expect(getDirectCorridorCoord(room1, room2)).to.include.members([
+      expect(getDirectCorridorCoord(room1, room2)).to.deep.equal([
         { x: 3, y: 2 },
         { x: 4, y: 2 }
+      ]);
+
+      const room3 = fromJS([
+        { x: 1, y: 1 },
+        { x: 2, y: 1 },
+        { x: 1, y: 2 },
+        { x: 2, y: 2 }
+      ]);
+
+      const room4 = fromJS([
+        { x: 2, y: 5 },
+        { x: 3, y: 5 },
+        { x: 2, y: 6 },
+        { x: 3, y: 6 }
+      ]);
+
+      expect(getDirectCorridorCoord(room3, room4)).to.deep.equal([
+        { x: 2, y: 3 },
+        { x: 2, y: 4 }
       ]);
     });
   });

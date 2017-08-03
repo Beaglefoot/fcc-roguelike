@@ -143,10 +143,9 @@ export const getNumbersBetweenTwoCuts = (cut1 = [], cut2 = []) => {
 };
 
 export const getDirectCorridorCoord = (
-  roomCoordinates1 = List(),
-  roomCoordinates2 = List()
+  roomCoordinates1 = List(Map()),
+  roomCoordinates2 = List(Map())
 ) => {
-  const [room1Xs, room2Xs] = [roomCoordinates1, roomCoordinates2].map(r => r.map(c => c.get('x')));
   const borders = [
     [
       roomCoordinates1.first(),
@@ -157,9 +156,25 @@ export const getDirectCorridorCoord = (
       roomCoordinates2.last()
     ]
   ];
-  const xIntersection = Set(room1Xs).intersect(Set(room2Xs));
+
+  // TODO: refactor
+  const [room1Xs, room2Xs] = [roomCoordinates1, roomCoordinates2].map(r => Set(r.map(c => c.get('x'))));
+  const xIntersection = room1Xs.intersect(room2Xs).valueSeq();
 
   if (xIntersection.size) {
-    const choosenX = xIntersection.get(random(0, xIntersection.size - 1));
+    const chosenX = xIntersection.get(random(0, xIntersection.size - 1));
+    return getNumbersBetweenTwoCuts(...borders.map(b => b.map(c => c.get('y'))))
+      .map(y => ({ x: chosenX, y }));
+  }
+  else {
+    const [room1Ys, room2Ys] = [roomCoordinates1, roomCoordinates2].map(r => Set(r.map(c => c.get('y'))));
+    const yIntersection = room1Ys.intersect(room2Ys).valueSeq();
+
+    if (yIntersection.size) {
+      const chosenY = yIntersection.get(random(0, yIntersection.size - 1));
+      return getNumbersBetweenTwoCuts(...borders.map(b => b.map(c => c.get('x'))))
+        .map(x => ({ x, y: chosenY }));
+    }
+    else return [];
   }
 };
