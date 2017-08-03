@@ -17,15 +17,15 @@ import {
 describe('helper functions', () => {
   describe('getPosition()', () => {
     it('should return { x: 0, y: 0 } for index 0', () => {
-      expect(getPosition(0)).to.deep.equal({ x: 0, y: 0 });
+      expect(getPosition(0).toJS()).to.deep.equal({ x: 0, y: 0 });
     });
 
     it('should return { x: 4, y: 0 } for index 4 and columns = 5', () => {
-      expect(getPosition(4, 5)).to.deep.equal({ x: 4, y: 0 });
+      expect(getPosition(4, 5).toJS()).to.deep.equal({ x: 4, y: 0 });
     });
 
     it('should return { x: 2, y: 1 } for index 7 and columns = 5', () => {
-      expect(getPosition(7, 5)).to.deep.equal({ x: 2, y: 1 });
+      expect(getPosition(7, 5).toJS()).to.deep.equal({ x: 2, y: 1 });
     });
   });
 
@@ -36,7 +36,7 @@ describe('helper functions', () => {
     });
 
     it('should generate correct tiles', () => {
-      expect(generateTiles(4, 2).toJS()).to.include(new Tile({ x: 1, y: 1 }, 'wall'));
+      expect(generateTiles(4, 2).toJS()).to.include((new Tile({ x: 1, y: 1 }, 'wall')).toJS());
     });
   });
 

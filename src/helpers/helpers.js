@@ -13,18 +13,18 @@ const {
 
 
 export class Tile {
-  constructor(position = { x: 0, y: 0 }, type = 'wall') {
-    return { type, position };
+  constructor(position = Map({ x: 0, y: 0 }), type = 'wall') {
+    return Map({ type, position });
   }
 }
 
 
 export const getPosition = (index = 0, columns = 1) => (
-  { x: index % columns, y: Math.floor(index / columns) }
+  Map({ x: index % columns, y: Math.floor(index / columns) })
 );
 
 export const generateTiles = (amount = 0, columns = 1) => (
-  fromJS(new Array(amount).fill().map(
+  List(new Array(amount).fill().map(
     (_, index) => new Tile(getPosition(index, columns))
   ))
 );

@@ -47,7 +47,7 @@ const initialState = {
         part,
         getRoomCoordinates(
           part,
-          getRandomTile(part).get('position').toJS(),
+          getRandomTile(part).get('position').toObject(),
           getRandomSizeForRoom(minSizeX, minSizeY, maxSizeX, maxSizeY)
         ),
         'room'
