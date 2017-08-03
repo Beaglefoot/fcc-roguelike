@@ -29,14 +29,14 @@ export const generateTiles = (amount = 0, columns = 1) => (
   ))
 );
 
-export const getTile = (tiles, { x, y }) => (
+export const getTile = (tiles = List(Map()), { x, y }) => (
   tiles.find(tile => (
     tile.getIn(['position', 'x']) === x &&
     tile.getIn(['position', 'y']) === y
   ))
 );
 
-export const getRoomCoordinates = (tiles, { x, y }, { sizeX, sizeY }) => {
+export const getRoomCoordinates = (tiles = List(Map()), { x, y }, { sizeX, sizeY }) => {
   const { x: columns, y: rows } = tiles.last().get('position').toJS();
 
   // Allign starting position when room has tiles beyond tiles borders
@@ -53,7 +53,7 @@ export const getRoomCoordinates = (tiles, { x, y }, { sizeX, sizeY }) => {
   );
 };
 
-export const createOfType = (tiles, coordinates, type) => (
+export const createOfType = (tiles = List(Map()), coordinates = List(Map()), type = 'room') => (
   // TODO: replace map with reduce and delete used room coordinates
   tiles.map(tile => {
     const { position: { x, y }} = tile.toJS();
@@ -68,11 +68,11 @@ export const createOfType = (tiles, coordinates, type) => (
   })
 );
 
-export const getWallTiles = tiles => (
+export const getWallTiles = (tiles = List(Map())) => (
   tiles.filter(tile => tile.get('type') === 'wall')
 );
 
-export const getRandomTile = tiles => (
+export const getRandomTile = (tiles = List(Map())) => (
   tiles.get(random(0, tiles.size))
 );
 
@@ -88,7 +88,7 @@ export const getRandomSizeForRoom = (
   }
 );
 
-export const getSidesLength = tiles => ({
+export const getSidesLength = (tiles = List(Map())) => ({
   lengthX: (
     tiles.last().getIn(['position', 'x']) -
     tiles.first().getIn(['position', 'x']) + 1
@@ -102,17 +102,17 @@ export const getSidesLength = tiles => ({
 export const getSidesProportion = ({ lengthX, lengthY }) => lengthX / lengthY;
 
 export const splitTiles = (
-  tiles,
+  tiles = List(Map()),
   depth = 1,
   minProportion = minSplitProportion,
   maxProportion = maxSplitProportion,
-  splitDirection
+  splitDirection = ''
 ) => {
   if (!depth) return tiles;
 
   const sidesProportion = getSidesProportion(getSidesLength(tiles));
 
-  if (splitDirection === undefined) {
+  if (!splitDirection) {
     if (sidesProportion < 0.75) splitDirection = 'y';
     else if (sidesProportion > 1.5) splitDirection = 'x';
     else splitDirection = random() ? 'x' : 'y';
