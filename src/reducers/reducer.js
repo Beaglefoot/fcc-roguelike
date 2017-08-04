@@ -11,7 +11,8 @@ import {
   getSidesLength,
   splitTiles,
   getDirectCorridorCoord,
-  connectSectionsWithCorridors
+  connectSectionsWithCorridors,
+  getMissingNumbersInSet
 } from '../helpers/helpers';
 
 const {
@@ -53,6 +54,9 @@ const sections = splitTiles(generateTiles(rows * columns, columns), splitDepth)
   });
 
 const tiles = connectSectionsWithCorridors(sections);
+
+console.log('getMissingNumbersInSet() calls:', getMissingNumbersInSet.returnValues);
+console.log('getDirectCorridorCoord() calls:', getDirectCorridorCoord.returnValues.map(v => v.toJS()));
 
 
 const initialState = {

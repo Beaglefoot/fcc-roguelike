@@ -1,6 +1,7 @@
 /* eslint no-unused-vars: off */
 import { List, Map, Set, Range, fromJS } from 'immutable';
 import random from 'lodash/random';
+import { spy } from 'sinon';
 
 import { world } from '../config';
 
@@ -132,12 +133,12 @@ export const splitTiles = (
     .map(part => splitTiles(part, depth - 1));
 };
 
-export const getMissingNumbersInSet = set => (
+export const getMissingNumbersInSet = spy(set => (
   Set(Range(set.min(), set.max() + 1)).subtract(set)
-);
+));
 
 // roomCoordinates can include corridors as well
-export const getDirectCorridorCoord = (
+export const getDirectCorridorCoord = spy((
   roomCoordinates1 = List(Map()),
   roomCoordinates2 = List(Map())
 ) => {
@@ -169,9 +170,9 @@ export const getDirectCorridorCoord = (
     }
     else return List();
   }
-};
+});
 
-export const connectSectionsWithCorridors = (sections = List(List(Map()))) => {
+export const connectSectionsWithCorridors = spy((sections = List(List(Map()))) => {
   if (sections.size === 1) return sections.flatten(1);
 
   return connectSectionsWithCorridors(
@@ -186,7 +187,9 @@ export const connectSectionsWithCorridors = (sections = List(List(Map()))) => {
           roomCoordinates1,
           roomCoordinates2
         ] = [prev, section].map(s => (
-          s.filter(tile => tile.get('type') === 'room')
+          s.filter(tile => (
+            ['room', 'corridor'].some(type => type === tile.get('type')
+            )))
             .map(tile => tile.get('position'))
         ));
         const combinedSectionWithCorridor = createOfType(
@@ -200,4 +203,4 @@ export const connectSectionsWithCorridors = (sections = List(List(Map()))) => {
 
     }, Map({ result: List(), prev: List() })).get('result')
   );
-};
+});
