@@ -170,3 +170,34 @@ export const getDirectCorridorCoord = (
     else return List();
   }
 };
+
+export const connectSectionsWithCorridors = (sections = List(List(Map()))) => {
+  if (sections.size === 1) return sections.flatten(1);
+
+  return connectSectionsWithCorridors(
+    sections.reduce((mem, section) => {
+      const result = mem.get('result');
+      const prev = mem.get('prev');
+
+      if (!prev.size) return Map({ result, prev: section });
+      // Sections are combined into bigger ones
+      else {
+        const [
+          roomCoordinates1,
+          roomCoordinates2
+        ] = [prev, section].map(s => (
+          s.filter(tile => tile.get('type') === 'room')
+            .map(tile => tile.get('position'))
+        ));
+        const combinedSectionWithCorridor = createOfType(
+          prev.concat(section),
+          getDirectCorridorCoord(roomCoordinates1, roomCoordinates2),
+          'corridor'
+        );
+
+        return Map({ result: result.push(combinedSectionWithCorridor), prev: List() });
+      }
+
+    }, Map({ result: List(), prev: List() })).get('result')
+  );
+};
