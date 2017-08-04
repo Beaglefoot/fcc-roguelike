@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: off */
-import { List, Map, Set, fromJS } from 'immutable';
+import { List, Map, Set, Range, fromJS } from 'immutable';
 import random from 'lodash/random';
 
 import { world } from '../config';
@@ -132,30 +132,16 @@ export const splitTiles = (
     .map(part => splitTiles(part, depth - 1));
 };
 
-export const getNumbersBetweenTwoCuts = (cut1 = [], cut2 = []) => {
-  if (cut1[1] < cut2[0]) {
-    return List(Array(cut2[0] - cut1[1] - 1).fill().map(() => ++cut1[1]));
-  }
-  else if (cut2[1] < cut1[0]) {
-    return List(Array(cut1[0] - cut2[1] - 1).fill().map(() => ++cut2[1]));
-  }
-  else return List();
-};
+export const getMissingNumbersInSet = set => (
+  Set(Range(set.min(), set.max() + 1)).subtract(set)
+);
 
+// roomCoordinates can include corridors as well
 export const getDirectCorridorCoord = (
   roomCoordinates1 = List(Map()),
   roomCoordinates2 = List(Map())
 ) => {
-  const borders = [
-    [
-      roomCoordinates1.first(),
-      roomCoordinates1.last()
-    ],
-    [
-      roomCoordinates2.first(),
-      roomCoordinates2.last()
-    ]
-  ];
+  const combinedRoom = roomCoordinates1.concat(roomCoordinates2);
 
   // TODO: refactor
   const [room1Xs, room2Xs] = [roomCoordinates1, roomCoordinates2].map(r => Set(r.map(c => c.get('x'))));
@@ -164,8 +150,9 @@ export const getDirectCorridorCoord = (
   if (xIntersection.size) {
     const chosenX = xIntersection.get(random(0, xIntersection.size - 1));
     return (
-      getNumbersBetweenTwoCuts(...borders.map(b => b.map(c => c.get('y'))))
-        .map(y => Map({ x: chosenX, y }))
+      getMissingNumbersInSet(Set(
+        combinedRoom.filter(c => c.get('x') === chosenX).map(c => c.get('y'))
+      )).map(y => Map({ x: chosenX, y }))
     );
   }
   else {
@@ -175,8 +162,9 @@ export const getDirectCorridorCoord = (
     if (yIntersection.size) {
       const chosenY = yIntersection.get(random(0, yIntersection.size - 1));
       return (
-        getNumbersBetweenTwoCuts(...borders.map(b => b.map(c => c.get('x'))))
-          .map(x => Map({ x, y: chosenY }))
+        getMissingNumbersInSet(Set(
+          combinedRoom.filter(c => c.get('y') === chosenY).map(c => c.get('x'))
+        )).map(x => Map({ x, y: chosenY }))
       );
     }
     else return List();

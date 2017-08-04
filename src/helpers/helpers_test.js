@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { fromJS } from 'immutable';
+import { Set, fromJS } from 'immutable';
 
 import {
   Tile,
@@ -10,7 +10,7 @@ import {
   createOfType,
   splitTiles,
   getSidesLength,
-  getNumbersBetweenTwoCuts,
+  getMissingNumbersInSet,
   getDirectCorridorCoord
 } from './helpers';
 
@@ -117,11 +117,13 @@ describe('helper functions', () => {
     });
   });
 
-  describe('getNumbersBetweenTwoCuts()', () => {
-    it('should return how many numbers between two cuts', () => {
-      expect(getNumbersBetweenTwoCuts([1, 3], [6, 10]).toJS()).to.include.members([4, 5]);
-      expect(getNumbersBetweenTwoCuts([6, 10], [1, 3]).toJS()).to.include.members([4, 5]);
-      expect(getNumbersBetweenTwoCuts([1, 3], [1, 3]).toJS()).to.have.a.lengthOf(0);
+  describe('getMissingNumbersInSet()', () => {
+    it('should return all missing numbers in set', () => {
+      expect(getMissingNumbersInSet(Set([1, 2, 5, 4, 8])).toJS()).to.have.members([3, 6, 7]);
+    });
+
+    it('should return an empty array if all numbers are in place', () => {
+      expect(getMissingNumbersInSet(Set([1, 2, 5, 4, 3])).toJS()).to.have.lengthOf(0);
     });
   });
 
@@ -165,6 +167,38 @@ describe('helper functions', () => {
         { x: 2, y: 3 },
         { x: 2, y: 4 }
       ]);
+    });
+
+    it('should return corridor coordinates for room connected with a corridor', () => {
+      const section1 = fromJS([
+        // room
+        { x: 1, y: 1 },
+        { x: 2, y: 1 },
+        { x: 1, y: 2 },
+        { x: 2, y: 2 },
+        // corridor
+        { x: 3, y: 2 },
+        { x: 4, y: 2 },
+        // room
+        { x: 5, y: 2 },
+        { x: 6, y: 2 },
+        { x: 5, y: 3 },
+        { x: 6, y: 3 }
+      ]);
+
+      const section2 = fromJS([
+        { x: 3, y: 4 },
+        { x: 4, y: 4 },
+        { x: 3, y: 5 },
+        { x: 4, y: 5 }
+      ]);
+
+      const corridorCoord = getDirectCorridorCoord(section1, section2).toJS();
+
+      expect([
+        { x: 3, y: 3 },
+        { x: 4, y: 3 }
+      ]).to.deep.include.members(corridorCoord);
     });
   });
 });
