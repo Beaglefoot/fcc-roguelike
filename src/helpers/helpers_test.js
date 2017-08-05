@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Set, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
   Tile,
@@ -10,7 +10,6 @@ import {
   createOfType,
   splitTiles,
   getSidesLength,
-  getMissingNumbersInSet,
   getDirectCorridorCoord
 } from './helpers';
 
@@ -114,16 +113,6 @@ describe('helper functions', () => {
   describe('getSidesLength()', () => {
     it('should return object with length of sides for a rectangle of tiles', () => {
       expect(getSidesLength(tiles)).to.deep.equal({ lengthX: 5, lengthY: 5 });
-    });
-  });
-
-  describe('getMissingNumbersInSet()', () => {
-    it('should return all missing numbers in set', () => {
-      expect(getMissingNumbersInSet(Set([1, 2, 5, 4, 8])).toJS()).to.have.members([3, 6, 7]);
-    });
-
-    it('should return an empty array if all numbers are in place', () => {
-      expect(getMissingNumbersInSet(Set([1, 2, 5, 4, 3])).toJS()).to.have.lengthOf(0);
     });
   });
 

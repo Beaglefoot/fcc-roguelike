@@ -53,16 +53,10 @@ const sections = splitTiles(generateTiles(rows * columns, columns), splitDepth)
     );
   });
 
-const tiles = connectSectionsWithCorridors(sections);
-
-console.log('getMissingNumbersInSet() calls:', getMissingNumbersInSet.returnValues);
-console.log('getDirectCorridorCoord() calls:', getDirectCorridorCoord.returnValues.map(v => v.toJS()));
-
-
 const initialState = {
   rows,
   columns,
-  tiles
+  tiles: connectSectionsWithCorridors(sections)
 };
 
 

@@ -1,7 +1,6 @@
 /* eslint no-unused-vars: off */
 import { List, Map, Set, Range, fromJS } from 'immutable';
 import random from 'lodash/random';
-import { spy } from 'sinon';
 
 import { world } from '../config';
 
@@ -133,12 +132,34 @@ export const splitTiles = (
     .map(part => splitTiles(part, depth - 1));
 };
 
-export const getMissingNumbersInSet = spy(set => (
-  Set(Range(set.min(), set.max() + 1)).subtract(set)
-));
+export const getDirectCorridorBorders = (
+  corridorDirection = 'x',
+  chosenAxisNum = 0,
+  roomCoordinates1 = List(Map()),
+  roomCoordinates2 = List(Map())
+) => (
+  List([
+    roomCoordinates1,
+    roomCoordinates2
+  ]).map(room => (
+    room.filter(c => c.get(corridorDirection) === chosenAxisNum)
+      .map(c => c.get(['x', 'y'].find(align => align !== corridorDirection)))
+      .filter((y, _, list) => y === list.min() || y === list.max())
+      .sort()
+  )).reduce((finalMinMax, minMaxPair, _, minMaxList) => {
+    if (minMaxPair.size === 1) return finalMinMax.push(minMaxPair.first());
+    else {
+      return finalMinMax.push(
+        minMaxPair.find(num => (
+          num !== minMaxList.flatten().min() && num !== minMaxList.flatten().max()
+        ))
+      );
+    }
+  }, List([]))
+);
 
 // roomCoordinates can include corridors as well
-export const getDirectCorridorCoord = spy((
+export const getDirectCorridorCoord = (
   roomCoordinates1 = List(Map()),
   roomCoordinates2 = List(Map())
 ) => {
@@ -150,10 +171,10 @@ export const getDirectCorridorCoord = spy((
 
   if (xIntersection.size) {
     const chosenX = xIntersection.get(random(0, xIntersection.size - 1));
+    const corridorBorders = getDirectCorridorBorders('x', chosenX, roomCoordinates1, roomCoordinates2);
+
     return (
-      getMissingNumbersInSet(Set(
-        combinedRoom.filter(c => c.get('x') === chosenX).map(c => c.get('y'))
-      )).map(y => Map({ x: chosenX, y }))
+      Range(corridorBorders.first() + 1, corridorBorders.last()).map(y => Map({ x: chosenX, y }))
     );
   }
   else {
@@ -162,17 +183,17 @@ export const getDirectCorridorCoord = spy((
 
     if (yIntersection.size) {
       const chosenY = yIntersection.get(random(0, yIntersection.size - 1));
+      const corridorBorders = getDirectCorridorBorders('y', chosenY, roomCoordinates1, roomCoordinates2);
+
       return (
-        getMissingNumbersInSet(Set(
-          combinedRoom.filter(c => c.get('y') === chosenY).map(c => c.get('x'))
-        )).map(x => Map({ x, y: chosenY }))
+        Range(corridorBorders.first() + 1, corridorBorders.last()).map(x => Map({ x, y: chosenY }))
       );
     }
     else return List();
   }
-});
+};
 
-export const connectSectionsWithCorridors = spy((sections = List(List(Map()))) => {
+export const connectSectionsWithCorridors = (sections = List(List(Map()))) => {
   if (sections.size === 1) return sections.flatten(1);
 
   return connectSectionsWithCorridors(
@@ -189,8 +210,7 @@ export const connectSectionsWithCorridors = spy((sections = List(List(Map()))) =
         ] = [prev, section].map(s => (
           s.filter(tile => (
             ['room', 'corridor'].some(type => type === tile.get('type')
-            )))
-            .map(tile => tile.get('position'))
+            ))).map(tile => tile.get('position'))
         ));
         const combinedSectionWithCorridor = createOfType(
           prev.concat(section),
@@ -203,4 +223,4 @@ export const connectSectionsWithCorridors = spy((sections = List(List(Map()))) =
 
     }, Map({ result: List(), prev: List() })).get('result')
   );
-});
+};
