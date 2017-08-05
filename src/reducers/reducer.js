@@ -13,7 +13,7 @@ import {
   getDirectCorridorCoord,
   connectSectionsWithCorridors,
   getMissingNumbersInSet
-} from '../helpers/helpers';
+} from '../helpers/grid';
 
 const {
   rows,

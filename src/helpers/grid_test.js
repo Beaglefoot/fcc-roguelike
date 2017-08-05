@@ -11,7 +11,7 @@ import {
   splitTiles,
   getSidesLength,
   getDirectCorridorCoord
-} from './helpers';
+} from './grid';
 
 describe('helper functions', () => {
   describe('getPosition()', () => {

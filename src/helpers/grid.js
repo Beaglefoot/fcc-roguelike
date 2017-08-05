@@ -3,6 +3,7 @@ import { List, Map, Set, Range, fromJS } from 'immutable';
 import random from 'lodash/random';
 
 import { world } from '../config';
+import { chooseAnother } from './common';
 
 const {
   minRoomLength,
@@ -10,6 +11,8 @@ const {
   minSplitProportion,
   maxSplitProportion
 } = world;
+
+const notXY = chooseAnother(['x', 'y']);
 
 
 export class Tile {
@@ -143,7 +146,7 @@ export const getDirectCorridorBorders = (
     roomCoordinates2
   ]).map(room => (
     room.filter(c => c.get(corridorDirection) === chosenAxisNum)
-      .map(c => c.get(['x', 'y'].find(align => align !== corridorDirection)))
+      .map(c => c.get(notXY(corridorDirection)))
       .filter((y, _, list) => y === list.min() || y === list.max())
       .sort()
   )).reduce((finalMinMax, minMaxPair, _, minMaxList) => {
