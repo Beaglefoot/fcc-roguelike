@@ -57,18 +57,19 @@ export const getRoomCoordinates = (tiles = List(Map()), { x, y }, { sizeX, sizeY
 };
 
 export const createOfType = (tiles = List(Map()), coordinates = List(Map()), type = 'room') => (
-  // TODO: replace map with reduce and delete used room coordinates
-  tiles.map(tile => {
+  tiles.reduce((mem, tile) => {
     const { position: { x, y }} = tile.toJS();
+    const indexInCoordinates = mem.get('coordinates').findIndex(room => (
+      room.get('x') === x && room.get('y') === y
+    ));
 
-    if (
-      coordinates.some(room => (
-        room.get('x') === x && room.get('y') === y
-      ))
-    ) return tile.set('type', type);
+    if (indexInCoordinates !== -1) {
+      return mem.update('tiles', tiles => tiles.push(tile.set('type', type)))
+        .update('coordinates', coord => coord.delete(indexInCoordinates));
+    }
 
-    return tile;
-  })
+    return mem.update('tiles', tiles => tiles.push(tile));
+  }, Map({ tiles: List(), coordinates })).get('tiles')
 );
 
 export const getWallTiles = (tiles = List(Map())) => (
@@ -177,7 +178,7 @@ export const getDirectCorridorCoord = (
     const corridorBorders = getDirectCorridorBorders('x', chosenX, roomCoordinates1, roomCoordinates2);
 
     return (
-      Range(corridorBorders.first() + 1, corridorBorders.last()).map(y => Map({ x: chosenX, y }))
+      List(Range(corridorBorders.first() + 1, corridorBorders.last())).map(y => Map({ x: chosenX, y }))
     );
   }
   else {
@@ -189,7 +190,7 @@ export const getDirectCorridorCoord = (
       const corridorBorders = getDirectCorridorBorders('y', chosenY, roomCoordinates1, roomCoordinates2);
 
       return (
-        Range(corridorBorders.first() + 1, corridorBorders.last()).map(x => Map({ x, y: chosenY }))
+        List(Range(corridorBorders.first() + 1, corridorBorders.last())).map(x => Map({ x, y: chosenY }))
       );
     }
     else return List();
