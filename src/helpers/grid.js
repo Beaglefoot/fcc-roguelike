@@ -43,8 +43,16 @@ export const getRoomCoordinates = (tiles = List(Map()), { x, y }, { sizeX, sizeY
   const { x: columns, y: rows } = tiles.last().get('position').toJS();
 
   // Allign starting position when room has tiles beyond tiles borders
-  if (x + sizeX > columns) x = columns - sizeX;
-  if (y + sizeY > rows) y = rows - sizeY;
+  if (x === 0) {
+    x = 1;
+    sizeX--;
+  }
+  if (y === 0) {
+    y = 1;
+    sizeY--;
+  }
+  if (x + sizeX >= columns) x = columns - sizeX;
+  if (y + sizeY >= rows) y = rows - sizeY;
 
   return List().setSize(sizeY).flatMap(
     (_, rowIndex) => (
@@ -77,7 +85,7 @@ export const getWallTiles = (tiles = List(Map())) => (
 );
 
 export const getRandomTile = (tiles = List(Map())) => (
-  tiles.get(random(0, tiles.size))
+  tiles.get(random(0, tiles.size - 1))
 );
 
 export const getRandomSizeForRoom = (
