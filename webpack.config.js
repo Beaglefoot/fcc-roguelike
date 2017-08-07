@@ -60,6 +60,10 @@ module.exports = {
           },
           'sass-loader'
         ]
+      },
+      {
+        test: /_worker\.js$/,
+        loader: 'worker-loader'
       }
     ]
   },

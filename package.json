@@ -30,7 +30,8 @@
     "sinon": "^3.0.0",
     "style-loader": "^0.18.2",
     "webpack": "^3.3.0",
-    "webpack-dev-server": "^2.5.1"
+    "webpack-dev-server": "^2.5.1",
+    "worker-loader": "^0.8.1"
   },
   "dependencies": {
     "immutable": "^3.8.1",
