@@ -1,6 +1,7 @@
 /* eslint no-unused-vars: off */
 import { List, Map, Set, Range, fromJS } from 'immutable';
 import random from 'lodash/random';
+import curry from 'lodash/curry';
 
 import { world } from '../config';
 import { chooseAnother } from './common';
@@ -145,10 +146,10 @@ export const splitTiles = (
 };
 
 export const getDirectCorridorBorders = (
-  corridorDirection = 'x',
-  chosenAxisNum = 0,
   roomCoordinates1 = List(Map()),
-  roomCoordinates2 = List(Map())
+  roomCoordinates2 = List(Map()),
+  corridorDirection = 'x',
+  chosenAxisNum = 0
 ) => (
   List([
     roomCoordinates1,
@@ -170,39 +171,35 @@ export const getDirectCorridorBorders = (
   }, List([]))
 );
 
+export const getCommonValuesInAxis = curry((
+  roomCoordinates1 = List(Map()),
+  roomCoordinates2 = List(Map()),
+  axis
+) => (
+  [roomCoordinates1, roomCoordinates2].map(r => Set(r.map(c => c.get(axis))))
+    .reduce((intersection, coordinates) => intersection.intersect(coordinates).valueSeq())
+), 3);
+
 // roomCoordinates can include corridors as well
 export const getDirectCorridorCoord = (
   roomCoordinates1 = List(Map()),
   roomCoordinates2 = List(Map())
 ) => {
-  const combinedRoom = roomCoordinates1.concat(roomCoordinates2);
+  const getIntersection = getCommonValuesInAxis(roomCoordinates1, roomCoordinates2);
+  const { intersection, axis } = [
+    { intersection: getIntersection('x'), axis: 'x' },
+    { intersection: getIntersection('y'), axis: 'y' }
+  ].find(obj => obj.intersection.size) || {};
 
-  // TODO: refactor
-  const [room1Xs, room2Xs] = [roomCoordinates1, roomCoordinates2].map(r => Set(r.map(c => c.get('x'))));
-  const xIntersection = room1Xs.intersect(room2Xs).valueSeq();
+  if (typeof intersection === 'undefined') return List();
 
-  if (xIntersection.size) {
-    const chosenX = xIntersection.get(random(0, xIntersection.size - 1));
-    const corridorBorders = getDirectCorridorBorders('x', chosenX, roomCoordinates1, roomCoordinates2);
+  const chosenNum = intersection.get(random(0, intersection.size - 1));
+  const corridorBorders = getDirectCorridorBorders(roomCoordinates1, roomCoordinates2, axis, chosenNum);
+  const createCoord = num => Map({ [axis]: chosenNum, [notXY(axis)]: num });
 
-    return (
-      List(Range(corridorBorders.first() + 1, corridorBorders.last())).map(y => Map({ x: chosenX, y }))
-    );
-  }
-  else {
-    const [room1Ys, room2Ys] = [roomCoordinates1, roomCoordinates2].map(r => Set(r.map(c => c.get('y'))));
-    const yIntersection = room1Ys.intersect(room2Ys).valueSeq();
-
-    if (yIntersection.size) {
-      const chosenY = yIntersection.get(random(0, yIntersection.size - 1));
-      const corridorBorders = getDirectCorridorBorders('y', chosenY, roomCoordinates1, roomCoordinates2);
-
-      return (
-        List(Range(corridorBorders.first() + 1, corridorBorders.last())).map(x => Map({ x, y: chosenY }))
-      );
-    }
-    else return List();
-  }
+  return (
+    List(Range(corridorBorders.first() + 1, corridorBorders.last())).map(createCoord)
+  );
 };
 
 export const connectSectionsWithCorridors = (sections = List(List(Map()))) => {
