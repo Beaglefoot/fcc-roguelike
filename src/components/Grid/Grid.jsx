@@ -9,6 +9,7 @@ import classes, { tile, grid } from './Grid.scss';
 import { getTile } from 'src/helpers/grid';
 import { generateGrid } from '../../actions';
 import GridWorker from './Grid_worker';
+import Loading from '../Loading/Loading';
 
 
 class Grid extends React.Component {
@@ -24,7 +25,7 @@ class Grid extends React.Component {
   render() {
     const { rows, columns, tiles } = this.props;
 
-    if (typeof tiles === 'undefined') return <div>Loading...</div>;
+    if (typeof tiles === 'undefined') return <Loading />;
 
     return (
       <table className={grid}>
