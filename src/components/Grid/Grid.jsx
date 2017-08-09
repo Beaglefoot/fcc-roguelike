@@ -2,24 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
-import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 
 import classes, { tile, grid } from './Grid.scss';
 
-import { getTile } from 'src/helpers/grid';
 import { generateGrid } from '../../actions';
 import GridWorker from './Grid_worker';
 import Loading from '../Loading/Loading';
 
 
-class Grid extends React.Component {
+class Grid extends React.PureComponent {
   componentDidMount() {
     const worker = new GridWorker();
     worker.postMessage('getGrid');
-    worker.onmessage = e => {
-      const tiles = fromJS(e.data.tiles);
-      this.props.generateGrid({ ...e.data, tiles });
-    };
+    worker.onmessage = ({ data }) => this.props.generateGrid(data);
   }
 
   render() {
@@ -38,7 +34,7 @@ class Grid extends React.Component {
                     <td key={index} className={tile}>
                       <div
                         className={classes[
-                          getTile(tiles, { x: index, y: rowIndex }).get('type')
+                          tiles.getIn([Map({ x: index, y: rowIndex }), 'type'])
                         ]}
                       />
                     </td>
@@ -56,9 +52,12 @@ class Grid extends React.Component {
 Grid.propTypes = {
   rows: PropTypes.number,
   columns: PropTypes.number,
-  tiles: ImmutablePropTypes.listOf(ImmutablePropTypes.map)
+  tiles: ImmutablePropTypes.map
 };
 
-const mapStateToProps = ({ rows, columns, tiles }) => ({ rows, columns, tiles });
+const mapStateToProps = state => {
+  const { rows, columns, tiles } = state.toObject();
+  return { rows, columns, tiles };
+};
 
 export default connect(mapStateToProps, { generateGrid })(Grid);

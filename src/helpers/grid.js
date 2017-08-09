@@ -22,6 +22,10 @@ export class Tile {
   }
 }
 
+export const convertTilesToMap = (tiles = List(Map())) => (
+  tiles.reduce((map, tile) => map.set(tile.get('position'), tile), Map())
+);
+
 
 export const getPosition = (index = 0, columns = 1) => (
   Map({ x: index % columns, y: Math.floor(index / columns) })
@@ -30,13 +34,6 @@ export const getPosition = (index = 0, columns = 1) => (
 export const generateTiles = (amount = 0, columns = 1) => (
   List(new Array(amount).fill().map(
     (_, index) => new Tile(getPosition(index, columns))
-  ))
-);
-
-export const getTile = (tiles = List(Map()), { x, y }) => (
-  tiles.find(tile => (
-    tile.getIn(['position', 'x']) === x &&
-    tile.getIn(['position', 'y']) === y
   ))
 );
 

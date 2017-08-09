@@ -52,6 +52,9 @@ const sections = splitTiles(generateTiles(rows * columns, columns), splitDepth)
 const initialState = {
   rows,
   columns,
+  // tiles have to be converted to usual object to
+  // save immutable functionality. More on this:
+  // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#Transferring_data_to_and_from_workers_further_details
   tiles: connectSectionsWithCorridors(sections).toJS()
 };
 
