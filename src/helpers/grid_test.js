@@ -5,7 +5,6 @@ import {
   Tile,
   getPosition,
   generateTiles,
-  getTile,
   getRoomCoordinates,
   createOfType,
   splitTiles,
@@ -44,13 +43,6 @@ describe('helper functions', () => {
   const columns = 5;
   const tiles = generateTiles(amount, columns);
 
-
-  describe('getTile()', () => {
-    it('should return correct tile', () => {
-      expect(getTile(tiles, { x: 2, y: 1 }).toJS())
-        .to.deep.equal({ type: 'wall', position: { x: 2, y: 1 }});
-    });
-  });
 
 
   describe('getRoomCoordinates()', () => {
