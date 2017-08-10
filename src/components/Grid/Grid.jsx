@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 
 import classes, { tile, grid } from './Grid.scss';
 
-import { generateGrid } from '../../actions';
+import { generateGrid, initPlayer } from '../../actions';
 import GridWorker from './Grid_worker';
 import Loading from '../Loading/Loading';
 
@@ -18,8 +18,13 @@ class Grid extends React.PureComponent {
     worker.onmessage = ({ data }) => this.props.generateGrid(data);
   }
 
+  componentDidUpdate() {
+    const { player } = this.props;
+    if (typeof player === 'undefined') this.props.initPlayer();
+  }
+
   render() {
-    const { rows, columns, tiles } = this.props;
+    const { rows, columns, tiles, player } = this.props;
 
     if (typeof tiles === 'undefined') return <Loading />;
 
@@ -30,15 +35,21 @@ class Grid extends React.PureComponent {
             new Array(rows).fill().map((_, rowIndex) => (
               <tr key={rowIndex}>
                 {
-                  new Array(columns).fill().map((_, index) => (
-                    <td key={index} className={tile}>
-                      <div
-                        className={classes[
-                          tiles.getIn([Map({ x: index, y: rowIndex }), 'type'])
-                        ]}
-                      />
-                    </td>
-                  ))
+                  new Array(columns).fill().map((_, index) => {
+                    const currentPosition = Map({ x: index, y: rowIndex });
+
+                    return (
+                      <td key={index} className={tile}>
+                        <div
+                          className={classes[
+                            tiles.getIn([currentPosition, 'type'])
+                          ]}
+                        >
+                          { typeof player !== 'undefined' && player.get('position').equals(currentPosition) && '*' }
+                        </div>
+                      </td>
+                    );
+                  })
                 }
               </tr>
             ))
@@ -52,12 +63,13 @@ class Grid extends React.PureComponent {
 Grid.propTypes = {
   rows: PropTypes.number,
   columns: PropTypes.number,
-  tiles: ImmutablePropTypes.map
+  tiles: ImmutablePropTypes.map,
+  player: ImmutablePropTypes.map
 };
 
 const mapStateToProps = state => {
-  const { rows, columns, tiles } = state.toObject();
-  return { rows, columns, tiles };
+  const { rows, columns, tiles, player } = state.toObject();
+  return { rows, columns, tiles, player };
 };
 
-export default connect(mapStateToProps, { generateGrid })(Grid);
+export default connect(mapStateToProps, { generateGrid, initPlayer })(Grid);

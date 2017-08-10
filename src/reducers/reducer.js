@@ -1,8 +1,22 @@
 /* eslint no-unused-vars: off */
 import { Map } from 'immutable';
+import random from 'lodash/random';
 
-import { GENERATE_GRID } from '../actions';
+import { getRandomMapValue } from '../helpers/common';
 
+import {
+  GENERATE_GRID,
+  INIT_PLAYER
+} from '../actions';
+
+
+const getRandomPlayerPosition = (tiles = Map()) => (
+  Map(
+    getRandomMapValue(
+      tiles.filter(tile => tile.get('type') !== 'wall')
+    ).get('position')
+  )
+);
 
 
 const reducer = (state = Map(), action) => {
@@ -11,6 +25,8 @@ const reducer = (state = Map(), action) => {
   switch(action.type) {
   case GENERATE_GRID:
     return state.merge(action.grid);
+  case INIT_PLAYER:
+    return state.set('player', Map({ position: getRandomPlayerPosition(state.get('tiles')) }));
   default:
     return state;
   }
