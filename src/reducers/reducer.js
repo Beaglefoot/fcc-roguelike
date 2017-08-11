@@ -6,7 +6,8 @@ import { getRandomMapValue } from '../helpers/common';
 
 import {
   GENERATE_GRID,
-  INIT_PLAYER
+  INIT_PLAYER,
+  MOVE_PLAYER
 } from '../actions';
 
 
@@ -18,15 +19,31 @@ const getRandomPlayerPosition = (tiles = Map()) => (
   )
 );
 
+const getRepositionedPlayer = (state, direction) => {
+  const { player, tiles } = state.toObject();
+  const shift = {
+    left: { x: -1 },
+    up: { y: -1 },
+    right: { x: 1 },
+    down: { y: 1 }
+  }[direction];
+
+  return player.mergeDeepWith((oldVal, newVal) => oldVal + newVal, Map({ position: Map(shift) }));
+};
+
 
 const reducer = (state = Map(), action) => {
   if (!action) return state;
 
-  switch(action.type) {
+  const { type, payload } = action;
+
+  switch(type) {
   case GENERATE_GRID:
-    return state.merge(action.grid);
+    return state.merge(payload);
   case INIT_PLAYER:
     return state.set('player', Map({ position: getRandomPlayerPosition(state.get('tiles')) }));
+  case MOVE_PLAYER:
+    return state.set('player', getRepositionedPlayer(state, payload));
   default:
     return state;
   }

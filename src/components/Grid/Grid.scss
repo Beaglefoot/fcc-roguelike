@@ -2,11 +2,12 @@
 
 .grid {
   border-collapse: collapse;
+  font-family: $fnt_family_grid;
 }
 
 .tile {
-  height: 10px;
-  width: 10px;
+  height: 1.2em;
+  width: 1.2em;
   border: 1px solid $clr_grid;
   padding: 0;
 
@@ -26,4 +27,8 @@
 
 .corridor {
   background: $clr_corridor;
+}
+
+.wall, .room, .corridor {
+  text-align: center;
 }

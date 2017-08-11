@@ -9,6 +9,7 @@ import classes, { tile, grid } from './Grid.scss';
 import { generateGrid, initPlayer } from '../../actions';
 import GridWorker from './Grid_worker';
 import Loading from '../Loading/Loading';
+import Player from '../Player/Player';
 
 
 class Grid extends React.PureComponent {
@@ -45,7 +46,7 @@ class Grid extends React.PureComponent {
                             tiles.getIn([currentPosition, 'type'])
                           ]}
                         >
-                          { typeof player !== 'undefined' && player.get('position').equals(currentPosition) && '*' }
+                          { typeof player !== 'undefined' && player.get('position').equals(currentPosition) && <Player /> }
                         </div>
                       </td>
                     );

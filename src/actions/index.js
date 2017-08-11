@@ -4,6 +4,7 @@ import { convertTilesToMap } from '../helpers/grid';
 
 export const GENERATE_GRID = 'GENERATE_GRID';
 export const INIT_PLAYER = 'INIT_PLAYER';
+export const MOVE_PLAYER = 'MOVE_PLAYER';
 
 // grid looses it's type after returning from web worker
 export const generateGrid = grid => {
@@ -12,8 +13,10 @@ export const generateGrid = grid => {
 
   return {
     type: GENERATE_GRID,
-    grid: grid.set('tiles', tiles)
+    payload: grid.set('tiles', tiles)
   };
 };
 
 export const initPlayer = () => ({ type: INIT_PLAYER });
+
+export const movePlayer = direction => ({ type: MOVE_PLAYER, payload: direction });

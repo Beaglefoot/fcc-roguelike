@@ -1,4 +1,7 @@
+@import 'src/styles/variables.scss';
+
 .app {
   display: flex;
   justify-content: center;
+  font-size: $fnt_size_parent;
 }
