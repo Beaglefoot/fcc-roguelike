@@ -3,7 +3,8 @@ import React from 'react';
 class GridRow extends React.PureComponent {
   shouldComponentUpdate(nextProps) {
     const { playerRow } = nextProps;
-    return [playerRow - 1, playerRow, playerRow + 1].some(row => row === this.props.rowIndex);
+    if (!playerRow) console.log('undef');
+    return !playerRow || [playerRow - 1, playerRow, playerRow + 1].some(row => row === this.props.rowIndex);
   }
 
   render() {

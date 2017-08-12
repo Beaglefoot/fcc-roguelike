@@ -1,40 +1,18 @@
-/* eslint no-unused-vars: off */
 import { Map } from 'immutable';
-import random from 'lodash/random';
-
-import { getRandomMapValue } from '../helpers/common';
+import curry from 'lodash/curry';
 
 import {
   GENERATE_GRID,
   INIT_PLAYER,
-  MOVE_PLAYER
+  MOVE_PLAYER,
+  INIT_CREATURES
 } from '../actions';
 
+import {
+  getRandomPlacementPosition,
+  getRepositionedPlayer
+} from '../helpers/player';
 
-const getRandomPlayerPosition = (tiles = Map()) => (
-  Map(
-    getRandomMapValue(
-      tiles.filter(tile => tile.get('type') !== 'wall')
-    ).get('position')
-  )
-);
-
-const isAreaRestricted = (state, position) => (
-  state.getIn(['tiles', position, 'type']) === 'wall'
-);
-
-const getRepositionedPlayer = (state, direction) => {
-  const { player, tiles } = state.toObject();
-  const shift = {
-    left: { x: -1 },
-    up: { y: -1 },
-    right: { x: 1 },
-    down: { y: 1 }
-  }[direction];
-
-  const newPosition = player.get('position').mergeWith((oldVal, newVal) => oldVal + newVal, Map(shift));
-  return isAreaRestricted(state, newPosition) ? player : player.set('position', newPosition);
-};
 
 
 const reducer = (state = Map(), action) => {
@@ -46,9 +24,11 @@ const reducer = (state = Map(), action) => {
   case GENERATE_GRID:
     return state.merge(payload);
   case INIT_PLAYER:
-    return state.set('player', Map({ position: getRandomPlayerPosition(state.get('tiles')) }));
+    return state.set('player', Map({ position: getRandomPlacementPosition(state.get('tiles')) }));
   case MOVE_PLAYER:
     return state.set('player', getRepositionedPlayer(state, payload));
+  case INIT_CREATURES:
+    return curry(pos => state.setIn(['creatures', pos, 'position'], pos))(getRandomPlacementPosition(state.get('tiles')));
   default:
     return state;
   }

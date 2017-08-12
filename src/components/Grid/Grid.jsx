@@ -6,7 +6,13 @@ import { Map } from 'immutable';
 
 import classes, { tile, grid } from './Grid.scss';
 
-import { generateGrid, initPlayer, movePlayer } from '../../actions';
+import {
+  generateGrid,
+  initPlayer,
+  movePlayer,
+  initCreatures
+} from '../../actions';
+
 import { findKeyByCode } from '../../helpers/player';
 import GridRow from './GridRow';
 import GridWorker from './Grid_worker';
@@ -38,14 +44,16 @@ class Grid extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { player } = this.props;
-    if (!player) this.props.initPlayer();
+    const { player, initPlayer, creatures, initCreatures } = this.props;
+    if (!creatures) initCreatures();
+    else if (!player) initPlayer();
   }
 
   generateTile(tiles, rowIndex, playerPosition) {
     return (_, index) => {
       const currentPosition = Map({ x: index, y: rowIndex });
       const { x, y } = playerPosition.toObject();
+      const { creatures } = this.props;
 
       return (
         <td key={index} className={tile}>
@@ -55,6 +63,7 @@ class Grid extends React.PureComponent {
             ]}
           >
             { x === index && y === rowIndex && <Player /> }
+            { creatures && creatures.get(currentPosition) && '*' }
           </div>
         </td>
       );
@@ -97,8 +106,15 @@ Grid.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { rows, columns, tiles, player } = state.toObject();
-  return { rows, columns, tiles, player };
+  const { rows, columns, tiles, player, creatures } = state.toObject();
+  return { rows, columns, tiles, player, creatures };
 };
 
-export default connect(mapStateToProps, { generateGrid, initPlayer, movePlayer })(Grid);
+const mapDispatchToProps = {
+  generateGrid,
+  initPlayer,
+  movePlayer,
+  initCreatures
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Grid);
