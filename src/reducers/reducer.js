@@ -19,6 +19,10 @@ const getRandomPlayerPosition = (tiles = Map()) => (
   )
 );
 
+const isAreaRestricted = (state, position) => (
+  state.getIn(['tiles', position, 'type']) === 'wall'
+);
+
 const getRepositionedPlayer = (state, direction) => {
   const { player, tiles } = state.toObject();
   const shift = {
@@ -28,7 +32,8 @@ const getRepositionedPlayer = (state, direction) => {
     down: { y: 1 }
   }[direction];
 
-  return player.mergeDeepWith((oldVal, newVal) => oldVal + newVal, Map({ position: Map(shift) }));
+  const newPosition = player.get('position').mergeWith((oldVal, newVal) => oldVal + newVal, Map(shift));
+  return isAreaRestricted(state, newPosition) ? player : player.set('position', newPosition);
 };
 
 
