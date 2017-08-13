@@ -12,7 +12,7 @@ import {
   getDirectCorridorCoord
 } from './grid';
 
-describe('helper functions', () => {
+describe('grid helper functions', () => {
   describe('getPosition()', () => {
     it('should return { x: 0, y: 0 } for index 0', () => {
       expect(getPosition(0).toJS()).to.deep.equal({ x: 0, y: 0 });

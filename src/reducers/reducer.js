@@ -1,5 +1,4 @@
 import { Map } from 'immutable';
-import curry from 'lodash/curry';
 
 import {
   GENERATE_GRID,
@@ -28,7 +27,9 @@ const reducer = (state = Map(), action) => {
   case MOVE_PLAYER:
     return state.set('player', getRepositionedPlayer(state, payload));
   case INIT_CREATURES:
-    return curry(pos => state.setIn(['creatures', pos, 'position'], pos))(getRandomPlacementPosition(state.get('tiles')));
+    return (pos => state.setIn(['creatures', pos, 'position'], pos))(
+      getRandomPlacementPosition(state.get('tiles'), state.getIn(['player', 'position']))
+    );
   default:
     return state;
   }

@@ -11,10 +11,12 @@ export const findKeyByCode = code => (
   }[code]
 );
 
-export const getRandomPlacementPosition = (tiles = Map()) => (
+export const getRandomPlacementPosition = (tiles = Map(), playerPosition = Map()) => (
   Map(
     getRandomMapValue(
-      tiles.filter(tile => tile.get('type') !== 'wall')
+      tiles.filter((tile, key) => (
+        tile.get('type') !== 'wall' && !key.equals(playerPosition)
+      ))
     ).get('position')
   )
 );
