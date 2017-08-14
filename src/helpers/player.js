@@ -11,15 +11,20 @@ export const findKeyByCode = code => (
   }[code]
 );
 
-export const getRandomPlacementPosition = (tiles = Map(), playerPosition = Map()) => (
-  Map(
+export const getRandomPlacementPosition = state => {
+  const playerPosition = state.getIn(['player', 'position']) || Map();
+  const creaturePositions = (map => map ? map.mapKeys(k => k): Map())(state.get('creatures'));
+
+  return Map(
     getRandomMapValue(
-      tiles.filter((tile, key) => (
-        tile.get('type') !== 'wall' && !key.equals(playerPosition)
+      state.get('tiles').filter((tile, key) => (
+        tile.get('type') !== 'wall' &&
+        !key.equals(playerPosition) &&
+        !creaturePositions.has(key)
       ))
     ).get('position')
-  )
-);
+  );
+};
 
 export const isAreaRestricted = (state, position) => (
   state.getIn(['tiles', position, 'type']) === 'wall'

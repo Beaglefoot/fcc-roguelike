@@ -9,7 +9,8 @@ export class Creature {
 }
 
 export const addCreatureToState = state => (
-  state.updateIn(['creatures'], creatures => creatures.concat(new Creature(
-    getRandomPlacementPosition(state.get('tiles'), state.getIn(['player', 'position']))
-  )))
+  state.updateIn(['creatures'],
+    creatures => creatures.concat(
+      new Creature( getRandomPlacementPosition(state) )
+    ))
 );

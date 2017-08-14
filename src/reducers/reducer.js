@@ -25,7 +25,8 @@ const reducer = (state = Map(), action) => {
   case GENERATE_GRID:
     return state.merge(payload);
   case INIT_PLAYER:
-    return state.set('player', Map({ position: getRandomPlacementPosition(state.get('tiles')) }));
+    // TODO: take creatures into account
+    return state.set('player', Map({ position: getRandomPlacementPosition(state) }));
   case MOVE_PLAYER:
     return state.set('player', getRepositionedPlayer(state, payload));
   case INIT_CREATURES:
