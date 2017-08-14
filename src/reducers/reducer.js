@@ -7,12 +7,14 @@ import {
   INIT_CREATURES
 } from '../actions';
 
+import { repeatFunc } from '../helpers/common';
+
 import {
   getRandomPlacementPosition,
   getRepositionedPlayer
 } from '../helpers/player';
 
-
+import { addCreatureToState } from '../helpers/creatures';
 
 const reducer = (state = Map(), action) => {
   if (!action) return state;
@@ -27,9 +29,7 @@ const reducer = (state = Map(), action) => {
   case MOVE_PLAYER:
     return state.set('player', getRepositionedPlayer(state, payload));
   case INIT_CREATURES:
-    return (pos => state.setIn(['creatures', pos, 'position'], pos))(
-      getRandomPlacementPosition(state.get('tiles'), state.getIn(['player', 'position']))
-    );
+    return repeatFunc(12, addCreatureToState, state.set('creatures', Map()));
   default:
     return state;
   }
