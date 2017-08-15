@@ -18,6 +18,7 @@ import GridRow from './GridRow';
 import GridWorker from './Grid_worker';
 import Loading from '../Loading/Loading';
 import Player from '../Player/Player';
+import Creature from '../Creature/Creature';
 
 
 class Grid extends React.PureComponent {
@@ -54,6 +55,7 @@ class Grid extends React.PureComponent {
       const currentPosition = Map({ x: index, y: rowIndex });
       const { x, y } = playerPosition.toObject();
       const { creatures } = this.props;
+      const creatureAtCurrentTile = creatures && creatures.get(currentPosition);
 
       return (
         <td key={index} className={tile}>
@@ -63,7 +65,7 @@ class Grid extends React.PureComponent {
             ]}
           >
             { x === index && y === rowIndex && <Player /> }
-            { creatures && creatures.get(currentPosition) && '*' }
+            { creatureAtCurrentTile && <Creature {...creatureAtCurrentTile.toObject()} /> }
           </div>
         </td>
       );
