@@ -1,4 +1,4 @@
-import { world } from '../../config';
+import { world } from '../../config/general';
 
 import {
   generateTiles,
@@ -16,7 +16,8 @@ const {
   columns,
   splitDepth,
   minRoomToSectionProportion,
-  maxRoomToSectionProportion
+  maxRoomToSectionProportion,
+  currentGameLevel
 } = world;
 
 // Each section contains a room
@@ -55,7 +56,8 @@ const initialState = {
   // tiles have to be converted to usual object to
   // save immutable functionality. More on this:
   // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#Transferring_data_to_and_from_workers_further_details
-  tiles: connectSectionsWithCorridors(sections).toJS()
+  tiles: connectSectionsWithCorridors(sections).toJS(),
+  currentGameLevel
 };
 
 

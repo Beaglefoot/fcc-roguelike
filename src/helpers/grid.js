@@ -3,7 +3,7 @@ import { List, Map, Set, Range, fromJS } from 'immutable';
 import random from 'lodash/random';
 import curry from 'lodash/curry';
 
-import { world } from '../config';
+import { world } from '../config/general';
 import { chooseAnother } from './common';
 
 const {

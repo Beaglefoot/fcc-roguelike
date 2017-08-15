@@ -1,0 +1,7 @@
+{
+  "levels": [
+    { "numberOfCreatures": 12, "creaturesLvl": 1, "boss": false },
+    { "numberOfCreatures": 12, "creaturesLvl": 2, "boss": false },
+    { "numberOfCreatures": 12, "creaturesLvl": 3, "boss": true }
+  ]
+}

@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 
 import {
   GENERATE_GRID,
@@ -7,14 +7,18 @@ import {
   INIT_CREATURES
 } from '../actions';
 
-import { repeatFunc } from '../helpers/common';
-
 import {
   getRandomPlacementPosition,
   getRepositionedPlayer
 } from '../helpers/player';
+import { populateWorld } from '../helpers/creatures';
 
-import { addCreatureToState } from '../helpers/creatures';
+import { levels as levelsObject } from '../config/levels';
+import { creatures as creaturesObject } from '../config/creatures';
+
+const creatures = fromJS(creaturesObject);
+const levels = fromJS(levelsObject);
+
 
 const reducer = (state = Map(), action) => {
   if (!action) return state;
@@ -25,12 +29,15 @@ const reducer = (state = Map(), action) => {
   case GENERATE_GRID:
     return state.merge(payload);
   case INIT_PLAYER:
-    // TODO: take creatures into account
     return state.set('player', Map({ position: getRandomPlacementPosition(state) }));
   case MOVE_PLAYER:
     return state.set('player', getRepositionedPlayer(state, payload));
   case INIT_CREATURES:
-    return repeatFunc(12, addCreatureToState, state.set('creatures', Map()));
+    return populateWorld(
+      state.set('creatures', Map()),
+      levels.get(state.get('currentGameLevel') - 1),
+      creatures
+    );
   default:
     return state;
   }

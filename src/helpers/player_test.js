@@ -63,7 +63,6 @@ describe('player helper functions', () => {
       const result = uniq(
         times(50, () => getRandomPlacementPosition(state.setIn(['creatures', Map({ x: 56, y: 8 })], 'meow')))
       )[0];
-      console.log(result);
 
       expect(result).equal(Map({ x: 24, y: 40 }))
         .and.not.to.equal(Map({ x: 56, y: 8 }));
