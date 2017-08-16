@@ -33,7 +33,7 @@ const reducer = (state = Map(), action) => {
   case INIT_PLAYER:
     return state.set('player', createPlayer(state, levelingTable.get(0)));
   case MOVE_PLAYER:
-    return state.set('player', getRepositionedPlayer(state, payload));
+    return getRepositionedPlayer(state, payload);
   case INIT_CREATURES:
     return populateWorld(
       state.set('creatures', Map()),

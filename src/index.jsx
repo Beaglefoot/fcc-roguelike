@@ -13,6 +13,8 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+store.subscribe(() => window.store = store.getState());
+
 const render = Component => (
   ReactDOM.render(
     <Provider store={store}>

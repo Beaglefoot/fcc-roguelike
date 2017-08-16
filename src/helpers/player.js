@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+import random from 'lodash/random';
 
 import { getRandomMapValue } from '../helpers/common';
 
@@ -30,8 +31,16 @@ export const isAreaRestricted = (state, position) => (
   state.getIn(['tiles', position, 'type']) === 'wall'
 );
 
+export const getAttackValue = attacker => random(...attacker.get('attack').toArray());
+
+export const exchangeAttacks = (state, attacker = Map(), defender = Map()) => {
+  defender = defender.update('hp', hp => hp - getAttackValue(attacker));
+  if (defender.get('hp') > 0) attacker = attacker.update('hp', hp => hp - getAttackValue(defender));
+  return state.set('player', attacker).setIn(['creatures', defender.get('position')], defender);
+};
+
 export const getRepositionedPlayer = (state, direction) => {
-  const { player } = state.toObject();
+  const player = state.get('player');
   const shift = {
     left: { x: -1 },
     up: { y: -1 },
@@ -40,11 +49,19 @@ export const getRepositionedPlayer = (state, direction) => {
   }[direction];
 
   const newPosition = player.get('position').mergeWith((oldVal, newVal) => oldVal + newVal, Map(shift));
-  return isAreaRestricted(state, newPosition) ? player : player.set('position', newPosition);
+
+  if (isAreaRestricted(state, newPosition)) return state;
+  else {
+    const creature = state.getIn(['creatures', newPosition]);
+    if (creature) return exchangeAttacks(state, player, creature);
+    return state.setIn(['player', 'position'], newPosition);
+  }
 };
 
 export const createPlayer = (state, levelSettings = Map()) => (
   Map({ position: getRandomPlacementPosition(state) })
-    .concat(levelSettings)
-    .concat({ hp: levelSettings.get('maxHP') })
+    .concat(levelSettings, {
+      hp: levelSettings.get('maxHP'),
+      attack: levelSettings.get('baseAttack')
+    })
 );
