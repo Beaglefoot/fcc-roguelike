@@ -42,3 +42,9 @@ export const getRepositionedPlayer = (state, direction) => {
   const newPosition = player.get('position').mergeWith((oldVal, newVal) => oldVal + newVal, Map(shift));
   return isAreaRestricted(state, newPosition) ? player : player.set('position', newPosition);
 };
+
+export const createPlayer = (state, levelSettings = Map()) => (
+  Map({ position: getRandomPlacementPosition(state) })
+    .concat(levelSettings)
+    .concat({ hp: levelSettings.get('maxHP') })
+);

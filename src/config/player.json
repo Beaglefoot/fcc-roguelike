@@ -1,0 +1,39 @@
+{
+  "levelingTable": [
+    {
+      "level": 1,
+      "maxHP": 100,
+      "minXP": 0,
+      "maxXP": 10,
+      "baseAttackRange": [5, 10]
+    },
+    {
+      "level": 2,
+      "maxHP": 120,
+      "minXP": 10,
+      "maxXP": 20,
+      "baseAttackRange": [8, 13]
+    },
+    {
+      "level": 3,
+      "maxHP": 150,
+      "minXP": 20,
+      "maxXP": 30,
+      "baseAttackRange": [11, 16]
+    },
+    {
+      "level": 4,
+      "maxHP": 170,
+      "minXP": 30,
+      "maxXP": 40,
+      "baseAttackRange": [14, 19]
+    },
+    {
+      "level": 5,
+      "maxHP": 200,
+      "minXP": 40,
+      "maxXP": 50,
+      "baseAttackRange": [22, 25]
+    }
+  ]
+}

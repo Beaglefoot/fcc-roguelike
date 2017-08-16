@@ -8,16 +8,18 @@ import {
 } from '../actions';
 
 import {
-  getRandomPlacementPosition,
-  getRepositionedPlayer
+  getRepositionedPlayer,
+  createPlayer
 } from '../helpers/player';
 import { populateWorld } from '../helpers/creatures';
 
 import { levels as levelsObject } from '../config/levels';
 import { creatures as creaturesObject } from '../config/creatures';
+import { levelingTable as levelingTableObject } from '../config/player';
 
 const creatures = fromJS(creaturesObject);
 const levels = fromJS(levelsObject);
+const levelingTable = fromJS(levelingTableObject);
 
 
 const reducer = (state = Map(), action) => {
@@ -29,7 +31,7 @@ const reducer = (state = Map(), action) => {
   case GENERATE_GRID:
     return state.merge(payload);
   case INIT_PLAYER:
-    return state.set('player', Map({ position: getRandomPlacementPosition(state) }));
+    return state.set('player', createPlayer(state, levelingTable.get(0)));
   case MOVE_PLAYER:
     return state.set('player', getRepositionedPlayer(state, payload));
   case INIT_CREATURES:
