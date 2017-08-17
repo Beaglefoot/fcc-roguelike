@@ -1,7 +1,7 @@
 {
   "levels": [
-    { "numberOfCreatures": 12, "creaturesLvl": 1, "boss": false },
-    { "numberOfCreatures": 12, "creaturesLvl": 2, "boss": false },
-    { "numberOfCreatures": 12, "creaturesLvl": 3, "boss": true }
+    { "numberOfCreatures": 12, "creaturesLvl": 1, "boss": false, "numberOfConsumables": 7, "consumables": "Weak Health Potion" },
+    { "numberOfCreatures": 12, "creaturesLvl": 2, "boss": false, "numberOfConsumables": 7, "consumables": "Medium Health Potion" },
+    { "numberOfCreatures": 12, "creaturesLvl": 3, "boss": true,  "numberOfConsumables": 7, "consumables": "Strong Health Potion" }
   ]
 }

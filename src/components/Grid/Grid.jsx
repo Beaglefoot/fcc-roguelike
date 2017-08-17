@@ -10,7 +10,9 @@ import {
   generateGrid,
   initPlayer,
   movePlayer,
-  initCreatures
+  initCreatures,
+  initItems,
+  pickItem
 } from '../../actions';
 
 import { findKeyByCode } from '../../helpers/player';
@@ -29,7 +31,10 @@ class Grid extends React.PureComponent {
 
   handleKeyPress(event) {
     const key = findKeyByCode(event.keyCode);
-    if (key) this.props.movePlayer(key);
+    if (key === 'p') {
+      this.props.pickItem(this.props.player.get('position'));
+    }
+    else if (key) this.props.movePlayer(key);
   }
 
   componentDidMount() {
@@ -45,8 +50,9 @@ class Grid extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { player, initPlayer, creatures, initCreatures } = this.props;
+    const { player, initPlayer, creatures, initCreatures, items, initItems } = this.props;
     if (!creatures) initCreatures();
+    if (!items) initItems();
     else if (!player) initPlayer();
   }
 
@@ -54,8 +60,9 @@ class Grid extends React.PureComponent {
     return (_, index) => {
       const currentPosition = Map({ x: index, y: rowIndex });
       const { x, y } = playerPosition.toObject();
-      const { creatures } = this.props;
+      const { creatures, items } = this.props;
       const creatureAtCurrentTile = creatures && creatures.get(currentPosition);
+      const itemAtCurrentTile = items && items.get(currentPosition);
 
       return (
         <td key={index} className={tile}>
@@ -66,6 +73,7 @@ class Grid extends React.PureComponent {
           >
             { x === index && y === rowIndex && <Player /> }
             { creatureAtCurrentTile && <Creature {...creatureAtCurrentTile.toObject()} /> }
+            { itemAtCurrentTile && '!' }
           </div>
         </td>
       );
@@ -108,15 +116,17 @@ Grid.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { rows, columns, tiles, player, creatures } = state.toObject();
-  return { rows, columns, tiles, player, creatures };
+  const { rows, columns, tiles, player, creatures, items } = state.toObject();
+  return { rows, columns, tiles, player, creatures, items };
 };
 
 const mapDispatchToProps = {
   generateGrid,
   initPlayer,
   movePlayer,
-  initCreatures
+  initCreatures,
+  initItems,
+  pickItem
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

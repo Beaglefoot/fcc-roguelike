@@ -1,0 +1,19 @@
+{
+  "weapons": {
+    "Dagger":          { "damage":  [1, 4] },
+    "Sword":           { "damage":  [3, 12] },
+    "Spear":           { "damage":  [1, 15] },
+    "Hammer":          { "damage":  [9, 10] },
+    "Two-handed Axe":  { "damage":  [5, 20] }
+  },
+  "armor": {
+    "Leather Armor":  { "protection":  1 },
+    "Chainmail":      { "protection":  2 },
+    "Plate Armor":    { "protection":  3 }
+  },
+  "consumables": {
+    "Weak Health Potion":    { "name": "Weak Health Potion",   "effect":  30 },
+    "Medium Health Potion":  { "name": "Medium Health Potion", "effect":  50 },
+    "Strong Health Potion":  { "name": "Strong Health Potion", "effect":  100 }
+  }
+}

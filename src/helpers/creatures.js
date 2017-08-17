@@ -10,7 +10,7 @@ export class Creature {
 }
 
 export const addCreatureToState = (state = Map(), creature = Map()) => (
-  state.updateIn(['creatures'],
+  state.update('creatures',
     creatures => creatures.concat(
       new Creature( getRandomPlacementPosition(state), creature )
     ))

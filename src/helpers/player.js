@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import random from 'lodash/random';
 
 import { getRandomMapValue } from '../helpers/common';
@@ -8,7 +8,8 @@ export const findKeyByCode = code => (
     37: 'left',
     38: 'up',
     39: 'right',
-    40: 'down'
+    40: 'down',
+    80: 'p'
   }[code]
 );
 
@@ -62,6 +63,9 @@ export const createPlayer = (state, levelSettings = Map()) => (
   Map({ position: getRandomPlacementPosition(state) })
     .concat(levelSettings, {
       hp: levelSettings.get('maxHP'),
-      attack: levelSettings.get('baseAttack')
+      xp: 0,
+      attack: levelSettings.get('baseAttack'),
+      inventory: List(),
+      equipped: Map({ weapon: Map(), armor: Map() })
     })
 );

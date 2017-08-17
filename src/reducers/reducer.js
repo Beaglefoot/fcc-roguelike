@@ -4,7 +4,9 @@ import {
   GENERATE_GRID,
   INIT_PLAYER,
   MOVE_PLAYER,
-  INIT_CREATURES
+  INIT_CREATURES,
+  INIT_ITEMS,
+  PICK_ITEM
 } from '../actions';
 
 import {
@@ -12,14 +14,17 @@ import {
   createPlayer
 } from '../helpers/player';
 import { populateWorld } from '../helpers/creatures';
+import { scatterConsumables } from '../helpers/items';
 
 import { levels as levelsObject } from '../config/levels';
 import { creatures as creaturesObject } from '../config/creatures';
 import { levelingTable as levelingTableObject } from '../config/player';
+import { consumables as consumablesObject } from '../config/equipment';
 
 const creatures = fromJS(creaturesObject);
 const levels = fromJS(levelsObject);
 const levelingTable = fromJS(levelingTableObject);
+const consumables = fromJS(consumablesObject);
 
 
 const reducer = (state = Map(), action) => {
@@ -40,6 +45,15 @@ const reducer = (state = Map(), action) => {
       levels.get(state.get('currentGameLevel') - 1),
       creatures
     );
+  case INIT_ITEMS:
+    return scatterConsumables(
+      state.set('items', Map()),
+      levels.get(state.get('currentGameLevel') - 1),
+      consumables
+    );
+  case PICK_ITEM:
+    console.log('pick', payload);
+    return state;
   default:
     return state;
   }
