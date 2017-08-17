@@ -31,4 +31,6 @@
 
 .wall, .room, .corridor {
   text-align: center;
+  overflow: hidden;
+  height: inherit;
 }

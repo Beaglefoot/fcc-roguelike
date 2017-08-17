@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Creature = props => (
+const Creature = ({ hp, race }) => (
   <div>
-    {props.race[0]}
+    {hp > 0 ? race[0] : '%'}
   </div>
 );
 

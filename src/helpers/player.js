@@ -53,7 +53,7 @@ export const getRepositionedPlayer = (state, direction) => {
   if (isAreaRestricted(state, newPosition)) return state;
   else {
     const creature = state.getIn(['creatures', newPosition]);
-    if (creature) return exchangeAttacks(state, player, creature);
+    if (creature && creature.get('hp') > 0) return exchangeAttacks(state, player, creature);
     return state.setIn(['player', 'position'], newPosition);
   }
 };
