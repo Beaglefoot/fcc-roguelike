@@ -2,6 +2,17 @@
 
 .app {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   font-size: $fnt_size_parent;
+  max-width: 100em;
+  margin: 0 auto;
+}
+
+.health {
+  border: 1px solid $clr_health_bar_border;
+
+  & :first-child {
+    background: $clr_health_bar;
+  }
 }

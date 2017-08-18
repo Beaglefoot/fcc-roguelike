@@ -12,3 +12,7 @@ export const getRandomMapValue = (map = Map()) => (
 export const repeatFunc = (times = 1, fn, startValue) => (
   new Array(times).fill().reduce(res => fn(res), startValue)
 );
+
+export const calcPercentage = (value, max, min) => (
+  (value - min) / (max - min)  * 100
+);
