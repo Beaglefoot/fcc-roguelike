@@ -30,11 +30,12 @@ class Grid extends React.PureComponent {
   }
 
   handleKeyPress(event) {
+    const { movePlayer, pickItem, player, items } = this.props;
     const key = findKeyByCode(event.keyCode);
-    if (key === 'p') {
-      this.props.pickItem(this.props.player.get('position'));
-    }
-    else if (key) this.props.movePlayer(key);
+    const playerPosition = player.get('position');
+
+    if (key === 'p') pickItem(Map().set(playerPosition, items.get(playerPosition)));
+    else if (key) movePlayer(key);
   }
 
   componentDidMount() {

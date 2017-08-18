@@ -14,7 +14,7 @@ import {
   createPlayer
 } from '../helpers/player';
 import { populateWorld } from '../helpers/creatures';
-import { scatterConsumables } from '../helpers/items';
+import { scatterConsumables, placeItemIntoInventory } from '../helpers/items';
 
 import { levels as levelsObject } from '../config/levels';
 import { creatures as creaturesObject } from '../config/creatures';
@@ -52,8 +52,7 @@ const reducer = (state = Map(), action) => {
       consumables
     );
   case PICK_ITEM:
-    console.log('pick', payload);
-    return state;
+    return placeItemIntoInventory(state, payload);
   default:
     return state;
   }

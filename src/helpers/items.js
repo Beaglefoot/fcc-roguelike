@@ -12,3 +12,9 @@ export const scatterConsumables = (state, levelSettings = Map(), consumables) =>
   return new Array(levelSettings.get('numberOfConsumables')).fill()
     .reduce(state => addItemToState(state, item), state);
 };
+
+export const placeItemIntoInventory = (state, item = Map()) => (
+  state.updateIn(['player', 'inventory'],
+    inventory => inventory.push(item.first())
+  ).deleteIn(['items', item.keySeq().first()])
+);
