@@ -9,10 +9,24 @@
   margin: 0 auto;
 }
 
+.bars {
+  width: 100%;
+  height: 1.2em;
+  display: flex;
+}
+
 .health {
   border: 1px solid $clr_health_bar_border;
 
   & :first-child {
     background: $clr_health_bar;
+  }
+}
+
+.experience {
+  border: 1px solid $clr_xp_bar_border;
+
+  & :first-child {
+    background: $clr_xp_bar;
   }
 }
