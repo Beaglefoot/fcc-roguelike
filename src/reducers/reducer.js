@@ -6,7 +6,8 @@ import {
   MOVE_PLAYER,
   INIT_CREATURES,
   INIT_ITEMS,
-  PICK_ITEM
+  PICK_ITEM,
+  USE_HEAL_POTION
 } from '../actions';
 
 import {
@@ -14,7 +15,11 @@ import {
   createPlayer
 } from '../helpers/player';
 import { populateWorld } from '../helpers/creatures';
-import { scatterConsumables, placeItemIntoInventory } from '../helpers/items';
+import {
+  scatterConsumables,
+  placeItemIntoInventory,
+  consumeHealthPotion
+} from '../helpers/items';
 
 import { levels as levelsObject } from '../config/levels';
 import { creatures as creaturesObject } from '../config/creatures';
@@ -53,6 +58,8 @@ const reducer = (state = Map(), action) => {
     );
   case PICK_ITEM:
     return placeItemIntoInventory(state, payload);
+  case USE_HEAL_POTION:
+    return consumeHealthPotion(state);
   default:
     return state;
   }

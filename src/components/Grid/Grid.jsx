@@ -12,7 +12,8 @@ import {
   movePlayer,
   initCreatures,
   initItems,
-  pickItem
+  pickItem,
+  useHealPotion
 } from '../../actions';
 
 import { findKeyByCode } from '../../helpers/player';
@@ -30,11 +31,12 @@ class Grid extends React.PureComponent {
   }
 
   handleKeyPress(event) {
-    const { movePlayer, pickItem, player, items } = this.props;
+    const { movePlayer, pickItem, player, items, useHealPotion } = this.props;
     const key = findKeyByCode(event.keyCode);
     const playerPosition = player.get('position');
 
     if (key === 'p') pickItem(Map().set(playerPosition, items.get(playerPosition)));
+    else if (key === 'h') useHealPotion();
     else if (key) movePlayer(key);
   }
 
@@ -127,7 +129,8 @@ const mapDispatchToProps = {
   movePlayer,
   initCreatures,
   initItems,
-  pickItem
+  pickItem,
+  useHealPotion
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

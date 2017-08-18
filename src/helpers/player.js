@@ -9,6 +9,7 @@ export const findKeyByCode = code => (
     38: 'up',
     39: 'right',
     40: 'down',
+    72: 'h',
     80: 'p'
   }[code]
 );

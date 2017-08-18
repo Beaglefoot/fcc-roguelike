@@ -18,3 +18,13 @@ export const placeItemIntoInventory = (state, item = Map()) => (
     inventory => inventory.push(item.first())
   ).deleteIn(['items', item.keySeq().first()])
 );
+
+export const consumeHealthPotion = state => {
+  const [index, potion] = state.getIn(['player', 'inventory'])
+    .findEntry(item => item.get('name').includes('Health Potion'));
+  const maxHP = state.getIn(['player', 'maxHP']);
+  const effect = potion.get('effect');
+  return state.updateIn(['player', 'hp'], (
+    hp => hp + effect < maxHP ? hp + effect : maxHP)
+  ).deleteIn(['player', 'inventory', index]);
+};
