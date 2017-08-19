@@ -10,6 +10,7 @@ export const INIT_ITEMS = 'INIT_ITEMS';
 export const PICK_ITEM = 'PICK_ITEM';
 export const USE_HEAL_POTION = 'USE_HEAL_POTION';
 export const KILL_CREATURE = 'KILL_CREATURE';
+export const LEVEL_UP = 'LEVEL_UP';
 
 // grid looses it's type after returning from web worker
 export const generateGrid = grid => {
@@ -29,3 +30,4 @@ export const initItems = () => ({ type: INIT_ITEMS });
 export const pickItem = (item = Map()) => ({ type: PICK_ITEM, payload: item });
 export const useHealPotion = () => ({ type: USE_HEAL_POTION });
 export const killCreature = (creature = Map()) => ({ type: KILL_CREATURE, payload: creature });
+export const levelUp = () => ({ type: LEVEL_UP });

@@ -70,3 +70,11 @@ export const createPlayer = (state, levelSettings = Map()) => (
       equipped: Map({ weapon: Map(), armor: Map() })
     })
 );
+
+export const improvePlayerStats = (state, levelingTable) => {
+  const player = state.get('player');
+  const playerLevel = player.get('level');
+  const newStats = levelingTable.get(playerLevel);
+
+  return state.set('player', player.merge(newStats).set('hp', newStats.get('maxHP')));
+};

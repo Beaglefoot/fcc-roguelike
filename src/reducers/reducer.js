@@ -8,12 +8,14 @@ import {
   INIT_ITEMS,
   PICK_ITEM,
   USE_HEAL_POTION,
-  KILL_CREATURE
+  KILL_CREATURE,
+  LEVEL_UP
 } from '../actions';
 
 import {
   getRepositionedPlayer,
-  createPlayer
+  createPlayer,
+  improvePlayerStats
 } from '../helpers/player';
 import { populateWorld, creatureDies } from '../helpers/creatures';
 import {
@@ -63,6 +65,8 @@ const reducer = (state = Map(), action) => {
     return consumeHealthPotion(state);
   case KILL_CREATURE:
     return creatureDies(state);
+  case LEVEL_UP:
+    return improvePlayerStats(state, levelingTable);
   default:
     return state;
   }

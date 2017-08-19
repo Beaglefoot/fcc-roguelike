@@ -1,7 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Player = () => (
-  <div>@</div>
-);
+import { levelUp } from '../../actions';
 
-export default Player;
+class Player extends React.Component {
+  componentWillReceiveProps({ player, levelUp }) {
+    const xp = player.get('xp');
+    const xpCeil = player.get('xpRange').last();
+    if (xp >= xpCeil) levelUp();
+  }
+
+  render() {
+    return (
+      <div>@</div>
+    );
+  }
+}
+
+export default connect(store => ({ player: store.get('player') }), { levelUp })(Player);

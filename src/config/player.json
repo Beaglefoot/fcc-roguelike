@@ -3,13 +3,13 @@
     {
       "level": 1,
       "maxHP": 100,
-      "xpRange": [0, 10],
+      "xpRange": [0, 2],
       "baseAttack": [5, 10]
     },
     {
       "level": 2,
       "maxHP": 120,
-      "xpRange": [10, 20],
+      "xpRange": [2, 20],
       "baseAttack": [8, 13]
     },
     {
@@ -27,7 +27,7 @@
     {
       "level": 5,
       "maxHP": 200,
-      "xpRange": [40, 50],
+      "xpRange": [40, 999],
       "baseAttack": [22, 25]
     }
   ]
