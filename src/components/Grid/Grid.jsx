@@ -75,7 +75,7 @@ class Grid extends React.PureComponent {
             ]}
           >
             { x === index && y === rowIndex && <Player /> }
-            { creatureAtCurrentTile && <Creature {...creatureAtCurrentTile.toObject()} /> }
+            { creatureAtCurrentTile && <Creature creature={creatureAtCurrentTile} /> }
             { itemAtCurrentTile && '!' }
           </div>
         </td>

@@ -7,14 +7,15 @@ import {
   INIT_CREATURES,
   INIT_ITEMS,
   PICK_ITEM,
-  USE_HEAL_POTION
+  USE_HEAL_POTION,
+  KILL_CREATURE
 } from '../actions';
 
 import {
   getRepositionedPlayer,
   createPlayer
 } from '../helpers/player';
-import { populateWorld } from '../helpers/creatures';
+import { populateWorld, creatureDies } from '../helpers/creatures';
 import {
   scatterConsumables,
   placeItemIntoInventory,
@@ -60,6 +61,8 @@ const reducer = (state = Map(), action) => {
     return placeItemIntoInventory(state, payload);
   case USE_HEAL_POTION:
     return consumeHealthPotion(state);
+  case KILL_CREATURE:
+    return creatureDies(state);
   default:
     return state;
   }

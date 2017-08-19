@@ -27,3 +27,7 @@ export const populateWorld = (state, levelSettings = Map(), creatures = Map()) =
   return new Array(levelSettings.get('numberOfCreatures')).fill()
     .reduce(state => addCreatureToState(state, pickRandomCreature(creatureList)), state);
 };
+
+export const creatureDies = state => (
+  state.updateIn(['player', 'xp'], xp => xp + 1)
+);
