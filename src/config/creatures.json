@@ -5,6 +5,7 @@
         "race": "kobold",
         "hp": 30,
         "attack": [5, 8],
+        "protection": 0,
         "lvl": "1",
         "equipment": {
           "weapon":     { "name":  "Dagger",             "chance":  0.5 },
@@ -16,6 +17,7 @@
         "race": "goblin",
         "hp": 25,
         "attack": [4, 7],
+        "protection": 0,
         "lvl": "1",
         "equipment": {
           "weapon":     { "name":  "Spear",             "chance":  0.2 },
@@ -29,6 +31,7 @@
         "race": "orc",
         "hp": 50,
         "attack": [9, 13],
+        "protection": 0,
         "lvl": "2",
         "equipment": {
           "weapon":     { "name":  "Sword",               "chance":  0.4 },
@@ -40,6 +43,7 @@
         "race": "ogre",
         "hp": 70,
         "attack": [10, 12],
+        "protection": 0,
         "lvl": "2",
         "equipment": {
           "weapon":     { "name":  "Hammer",               "chance":  0.5 },
@@ -53,6 +57,7 @@
         "race": "troll",
         "hp": 90,
         "attack": [13, 15],
+        "protection": 1,
         "lvl": "3",
         "equipment": {
           "weapon":     { "name":  "Two-handed Axe",       "chance":  0.2 },
@@ -64,6 +69,7 @@
         "race": "golem",
         "hp": 100,
         "attack": [11, 13],
+        "protection": 3,
         "lvl": "3",
         "equipment": {
           "weapon":     { "name":  "Hammer",               "chance":  0.5 },
@@ -77,6 +83,7 @@
         "race": "mimic",
         "hp": 300,
         "attack": [20, 22],
+        "protection": 5,
         "lvl": "6",
         "equipment": {
           "weapon":     {},

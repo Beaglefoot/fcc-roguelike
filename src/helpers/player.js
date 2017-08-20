@@ -35,9 +35,17 @@ export const isAreaRestricted = (state, position) => (
 
 export const getAttackValue = attacker => random(...attacker.get('attack').toArray());
 
+export const calcDamage = (attack, protection) => (
+  (rest => rest > 0 ? rest : 1)(attack - protection)
+);
+
 export const exchangeAttacks = (state, attacker = Map(), defender = Map()) => {
-  defender = defender.update('hp', hp => hp - getAttackValue(attacker));
-  if (defender.get('hp') > 0) attacker = attacker.update('hp', hp => hp - getAttackValue(defender));
+  defender = defender.update('hp', hp => (
+    hp - calcDamage(getAttackValue(attacker), defender.get('protection'))
+  ));
+  if (defender.get('hp') > 0) attacker = attacker.update('hp', hp => (
+    hp - calcDamage(getAttackValue(defender), defender.get('protection'))
+  ));
   return state.set('player', attacker).setIn(['creatures', defender.get('position')], defender);
 };
 
@@ -66,6 +74,7 @@ export const createPlayer = (state, levelSettings = Map()) => (
       hp: levelSettings.get('maxHP'),
       xp: 0,
       attack: levelSettings.get('baseAttack'),
+      protection: 0,
       inventory: List(),
       equipped: Map({ weapon: Map(), armor: Map() })
     })
