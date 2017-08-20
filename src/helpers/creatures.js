@@ -1,11 +1,32 @@
+/* eslint no-unused-vars: off */
 import { Map, List } from 'immutable';
 import random from 'lodash/random';
 
 import { getRandomPlacementPosition } from './player';
 
+import { weapons, armor as armorList, consumables } from '../config/equipment';
+
 export class Creature {
   constructor(position = Map(), creature = Map()) {
-    return Map().set(position, creature.set('position', position));
+    const equipment = creature.get('equipment');
+    const weapon = Creature.getEquipment(equipment, 'weapon', weapons);
+    const armor = Creature.getEquipment(equipment, 'armor', armorList);
+    const inventory = Creature.getEquipment(equipment, 'inventory', consumables);
+
+    return Map().set(
+      position,
+      creature
+        .delete('equipment')
+        .set('position', position)
+        .set('inventory', inventory)
+        .set('equipped', Map({ weapon, armor }))
+    );
+  }
+
+  static getEquipment(equipment, type = '', list = {}) {
+    return random(0, 1) >= equipment.getIn([type, 'chance']) ?
+      Map(list[equipment.getIn([type, 'name'])]) :
+      Map();
   }
 }
 
