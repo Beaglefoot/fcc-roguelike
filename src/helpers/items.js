@@ -21,7 +21,8 @@ export const placeItemIntoInventory = (state, item = Map()) => (
 
 export const consumeHealthPotion = state => {
   const [index, potion] = state.getIn(['player', 'inventory'])
-    .findEntry(item => item.get('name').includes('Health Potion'));
+    .findEntry(item => item.get('name').includes('Health Potion')) || [];
+  if (!potion) return state;
   const maxHP = state.getIn(['player', 'maxHP']);
   const effect = potion.get('effect');
   return state.updateIn(['player', 'hp'], (
