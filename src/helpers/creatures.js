@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: off */
-import { Map, List } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import random from 'lodash/random';
 
 import { getRandomPlacementPosition } from './player';
@@ -20,12 +20,15 @@ export class Creature {
         .set('position', position)
         .set('inventory', inventory)
         .set('equipped', Map({ weapon, armor }))
+        .update('attack', attack => (
+          attack.mergeWith((base, wep) => base + wep, weapon.get('damage'))
+        ))
     );
   }
 
   static getEquipment(equipment, type = '', list = {}) {
-    return random(0, 1) >= equipment.getIn([type, 'chance']) ?
-      Map(list[equipment.getIn([type, 'name'])]) :
+    return random(0, 1, true) <= equipment.getIn([type, 'chance']) ?
+      fromJS(list[equipment.getIn([type, 'name'])]) :
       Map();
   }
 }
