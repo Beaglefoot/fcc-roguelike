@@ -23,6 +23,7 @@ export class Creature {
         .update('attack', attack => (
           attack.mergeWith((base, wep) => base + wep, weapon.get('damage'))
         ))
+        .update('protection', protection => protection + armor.get('protection'))
     );
   }
 
