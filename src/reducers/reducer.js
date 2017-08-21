@@ -64,7 +64,7 @@ const reducer = (state = Map(), action) => {
   case USE_HEAL_POTION:
     return consumeHealthPotion(state);
   case KILL_CREATURE:
-    return creatureDies(state);
+    return creatureDies(state, payload);
   case LEVEL_UP:
     return improvePlayerStats(state, levelingTable);
   default:

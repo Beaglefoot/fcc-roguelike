@@ -23,7 +23,9 @@ export class Creature {
         .update('attack', attack => (
           attack.mergeWith((base, wep) => base + wep, weapon.get('damage'))
         ))
-        .update('protection', protection => protection + armor.get('protection'))
+        .update('protection', protection => (
+          protection + (armor.get('protection') || 0)
+        ))
     );
   }
 
@@ -53,6 +55,21 @@ export const populateWorld = (state, levelSettings = Map(), creatures = Map()) =
     .reduce(state => addCreatureToState(state, pickRandomCreature(creatureList)), state);
 };
 
-export const creatureDies = state => (
-  state.updateIn(['player', 'xp'], xp => xp + 1)
+export const dropItems = (state, creature) => {
+  const position = creature.get('position');
+  const weapon = creature.getIn(['equipped', 'weapon']);
+  const armor = creature.getIn(['equipped', 'armor']);
+  const inventory = creature.get('inventory');
+  const itemsOnTile = state.getIn(['items', position]) || List();
+
+  const drop = [weapon, armor, inventory].reduce(
+    (drop, item) => item.size ? drop.push(item) : drop,
+    itemsOnTile
+  );
+
+  return (drop => drop.size ? state.setIn(['items', position], drop) : state)(drop);
+};
+
+export const creatureDies = (state, creature) => (
+  dropItems(state, creature).updateIn(['player', 'xp'], xp => xp + 1)
 );
