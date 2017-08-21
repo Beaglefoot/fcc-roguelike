@@ -15,13 +15,14 @@ export const scatterConsumables = (state, levelSettings = Map(), consumables) =>
     .reduce(state => addItemToState(state, item), state);
 };
 
-export const placeItemIntoInventory = (state, itemsOnTile = Map()) => (
-  state.updateIn(['player', 'inventory'],
+export const placeItemIntoInventory = (state, itemsOnTile = Map(List())) => {
+  if (!itemsOnTile.first()) return state;
+
+  return state.updateIn(['player', 'inventory'],
     inventory => inventory.push(itemsOnTile.first().last())
   ).updateIn(['items', itemsOnTile.keySeq().first()], itemList => itemList.pop())
-    .update('items', items => items.filter(itemsOnTile => itemsOnTile.size))
-
-);
+    .update('items', items => items.filter(itemsOnTile => itemsOnTile.size));
+};
 
 export const consumeHealthPotion = state => {
   const [index, potion] = state.getIn(['player', 'inventory'])
