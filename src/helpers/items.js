@@ -1,9 +1,11 @@
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 
 import { getRandomPlacementPosition } from './player';
 
 export const addItemToState = (state, item) => (
-  state.update('items', items => items.concat(Map().set(getRandomPlacementPosition(state), item )))
+  state.update('items', items => items.concat(
+    Map().set(getRandomPlacementPosition(state), List().push(item))
+  ))
 );
 
 export const scatterConsumables = (state, levelSettings = Map(), consumables) => {
@@ -13,10 +15,12 @@ export const scatterConsumables = (state, levelSettings = Map(), consumables) =>
     .reduce(state => addItemToState(state, item), state);
 };
 
-export const placeItemIntoInventory = (state, item = Map()) => (
+export const placeItemIntoInventory = (state, itemsOnTile = Map()) => (
   state.updateIn(['player', 'inventory'],
-    inventory => inventory.push(item.first())
-  ).deleteIn(['items', item.keySeq().first()])
+    inventory => inventory.push(itemsOnTile.first().last())
+  ).updateIn(['items', itemsOnTile.keySeq().first()], itemList => itemList.pop())
+    .update('items', items => items.filter(itemsOnTile => itemsOnTile.size))
+
 );
 
 export const consumeHealthPotion = state => {

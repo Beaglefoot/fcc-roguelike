@@ -27,7 +27,7 @@ export const initPlayer = () => ({ type: INIT_PLAYER });
 export const movePlayer = direction => ({ type: MOVE_PLAYER, payload: direction });
 export const initCreatures = () => ({ type: INIT_CREATURES });
 export const initItems = () => ({ type: INIT_ITEMS });
-export const pickItem = (item = Map()) => ({ type: PICK_ITEM, payload: item });
+export const pickItem = (items = Map()) => ({ type: PICK_ITEM, payload: items });
 export const useHealPotion = () => ({ type: USE_HEAL_POTION });
 export const killCreature = (creature = Map()) => ({ type: KILL_CREATURE, payload: creature });
 export const levelUp = () => ({ type: LEVEL_UP });
