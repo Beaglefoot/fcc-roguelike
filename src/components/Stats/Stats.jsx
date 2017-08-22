@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getWeaponAsString, getArmorAsString } from '../../helpers/items';
+import { getWeaponAsString, getItemAsString } from '../../helpers/items';
 
 import { stats } from './Stats.scss';
 
@@ -11,7 +11,7 @@ const Stats = ({ level, attack, protection, equipped, floor }) => (
     <li>{`Attack: ${attack.first()}-${attack.last()}`}</li>
     <li>{`Protection: ${protection}`}</li>
     <li>{`Weapon: ${getWeaponAsString(equipped.get('weapon'))}`}</li>
-    <li>{`Armor: ${getArmorAsString(equipped.get('armor'))}`}</li>
+    <li>{`Armor: ${getItemAsString(equipped.get('armor'), 'Linen Cloth (0)')}`}</li>
   </ul>
 );
 

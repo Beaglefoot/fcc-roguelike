@@ -9,7 +9,7 @@
         "protection": 0,
         "lvl": "1",
         "equipment": {
-          "weapon":     { "name":  "Dagger",             "chance":  0.9 },
+          "weapon":     { "name":  "Dagger",             "chance":  1 },
           "armor":      { "name":  "Leather Armor",      "chance":  0.9 },
           "inventory":  { "name":  "Weak Health Potion", "chance":  0.9 }
         }

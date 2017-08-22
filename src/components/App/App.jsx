@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import Grid from '../Grid/Grid';
 import Bar from '../Bar/Bar';
 import Stats from '../Stats/Stats';
+import Inventory from '../Inventory/Inventory';
 
-import { app, health, experience, bars } from './App.scss';
+import { app, health, experience, bars, info } from './App.scss';
 
 const App = props => {
-  const { hp, maxHP, xp, xpRange } = props;
+  const { hp, maxHP, xp, xpRange, inventory } = props;
 
   return (
     <div className={app}>
@@ -22,7 +23,10 @@ const App = props => {
       <Grid />
       {
         typeof props.level !== 'undefined' &&
-          <Stats {...props} />
+          <div className={info}>
+            <Inventory inventory={inventory} />
+            <Stats {...props} />
+          </div>
       }
     </div>
   );

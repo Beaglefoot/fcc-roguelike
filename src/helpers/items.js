@@ -41,8 +41,10 @@ export const getWeaponAsString = (weapon = Map()) => (
   ), '') || 'Bare Hands (Base Attack)'
 );
 
-export const getArmorAsString = (armor = Map()) => (
-  armor.reduce((str, val, key) => (
-    key === 'protection' ? str.concat(` (${val})`): str.concat(val)
-  ), '') || 'Linen Cloth (0)'
+export const getItemAsString = (item = Map(), defaultText = '') => (
+  item.has('damage')
+    ? getWeaponAsString(item)
+    : item.reduce((str, val, key) => (
+      key !== 'name' ? str.concat(` (${val})`): str.concat(val)
+    ), '') || defaultText
 );
