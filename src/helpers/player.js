@@ -80,10 +80,22 @@ export const createPlayer = (state, levelSettings = Map()) => (
     })
 );
 
+export const calcAttack = (baseAttack = List(), weapon = Map()) => (
+  baseAttack.mergeWith((base, wep) => base + wep, weapon.get('damage'))
+);
+
 export const improvePlayerStats = (state, levelingTable) => {
   const player = state.get('player');
   const playerLevel = player.get('level');
   const newStats = levelingTable.get(playerLevel);
 
-  return state.set('player', player.merge(newStats).set('hp', newStats.get('maxHP')));
+  return state.set('player',
+    player
+      .merge(newStats)
+      .set('hp', newStats.get('maxHP'))
+      .set('attack', calcAttack(
+        newStats.get('baseAttack'),
+        player.getIn(['equipped', 'weapon']))
+      )
+  );
 };
