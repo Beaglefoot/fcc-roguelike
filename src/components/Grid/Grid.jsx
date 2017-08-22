@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
+import throttle from 'lodash/throttle';
 
 import classes, { tile, grid } from './Grid.scss';
 
@@ -27,7 +28,7 @@ import Creature from '../Creature/Creature';
 class Grid extends React.PureComponent {
   constructor() {
     super();
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 200);
   }
 
   handleKeyPress(event) {
