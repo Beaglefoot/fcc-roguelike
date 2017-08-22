@@ -34,3 +34,15 @@ export const consumeHealthPotion = state => {
     hp => hp + effect < maxHP ? hp + effect : maxHP)
   ).deleteIn(['player', 'inventory', index]);
 };
+
+export const getWeaponAsString = (weapon = Map()) => (
+  weapon.reduce((str, val, key) => (
+    key === 'damage' ? str.concat(` (${val.first()}-${val.last()})`) : str.concat(val)
+  ), '') || 'Bare Hands (Base Attack)'
+);
+
+export const getArmorAsString = (armor = Map()) => (
+  armor.reduce((str, val, key) => (
+    key === 'protection' ? str.concat(` (${val})`): str.concat(val)
+  ), '') || 'Linen Cloth (0)'
+);

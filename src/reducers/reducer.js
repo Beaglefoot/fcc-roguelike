@@ -35,11 +35,7 @@ const levelingTable = fromJS(levelingTableObject);
 const consumables = fromJS(consumablesObject);
 
 
-const reducer = (state = Map(), action) => {
-  if (!action) return state;
-
-  const { type, payload } = action;
-
+const reducer = (state = Map(), { type, payload } = {}) => {
   switch(type) {
   case GENERATE_GRID:
     return state.merge(payload);
