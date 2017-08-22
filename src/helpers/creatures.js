@@ -17,6 +17,7 @@ export class Creature {
       position,
       creature
         .delete('equipment')
+        .set('hp', creature.get('maxHP'))
         .set('position', position)
         .set('inventory', inventory)
         .set('equipped', Map({ weapon, armor }))

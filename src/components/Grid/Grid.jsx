@@ -65,7 +65,7 @@ class Grid extends React.PureComponent {
       const { x, y } = playerPosition.toObject();
       const { creatures, items } = this.props;
       const creatureAtCurrentTile = creatures && creatures.get(currentPosition);
-      const itemAtCurrentTile = items && items.get(currentPosition);
+      const itemsAtCurrentTile = items && items.get(currentPosition);
 
       return (
         <td key={index} className={tile}>
@@ -76,7 +76,7 @@ class Grid extends React.PureComponent {
           >
             { x === index && y === rowIndex && <Player /> }
             { creatureAtCurrentTile && <Creature creature={creatureAtCurrentTile} /> }
-            { itemAtCurrentTile && '!' }
+            { itemsAtCurrentTile && '!' }
           </div>
         </td>
       );

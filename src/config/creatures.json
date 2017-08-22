@@ -3,7 +3,8 @@
     "1": [
       {
         "race": "kobold",
-        "hp": 30,
+        "maxHP": 30,
+        "maxHP": 30,
         "attack": [5, 8],
         "protection": 0,
         "lvl": "1",
@@ -15,7 +16,7 @@
       },
       {
         "race": "goblin",
-        "hp": 25,
+        "maxHP": 25,
         "attack": [4, 7],
         "protection": 0,
         "lvl": "1",
@@ -29,7 +30,7 @@
     "2": [
       {
         "race": "orc",
-        "hp": 50,
+        "maxHP": 50,
         "attack": [9, 13],
         "protection": 0,
         "lvl": "2",
@@ -41,7 +42,7 @@
       },
       {
         "race": "ogre",
-        "hp": 70,
+        "maxHP": 70,
         "attack": [10, 12],
         "protection": 0,
         "lvl": "2",
@@ -55,7 +56,7 @@
     "3": [
       {
         "race": "troll",
-        "hp": 90,
+        "maxHP": 90,
         "attack": [13, 15],
         "protection": 1,
         "lvl": "3",
@@ -67,7 +68,7 @@
       },
       {
         "race": "golem",
-        "hp": 100,
+        "maxHP": 100,
         "attack": [11, 13],
         "protection": 3,
         "lvl": "3",
@@ -81,7 +82,7 @@
     "boss": [
       {
         "race": "mimic",
-        "hp": 300,
+        "maxHP": 300,
         "attack": [20, 22],
         "protection": 5,
         "lvl": "6",
