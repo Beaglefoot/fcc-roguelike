@@ -2,7 +2,7 @@ import React from 'react';
 
 import { loading } from './Loading.scss';
 
-class Loading extends React.Component {
+class Loading extends React.PureComponent {
   constructor() {
     super();
 

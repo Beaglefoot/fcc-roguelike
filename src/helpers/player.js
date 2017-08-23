@@ -89,7 +89,8 @@ export const improvePlayerStats = (state, levelingTable) => {
   const playerLevel = player.get('level');
   const newStats = levelingTable.get(playerLevel);
 
-  return state.set('player',
+  return state.set(
+    'player',
     player
       .merge(newStats)
       .set('hp', newStats.get('maxHP'))
@@ -99,3 +100,15 @@ export const improvePlayerStats = (state, levelingTable) => {
       )
   );
 };
+
+export const recalcBattleStats = (player = Map()) => (
+  player
+    .set(
+      'attack',
+      calcAttack(player.get('baseAttack'), player.getIn(['equipped', 'weapon']))
+    )
+    .set(
+      'protection',
+      player.getIn(['equipped', 'armor', 'protection']) || 0
+    )
+);

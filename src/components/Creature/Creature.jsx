@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { killCreature } from '../../actions';
 
-class Creature extends React.Component {
+class Creature extends React.PureComponent {
   componentWillReceiveProps({ creature, killCreature }) {
     if (creature.get('hp') <= 0) killCreature(creature);
   }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { levelUp } from '../../actions';
 
-class Player extends React.Component {
+class Player extends React.PureComponent {
   componentWillReceiveProps({ player, levelUp }) {
     const xp = player.get('xp');
     const xpCeil = player.get('xpRange').last();

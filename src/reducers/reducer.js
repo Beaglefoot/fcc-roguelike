@@ -9,7 +9,8 @@ import {
   PICK_ITEM,
   USE_HEAL_POTION,
   KILL_CREATURE,
-  LEVEL_UP
+  LEVEL_UP,
+  EQUIP_ITEM
 } from '../actions';
 
 import {
@@ -21,7 +22,8 @@ import { populateWorld, creatureDies } from '../helpers/creatures';
 import {
   scatterConsumables,
   placeItemIntoInventory,
-  consumeHealthPotion
+  consumeHealthPotion,
+  equipItem
 } from '../helpers/items';
 
 import { levels as levelsObject } from '../config/levels';
@@ -58,11 +60,14 @@ const reducer = (state = Map(), { type, payload } = {}) => {
   case PICK_ITEM:
     return placeItemIntoInventory(state, payload);
   case USE_HEAL_POTION:
-    return consumeHealthPotion(state);
+    console.log(payload && payload.toJS());
+    return consumeHealthPotion(state, payload);
   case KILL_CREATURE:
     return creatureDies(state, payload);
   case LEVEL_UP:
     return improvePlayerStats(state, levelingTable);
+  case EQUIP_ITEM:
+    return equipItem(state, payload);
   default:
     return state;
   }

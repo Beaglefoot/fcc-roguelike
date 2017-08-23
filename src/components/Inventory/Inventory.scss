@@ -1,11 +1,18 @@
+@import 'src/styles/variables.scss';
+
 .inventory {
   height: 7em;
   overflow: auto;
-  padding-right: 2em;
+  user-select: none;
+  cursor: pointer;
 }
 
 .list {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.item:hover {
+  color: $clr_item_highlight;
 }

@@ -1,6 +1,6 @@
 import { Map, List } from 'immutable';
 
-import { getRandomPlacementPosition } from './player';
+import { getRandomPlacementPosition, recalcBattleStats } from './player';
 
 export const addItemToState = (state, item) => (
   state.update('items', items => items.concat(
@@ -24,12 +24,19 @@ export const placeItemIntoInventory = (state, itemsOnTile = Map(List())) => {
     .update('items', items => items.filter(itemsOnTile => itemsOnTile.size));
 };
 
-export const consumeHealthPotion = state => {
-  const [index, potion] = state.getIn(['player', 'inventory'])
-    .findEntry(item => item.get('name').includes('Health Potion')) || [];
-  if (!potion) return state;
+export const consumeHealthPotion = (state, potion) => {
+  if (!potion) {
+    const keyPotionPair = state.getIn(['player', 'inventory'])
+      .findEntry(item => item.get('name').includes('Health Potion'));
+
+    if (!keyPotionPair) return state;
+    potion = keyPotionPair.reduce((key, potion) => potion.set('key', key));
+  }
+
+  const index = potion.get('key');
   const maxHP = state.getIn(['player', 'maxHP']);
   const effect = potion.get('effect');
+
   return state.updateIn(['player', 'hp'], (
     hp => hp + effect < maxHP ? hp + effect : maxHP)
   ).deleteIn(['player', 'inventory', index]);
@@ -48,3 +55,24 @@ export const getItemAsString = (item = Map(), defaultText = '') => (
       key !== 'name' ? str.concat(` (${val})`): str.concat(val)
     ), '') || defaultText
 );
+
+export const getItemType = (item = Map()) => {
+  if (item.has('damage')) return 'weapon';
+  if (item.has('protection')) return 'armor';
+  if (item.get('name').includes('Potion')) return 'potion';
+  return null;
+};
+
+export const equipItem = (state, item = Map()) => {
+  const itemType = getItemType(item);
+  const currentlyEquipped = state.getIn(['player', 'equipped', itemType]);
+
+  return state
+    .updateIn(
+      ['player', 'inventory'],
+      inventory => currentlyEquipped.has('name') ? inventory.push(currentlyEquipped) : inventory
+    )
+    .setIn(['player', 'equipped', itemType], item.delete('key'))
+    .deleteIn(['player', 'inventory', item.get('key')])
+    .update('player', player => recalcBattleStats(player));
+};

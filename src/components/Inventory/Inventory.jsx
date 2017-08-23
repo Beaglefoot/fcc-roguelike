@@ -1,15 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-import { getItemAsString } from '../../helpers/items';
-import { inventory, list } from './Inventory.scss';
+import { equipItem, useHealPotion } from '../../actions';
 
-const Inventory = ({ inventory: inventoryList }) => (
+import { getItemAsString, getItemType } from '../../helpers/items';
+import { inventory, list, item as itemClass } from './Inventory.scss';
+
+
+
+const Inventory = ({ inventory: inventoryList, equipItem, useHealPotion }) => (
   <div className={inventory}>
     <div>Inventory:</div>
     <ul className={list}>
-      { inventoryList.map((item, key) => <li key={key}>{`${getItemAsString(item)}`}</li>) }
+      {
+        inventoryList.map((item, key) => (
+          <li
+            key={key}
+            className={itemClass}
+            onClick={() => getItemType(item) === 'potion' ? useHealPotion(item.set('key', key)) : equipItem(item.set('key', key))}
+          >
+            {`${getItemAsString(item)}`}
+          </li>
+        ))
+      }
     </ul>
   </div>
 );
 
-export default Inventory;
+export default connect(null, { equipItem, useHealPotion })(Inventory);

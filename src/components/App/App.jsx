@@ -24,8 +24,8 @@ const App = props => {
       {
         typeof props.level !== 'undefined' &&
           <div className={info}>
-            <Inventory inventory={inventory} />
             <Stats {...props} />
+            <Inventory inventory={inventory} />
           </div>
       }
     </div>
