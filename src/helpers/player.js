@@ -44,7 +44,7 @@ export const exchangeAttacks = (state, attacker = Map(), defender = Map()) => {
     hp - calcDamage(getAttackValue(attacker), defender.get('protection'))
   ));
   if (defender.get('hp') > 0) attacker = attacker.update('hp', hp => (
-    hp - calcDamage(getAttackValue(defender), defender.get('protection'))
+    hp - calcDamage(getAttackValue(defender), attacker.get('protection'))
   ));
   return state.set('player', attacker).setIn(['creatures', defender.get('position')], defender);
 };
