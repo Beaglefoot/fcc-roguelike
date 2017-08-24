@@ -1,0 +1,25 @@
+$center_absolute_x: calc(0.5em - 50%);
+
+@keyframes fade {
+    from {
+      opacity: 1;
+      transform: translate($center_absolute_x, -1.2em)
+      scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translate($center_absolute_x, -3.2em)
+      scale(1.2);
+    }
+}
+
+.flyingText {
+  position: absolute;
+  z-index: 1;
+  color: gold;
+  text-shadow: 1px 0 2px #000;
+  opacity: 0;
+  animation-name: fade;
+  animation-duration: 4s;
+  animation-iteration-count: 1;
+}
