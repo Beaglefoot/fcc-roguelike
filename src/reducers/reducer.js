@@ -38,6 +38,8 @@ const consumables = fromJS(consumablesObject);
 
 
 const reducer = (state = Map(), { type, payload } = {}) => {
+  if (type) state = state.set('lastAction', Map({ type, payload }));
+
   switch(type) {
   case GENERATE_GRID:
     return state.merge(payload);

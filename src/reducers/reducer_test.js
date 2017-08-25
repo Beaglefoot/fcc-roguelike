@@ -27,7 +27,7 @@ describe('reducer', () => {
     );
     const action = generateGrid(Map({ rows, columns, tiles }));
     const reducerResult = reducer(Map(), action);
-    expect(reducerResult).to.have.keys('tiles', 'rows', 'columns');
+    expect(reducerResult).to.include.keys('tiles', 'rows', 'columns');
     expect(reducerResult.get('tiles')).to.have.size(rows * columns);
     expect(reducerResult.get('tiles')).to.include(Map({ type: 'wall', position: Map({ x: 0, y: 2 }) }));
   });

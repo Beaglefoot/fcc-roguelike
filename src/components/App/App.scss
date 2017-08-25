@@ -35,4 +35,12 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+
+  & > * {
+    flex-basis: 15%;
+  }
+
+  & > :nth-child(2) {
+    flex-basis: 40%;
+  }
 }

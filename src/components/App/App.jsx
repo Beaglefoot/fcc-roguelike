@@ -5,6 +5,7 @@ import Grid from '../Grid/Grid';
 import Bar from '../Bar/Bar';
 import Stats from '../Stats/Stats';
 import Inventory from '../Inventory/Inventory';
+import Logger from '../Logger/Logger';
 
 import { app, health, experience, bars, info } from './App.scss';
 
@@ -25,6 +26,7 @@ const App = props => {
         typeof props.level !== 'undefined' &&
           <div className={info}>
             <Stats {...props} />
+            <Logger />
             <Inventory inventory={inventory} />
           </div>
       }
