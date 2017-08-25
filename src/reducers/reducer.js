@@ -10,13 +10,15 @@ import {
   USE_HEAL_POTION,
   KILL_CREATURE,
   LEVEL_UP,
-  EQUIP_ITEM
+  EQUIP_ITEM,
+  ATTACK_CREATURE
 } from '../actions';
 
 import {
   getRepositionedPlayer,
   createPlayer,
-  improvePlayerStats
+  improvePlayerStats,
+  exchangeAttacks
 } from '../helpers/player';
 import { populateWorld, creatureDies } from '../helpers/creatures';
 import {
@@ -70,6 +72,8 @@ const reducer = (state = Map(), { type, payload } = {}) => {
     return improvePlayerStats(state, levelingTable);
   case EQUIP_ITEM:
     return equipItem(state, payload);
+  case ATTACK_CREATURE:
+    return exchangeAttacks(state, state.get('player'), payload);
   default:
     return state;
   }

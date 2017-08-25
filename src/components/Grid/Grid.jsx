@@ -14,10 +14,16 @@ import {
   initCreatures,
   initItems,
   pickItem,
-  useHealPotion
+  useHealPotion,
+  attackCreature
 } from '../../actions';
 
-import { findKeyByCode } from '../../helpers/player';
+import {
+  findKeyByCode,
+  isAreaRestricted,
+  getNewPosition,
+  isTileOccupiedByCreature
+} from '../../helpers/player';
 import GridRow from './GridRow';
 import GridWorker from './Grid_worker';
 import Loading from '../Loading/Loading';
@@ -32,13 +38,30 @@ class Grid extends React.PureComponent {
   }
 
   handleKeyPress(event) {
-    const { movePlayer, pickItem, player, items, useHealPotion } = this.props;
+    const {
+      movePlayer,
+      pickItem,
+      player,
+      items,
+      useHealPotion,
+      tiles,
+      creatures,
+      attackCreature
+    } = this.props;
     const key = findKeyByCode(event.keyCode);
+
+    if (!key) return;
+
     const playerPosition = player.get('position');
 
     if (key === 'p') pickItem(Map().set(playerPosition, items.get(playerPosition)));
     else if (key === 'h') useHealPotion();
-    else if (key) movePlayer(key);
+    else {
+      const newPosition = getNewPosition(player, key);
+
+      if (isTileOccupiedByCreature(creatures, newPosition)) attackCreature(creatures.get(newPosition));
+      else if (!isAreaRestricted(tiles, newPosition)) movePlayer(newPosition);
+    }
   }
 
   componentDidMount() {
@@ -131,7 +154,8 @@ const mapDispatchToProps = {
   initCreatures,
   initItems,
   pickItem,
-  useHealPotion
+  useHealPotion,
+  attackCreature
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

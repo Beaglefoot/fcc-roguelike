@@ -29,8 +29,8 @@ export const getRandomPlacementPosition = state => {
   );
 };
 
-export const isAreaRestricted = (state, position) => (
-  state.getIn(['tiles', position, 'type']) === 'wall'
+export const isAreaRestricted = (tiles = Map(), position = Map()) => (
+  tiles.getIn([position, 'type']) === 'wall'
 );
 
 export const getAttackValue = attacker => random(...attacker.get('attack').toArray());
@@ -49,8 +49,7 @@ export const exchangeAttacks = (state, attacker = Map(), defender = Map()) => {
   return state.set('player', attacker).setIn(['creatures', defender.get('position')], defender);
 };
 
-export const getRepositionedPlayer = (state, direction) => {
-  const player = state.get('player');
+export const getNewPosition = (player = Map(), direction) => {
   const shift = {
     left: { x: -1 },
     up: { y: -1 },
@@ -58,15 +57,16 @@ export const getRepositionedPlayer = (state, direction) => {
     down: { y: 1 }
   }[direction];
 
-  const newPosition = player.get('position').mergeWith((oldVal, newVal) => oldVal + newVal, Map(shift));
-
-  if (isAreaRestricted(state, newPosition)) return state;
-  else {
-    const creature = state.getIn(['creatures', newPosition]);
-    if (creature && creature.get('hp') > 0) return exchangeAttacks(state, player, creature);
-    return state.setIn(['player', 'position'], newPosition);
-  }
+  return player.get('position').mergeWith((oldVal, newVal) => oldVal + newVal, Map(shift));
 };
+
+export const isTileOccupiedByCreature = (creatures = Map(), position = Map()) => (
+  creatures.has(position) && creatures.getIn([position, 'hp']) > 0
+);
+
+export const getRepositionedPlayer = (state, newPosition) => (
+  state.setIn(['player', 'position'], newPosition)
+);
 
 export const createPlayer = (state, levelSettings = Map()) => (
   Map({ position: getRandomPlacementPosition(state) })
