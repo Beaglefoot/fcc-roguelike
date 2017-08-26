@@ -1,17 +1,35 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { logger } from './Logger.scss';
+
 class Logger extends React.PureComponent {
+  constructor() {
+    super();
+
+    this.state = { history: [] };
+  }
+
   componentWillReceiveProps({ action }) {
-    console.log(action.get('type'), action.get('payload'));
+    this.setState({ history: this.state.history.concat(action.get('type')) });
+  }
+
+  componentDidUpdate() {
+    const element = document.getElementsByClassName(logger)[0];
+    element.scrollTop = element.scrollHeight;
   }
 
   render() {
-    const { action } = this.props;
     return (
       <div>
         <div>Story Log:</div>
-        <div>{action.get('type')}</div>
+        <div className={logger}>
+          {
+            this.state.history.map((record, index) => (
+              <div key={index}>{record}</div>
+            ))
+          }
+        </div>
       </div>
     );
   }
