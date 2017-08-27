@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 
 import { killCreature } from '../../actions';
@@ -25,5 +27,10 @@ class Creature extends React.PureComponent {
     );
   }
 }
+
+Creature.propTypes = {
+  creature: ImmutablePropTypes.map,
+  killCreature: PropTypes.func
+};
 
 export default connect(null, { killCreature })(Creature);

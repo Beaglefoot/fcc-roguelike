@@ -64,7 +64,6 @@ const reducer = (state = Map(), { type, payload } = {}) => {
   case PICK_ITEM:
     return placeItemIntoInventory(state, payload);
   case USE_HEAL_POTION:
-    console.log(payload && payload.toJS());
     return consumeHealthPotion(state, payload);
   case KILL_CREATURE:
     return creatureDies(state, payload);
