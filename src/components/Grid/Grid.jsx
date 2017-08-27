@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import throttle from 'lodash/throttle';
 import pick from 'lodash/pick';
 
@@ -56,7 +56,10 @@ class Grid extends React.PureComponent {
 
     const playerPosition = player.get('position');
 
-    if (key === 'p') pickItem(Map().set(playerPosition, items.get(playerPosition)));
+    if (key === 'p') {
+      const itemsHere = items.get(playerPosition) || List();
+      if (itemsHere.size) pickItem(Map().set(playerPosition, itemsHere));
+    }
     else if (key === 'h') useHealPotion();
     else {
       const newPosition = getNewPosition(player, key);

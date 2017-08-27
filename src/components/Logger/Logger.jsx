@@ -11,6 +11,8 @@ class Logger extends React.PureComponent {
   }
 
   componentWillReceiveProps({ lastAction: action, creatures, player }) {
+    console.log(action.get('type'));
+
     const currentCreatures = this.props.creatures;
     const currentPlayer = this.props.player;
 
@@ -30,7 +32,8 @@ class Logger extends React.PureComponent {
         );
       },
       USE_HEAL_POTION: () => `You are healed by [${player.get('hp') - currentPlayer.get('hp')}] points.`,
-      PICK_ITEM: () => `You pick ${action.get('payload').first().last().get('name')}.`
+      PICK_ITEM: () => `You pick ${action.get('payload').first().last().get('name')}.`,
+      EQUIP_ITEM: () => `You equip ${action.getIn(['payload', 'name'])}.`
     }[action.get('type')] || (() => ''))();
 
     this.setState({ history: this.state.history.concat(msg) });
