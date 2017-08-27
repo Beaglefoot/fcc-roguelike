@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import throttle from 'lodash/throttle';
+import pick from 'lodash/pick';
 
 import classes, { tile, grid } from './Grid.scss';
 
@@ -142,10 +143,9 @@ Grid.propTypes = {
   player: ImmutablePropTypes.map
 };
 
-const mapStateToProps = state => {
-  const { rows, columns, tiles, player, creatures, items } = state.toObject();
-  return { rows, columns, tiles, player, creatures, items };
-};
+const mapStateToProps = state => (
+  pick(state.toObject(), ['rows', 'columns', 'tiles', 'player', 'creatures', 'items', 'lastAction'])
+);
 
 const mapDispatchToProps = {
   generateGrid,

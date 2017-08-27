@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import pick from 'lodash/pick';
 
 import Grid from '../Grid/Grid';
 import Bar from '../Bar/Bar';
@@ -10,7 +11,9 @@ import Logger from '../Logger/Logger';
 import { app, health, experience, bars, info } from './App.scss';
 
 const App = props => {
-  const { hp, maxHP, xp, xpRange, inventory } = props;
+  const player = props.player ? props.player.toObject() : {};
+  const { hp, maxHP, xp, xpRange, inventory, level } = player;
+  const { currentGameLevel } = props;
 
   return (
     <div className={app}>
@@ -23,10 +26,10 @@ const App = props => {
       </div>
       <Grid />
       {
-        typeof props.level !== 'undefined' &&
+        typeof level !== 'undefined' &&
           <div className={info}>
-            <Stats {...props} />
-            <Logger />
+            <Stats {...player} floor={currentGameLevel} />
+            <Logger {...props} />
             <Inventory inventory={inventory} />
           </div>
       }
@@ -34,11 +37,8 @@ const App = props => {
   );
 };
 
-const mapStateToProps = state => {
-  const player = state.get('player');
-  const floor = state.get('currentGameLevel');
-  if (player) return { ...player.toObject(), floor };
-  return {};
-};
+const mapStateToProps = state => (
+  pick(state.toObject(), ['player', 'creatures', 'lastAction', 'currentGameLevel'])
+);
 
 export default connect(mapStateToProps)(App);
