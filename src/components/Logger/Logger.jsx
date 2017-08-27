@@ -28,7 +28,8 @@ class Logger extends React.PureComponent {
             ? 'is unable to retaliate.'
             : `retaliates with [${playerDamage}] damage.`
         );
-      })()
+      })(),
+      USE_HEAL_POTION: `You are healed by [${player.get('hp') - currentPlayer.get('hp')}] points.`
     }[action.get('type')];
 
     this.setState({ history: this.state.history.concat(msg) });
