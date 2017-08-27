@@ -35,6 +35,7 @@ import Creature from '../Creature/Creature';
 class Grid extends React.PureComponent {
   constructor() {
     super();
+    this.state = { justMounted: true };
     this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 200);
   }
 
@@ -71,6 +72,8 @@ class Grid extends React.PureComponent {
     worker.onmessage = ({ data }) => this.props.generateGrid(data);
 
     addEventListener('keydown', this.handleKeyPress);
+
+    setTimeout(() => this.setState({ justMounted: false }), 5000);
   }
 
   componentWillUnmount() {
@@ -99,7 +102,7 @@ class Grid extends React.PureComponent {
               tiles.getIn([currentPosition, 'type'])
             ]}
           >
-            { x === index && y === rowIndex && <Player /> }
+            { x === index && y === rowIndex && <Player justMounted={this.state.justMounted} /> }
             { creatureAtCurrentTile && <Creature creature={creatureAtCurrentTile} /> }
             { itemsAtCurrentTile && '!' }
           </div>

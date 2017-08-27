@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { levelUp } from '../../actions';
 
-import { flyingText } from './Player.scss';
+import { flyingText, flicker } from './Player.scss';
 
 class Player extends React.PureComponent {
   animateLevelUp() {
@@ -30,7 +30,14 @@ class Player extends React.PureComponent {
   }
 
   render() {
-    return <div id="player-symbol">@</div>;
+    return (
+      <div
+        id="player-symbol"
+        className={this.props.justMounted && flicker}
+      >
+        @
+      </div>
+    );
   }
 }
 

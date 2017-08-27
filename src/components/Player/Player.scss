@@ -1,3 +1,5 @@
+@import 'src/styles/variables.scss';
+
 $center_absolute_x: calc(0.5em - 50%);
 
 @keyframes fade {
@@ -13,6 +15,15 @@ $center_absolute_x: calc(0.5em - 50%);
     }
 }
 
+@keyframes flicker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .flyingText {
   position: absolute;
   z-index: 1;
@@ -22,4 +33,11 @@ $center_absolute_x: calc(0.5em - 50%);
   animation-name: fade;
   animation-duration: 4s;
   animation-iteration-count: 1;
+}
+
+.flicker {
+  animation-name: flicker;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+  color: $clr_flicker_animation;
 }
