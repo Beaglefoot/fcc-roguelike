@@ -14,8 +14,8 @@ class Logger extends React.PureComponent {
     const currentCreatures = this.props.creatures;
     const currentPlayer = this.props.player;
 
-    const msg = {
-      ATTACK_CREATURE: (() => {
+    const msg = ({
+      ATTACK_CREATURE: () => {
         const race = action.getIn(['payload', 'race']);
         const creaturePosition = action.getIn(['payload', 'position']);
         const hpPath = [creaturePosition, 'hp'];
@@ -28,9 +28,10 @@ class Logger extends React.PureComponent {
             ? 'is unable to retaliate.'
             : `retaliates with [${playerDamage}] damage.`
         );
-      })(),
-      USE_HEAL_POTION: `You are healed by [${player.get('hp') - currentPlayer.get('hp')}] points.`
-    }[action.get('type')];
+      },
+      USE_HEAL_POTION: () => `You are healed by [${player.get('hp') - currentPlayer.get('hp')}] points.`,
+      PICK_ITEM: () => `You pick ${action.get('payload').first().last().get('name')}.`
+    }[action.get('type')] || (() => ''))();
 
     this.setState({ history: this.state.history.concat(msg) });
   }
