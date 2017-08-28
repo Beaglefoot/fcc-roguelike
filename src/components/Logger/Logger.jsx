@@ -1,5 +1,4 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
 
 import { logger } from './Logger.scss';
@@ -33,10 +32,11 @@ class Logger extends React.PureComponent {
       },
       USE_HEAL_POTION: () => `You are healed by [${player.get('hp') - currentPlayer.get('hp')}] points.`,
       PICK_ITEM: () => `You pick ${action.get('payload').first().last().get('name')}.`,
-      EQUIP_ITEM: () => `You equip ${action.getIn(['payload', 'name'])}.`
+      EQUIP_ITEM: () => `You equip ${action.getIn(['payload', 'name'])}.`,
+      LEVEL_UP: () => 'Your level increases. You feel stronger and revitalized.'
     }[action.get('type')] || (() => ''))();
 
-    this.setState({ history: this.state.history.concat(msg) });
+    if (msg) this.setState({ history: this.state.history.concat(msg) });
   }
 
   componentDidUpdate() {

@@ -1,4 +1,11 @@
+@import 'src/styles/variables.scss';
+
 .logger {
   height: 7em;
   overflow-y: scroll;
+  color: $clr_logger_text_shaded;
+
+  :last-child {
+    color: $clr_logger_text;
+  }
 }
