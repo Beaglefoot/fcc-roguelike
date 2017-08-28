@@ -11,7 +11,7 @@ export class Creature {
     const equipment = creature.get('equipment');
     const weapon = Creature.getEquipment(equipment, 'weapon', weapons);
     const armor = Creature.getEquipment(equipment, 'armor', armorList);
-    const inventory = Creature.getEquipment(equipment, 'inventory', consumables);
+    const inventory = List().push(Creature.getEquipment(equipment, 'inventory', consumables));
 
     return Map().set(
       position,
@@ -63,7 +63,7 @@ export const dropItems = (state, creature) => {
   const inventory = creature.get('inventory');
   const itemsOnTile = state.getIn(['items', position]) || List();
 
-  const drop = [weapon, armor, inventory].reduce(
+  const drop = [weapon, armor, ...inventory.values()].reduce(
     (drop, item) => item.size ? drop.push(item) : drop,
     itemsOnTile
   );
