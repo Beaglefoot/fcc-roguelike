@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import { killCreature } from '../../actions';
 
 class Creature extends React.PureComponent {
-  componentWillReceiveProps({ creature, killCreature }) {
-    if (creature.get('hp') <= 0) killCreature(creature);
-  }
+  // componentDidUpdate() {
+  //   const { creature, killCreature } = this.props;
+  //   if (creature.get('hp') <= 0) killCreature(creature);
+  // }
 
   markDamageWithColor(hp, maxHP) {
     if (hp <= 0) return 'rgb(0, 0, 0)';

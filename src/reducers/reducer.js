@@ -40,41 +40,42 @@ const consumables = fromJS(consumablesObject);
 
 
 const reducer = (state = Map(), { type, payload } = {}) => {
-  if (type) state = state.set('lastAction', Map({ type, payload }));
+  const newState = type ? state.set('lastAction', Map({ type, payload })) : state;
+  console.log('reducer:', newState.getIn(['lastAction', 'type']));
 
   switch(type) {
   case GENERATE_GRID:
-    return state.merge(payload);
+    return newState.merge(payload);
   case INIT_PLAYER:
-    return state.set('player', createPlayer(state, levelingTable.get(0)));
+    return newState.set('player', createPlayer(newState, levelingTable.get(0)));
   case MOVE_PLAYER:
-    return getRepositionedPlayer(state, payload);
+    return getRepositionedPlayer(newState, payload);
   case INIT_CREATURES:
     return populateWorld(
-      state.set('creatures', Map()),
-      levels.get(state.get('currentGameLevel') - 1),
+      newState.set('creatures', Map()),
+      levels.get(newState.get('currentGameLevel') - 1),
       creatures
     );
   case INIT_ITEMS:
     return scatterConsumables(
-      state.set('items', Map()),
-      levels.get(state.get('currentGameLevel') - 1),
+      newState.set('items', Map()),
+      levels.get(newState.get('currentGameLevel') - 1),
       consumables
     );
   case PICK_ITEM:
-    return placeItemIntoInventory(state, payload);
+    return placeItemIntoInventory(newState, payload);
   case USE_HEAL_POTION:
-    return consumeHealthPotion(state, payload);
+    return consumeHealthPotion(newState, payload);
   case KILL_CREATURE:
-    return creatureDies(state, payload);
+    return creatureDies(newState, payload);
   case LEVEL_UP:
-    return improvePlayerStats(state, levelingTable);
+    return improvePlayerStats(newState, levelingTable);
   case EQUIP_ITEM:
-    return equipItem(state, payload);
+    return equipItem(newState, payload);
   case ATTACK_CREATURE:
-    return exchangeAttacks(state, state.get('player'), payload);
+    return exchangeAttacks(newState, newState.get('player'), payload);
   default:
-    return state;
+    return newState;
   }
 };
 

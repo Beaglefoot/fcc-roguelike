@@ -16,7 +16,8 @@ import {
   initItems,
   pickItem,
   useHealPotion,
-  attackCreature
+  attackCreature,
+  killCreature
 } from '../../actions';
 
 import {
@@ -84,8 +85,14 @@ class Grid extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { player, initPlayer, creatures, initCreatures, items, initItems } = this.props;
+    const { player, initPlayer, creatures, initCreatures, items, initItems, killCreature } = this.props;
     if (!creatures) initCreatures();
+    else {
+      const creatureToKill = creatures.find(creature => (
+        creature.get('hp') <= 0 && !creature.get('isDead')
+      ));
+      if (creatureToKill) killCreature(creatureToKill);
+    }
     if (!items) initItems();
     else if (!player) initPlayer();
   }
@@ -161,7 +168,8 @@ const mapDispatchToProps = {
   initItems,
   pickItem,
   useHealPotion,
-  attackCreature
+  attackCreature,
+  killCreature
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

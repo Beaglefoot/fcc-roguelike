@@ -20,9 +20,11 @@ class Player extends React.PureComponent {
     setTimeout(() => document.body.removeChild(levelUpElement), 5000);
   }
 
-  componentWillReceiveProps({ player, levelUp }) {
+  componentDidUpdate() {
+    const { player, levelUp } = this.props;
     const xp = player.get('xp');
     const xpCeil = player.get('xpRange').last();
+
     if (xp >= xpCeil) {
       levelUp();
       this.animateLevelUp();

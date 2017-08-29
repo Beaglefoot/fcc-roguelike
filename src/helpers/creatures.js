@@ -72,5 +72,7 @@ export const dropItems = (state, creature) => {
 };
 
 export const creatureDies = (state, creature) => (
-  dropItems(state, creature).updateIn(['player', 'xp'], xp => xp + 1)
+  dropItems(state, creature)
+    .updateIn(['player', 'xp'], xp => xp + 1)
+    .setIn(['creatures', creature.get('position'), 'isDead'], true)
 );
