@@ -1,4 +1,4 @@
-import { world } from '../../config/general';
+import { world } from '../config/general';
 
 import {
   generateTiles,
@@ -9,7 +9,7 @@ import {
   getSidesLength,
   splitTiles,
   connectSectionsWithCorridors
-} from '../../helpers/grid';
+} from '../helpers/grid';
 
 const {
   rows,

@@ -2,6 +2,8 @@ import { Map, List, fromJS } from 'immutable';
 
 import { convertTilesToMap } from '../helpers/grid';
 
+import GridWorker from '../workers/grid_worker';
+
 export const GENERATE_GRID = 'GENERATE_GRID';
 export const INIT_PLAYER = 'INIT_PLAYER';
 export const MOVE_PLAYER = 'MOVE_PLAYER';
@@ -13,15 +15,21 @@ export const KILL_CREATURE = 'KILL_CREATURE';
 export const LEVEL_UP = 'LEVEL_UP';
 export const EQUIP_ITEM = 'EQUIP_ITEM';
 export const ATTACK_CREATURE = 'ATTACK_CREATURE';
+export const CLEAR_STATE = 'CLEAR_STATE';
 
 // grid looses it's type after returning from web worker
-export const generateGrid = grid => {
-  grid = fromJS(grid);
-  const tiles = convertTilesToMap(grid.get('tiles'));
+export const generateGrid = () => dispatch => {
+  const worker = new GridWorker();
 
-  return {
-    type: GENERATE_GRID,
-    payload: grid.set('tiles', tiles)
+  worker.postMessage('getGrid');
+  worker.onmessage = ({ data }) => {
+    data = fromJS(data);
+    const tiles = convertTilesToMap(data.get('tiles'));
+
+    dispatch({
+      type: GENERATE_GRID,
+      payload: data.set('tiles', tiles)
+    });
   };
 };
 
@@ -35,3 +43,4 @@ export const killCreature = (creature = Map()) => ({ type: KILL_CREATURE, payloa
 export const levelUp = () => ({ type: LEVEL_UP });
 export const equipItem = (item = Map()) => ({ type: EQUIP_ITEM, payload: item });
 export const attackCreature = (creature = Map()) => ({ type: ATTACK_CREATURE, payload: creature });
+export const clearState = () => ({ type: CLEAR_STATE });

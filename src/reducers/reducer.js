@@ -11,7 +11,8 @@ import {
   KILL_CREATURE,
   LEVEL_UP,
   EQUIP_ITEM,
-  ATTACK_CREATURE
+  ATTACK_CREATURE,
+  CLEAR_STATE
 } from '../actions';
 
 import {
@@ -41,7 +42,6 @@ const consumables = fromJS(consumablesObject);
 
 const reducer = (state = Map(), { type, payload } = {}) => {
   const newState = type ? state.set('lastAction', Map({ type, payload })) : state;
-  console.log('reducer:', newState.getIn(['lastAction', 'type']));
 
   switch(type) {
   case GENERATE_GRID:
@@ -74,6 +74,9 @@ const reducer = (state = Map(), { type, payload } = {}) => {
     return equipItem(newState, payload);
   case ATTACK_CREATURE:
     return exchangeAttacks(newState, newState.get('player'), payload);
+  case CLEAR_STATE:
+    console.log('hi');
+    return state.clear();
   default:
     return newState;
   }

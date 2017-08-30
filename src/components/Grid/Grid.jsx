@@ -27,7 +27,6 @@ import {
   isTileOccupiedByCreature
 } from '../../helpers/player';
 import GridRow from './GridRow';
-import GridWorker from './Grid_worker';
 import Loading from '../Loading/Loading';
 import Player from '../Player/Player';
 import Creature from '../Creature/Creature';
@@ -71,12 +70,8 @@ class Grid extends React.PureComponent {
   }
 
   componentDidMount() {
-    const worker = new GridWorker();
-    worker.postMessage('getGrid');
-    worker.onmessage = ({ data }) => this.props.generateGrid(data);
-
+    this.props.generateGrid();
     addEventListener('keydown', this.handleKeyPress);
-
     setTimeout(() => this.setState({ justMounted: false }), 5000);
   }
 

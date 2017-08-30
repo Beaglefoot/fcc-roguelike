@@ -23,7 +23,7 @@
     "css-loader": "^0.28.4",
     "enzyme": "^2.9.1",
     "html-webpack-plugin": "^2.29.0",
-    "jsdom": "^11.1.0",
+    "jsdom": "^11.2.0",
     "mocha": "^3.4.2",
     "moment": "^2.18.1",
     "node-sass": "^4.5.3",
@@ -42,6 +42,7 @@
     "react-dom": "^15.6.1",
     "react-immutable-proptypes": "^2.1.0",
     "react-redux": "^5.0.5",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
   }
 }

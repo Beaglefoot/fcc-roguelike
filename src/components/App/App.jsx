@@ -8,6 +8,8 @@ import Stats from '../Stats/Stats';
 import Inventory from '../Inventory/Inventory';
 import Logger from '../Logger/Logger';
 
+import { clearState } from '../../actions';
+
 import { app, health, experience, bars, info } from './App.scss';
 
 const App = props => {
@@ -33,6 +35,16 @@ const App = props => {
             <Inventory inventory={inventory} />
           </div>
       }
+      {
+        currentGameLevel &&
+          <div
+            onClick={() => {
+              props.clearState();
+            }}
+          >
+            Restart
+          </div>
+      }
     </div>
   );
 };
@@ -41,4 +53,4 @@ const mapStateToProps = state => (
   pick(state.toObject(), ['player', 'creatures', 'lastAction', 'currentGameLevel'])
 );
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, { clearState })(App);
