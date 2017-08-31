@@ -75,7 +75,6 @@ const reducer = (state = Map(), { type, payload } = {}) => {
   case ATTACK_CREATURE:
     return exchangeAttacks(newState, newState.get('player'), payload);
   case CLEAR_STATE:
-    console.log('hi');
     return state.clear();
   default:
     return newState;

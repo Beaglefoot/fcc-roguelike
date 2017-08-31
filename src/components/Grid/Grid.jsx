@@ -35,7 +35,7 @@ import Creature from '../Creature/Creature';
 class Grid extends React.PureComponent {
   constructor() {
     super();
-    this.state = { justMounted: true };
+    this.state = { playerJustMounted: true };
     this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 200);
   }
 
@@ -72,7 +72,6 @@ class Grid extends React.PureComponent {
   componentDidMount() {
     this.props.generateGrid();
     addEventListener('keydown', this.handleKeyPress);
-    setTimeout(() => this.setState({ justMounted: false }), 5000);
   }
 
   componentWillUnmount() {
@@ -80,16 +79,25 @@ class Grid extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { player, initPlayer, creatures, initCreatures, items, initItems, killCreature } = this.props;
-    if (!creatures) initCreatures();
-    else {
-      const creatureToKill = creatures.find(creature => (
-        creature.get('hp') <= 0 && !creature.get('isDead')
-      ));
-      if (creatureToKill) killCreature(creatureToKill);
+    const { player, initPlayer, creatures, initCreatures, items, initItems, killCreature, tiles } = this.props;
+    if (tiles) {
+      if (!creatures) initCreatures();
+      else {
+        const creatureToKill = creatures.find(creature => (
+          creature.get('hp') <= 0 && !creature.get('isDead')
+        ));
+        if (creatureToKill) killCreature(creatureToKill);
+      }
+      if (!items) initItems();
+      // 'else' is here to make sure player render is the last.
+      // With a player on map only closest rows of a grid render.
+      else if (!player) {
+        /* eslint react/no-did-update-set-state: off */
+        this.setState({ playerJustMounted: true });
+        setTimeout(() => this.setState({ playerJustMounted: false }), 5000);
+        initPlayer();
+      }
     }
-    if (!items) initItems();
-    else if (!player) initPlayer();
   }
 
   generateTile(tiles, rowIndex, playerPosition) {
@@ -107,7 +115,7 @@ class Grid extends React.PureComponent {
               tiles.getIn([currentPosition, 'type'])
             ]}
           >
-            { x === index && y === rowIndex && <Player justMounted={this.state.justMounted} /> }
+            { x === index && y === rowIndex && <Player justMounted={this.state.playerJustMounted} /> }
             { creatureAtCurrentTile && <Creature creature={creatureAtCurrentTile} /> }
             { itemsAtCurrentTile && '!' }
           </div>

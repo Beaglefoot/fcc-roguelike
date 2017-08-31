@@ -1,0 +1,9 @@
+@import 'src/styles/variables.scss';
+
+.restart {
+  cursor: pointer;
+
+  &:hover {
+    color: $clr_restart_hover;
+  }
+}
