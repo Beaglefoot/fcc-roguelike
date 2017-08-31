@@ -71,7 +71,6 @@ class Grid extends React.PureComponent {
 
   componentDidMount() {
     this.props.generateGrid();
-    addEventListener('keydown', this.handleKeyPress);
   }
 
   componentWillUnmount() {
@@ -79,7 +78,17 @@ class Grid extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { player, initPlayer, creatures, initCreatures, items, initItems, killCreature, tiles } = this.props;
+    const {
+      player,
+      initPlayer,
+      creatures,
+      initCreatures,
+      items,
+      initItems,
+      killCreature,
+      tiles
+    } = this.props;
+
     if (tiles) {
       if (!creatures) initCreatures();
       else {
@@ -88,15 +97,20 @@ class Grid extends React.PureComponent {
         ));
         if (creatureToKill) killCreature(creatureToKill);
       }
+
       if (!items) initItems();
       // 'else' is here to make sure player render is the last.
       // With a player on map only closest rows of a grid render.
       else if (!player) {
         /* eslint react/no-did-update-set-state: off */
         this.setState({ playerJustMounted: true });
-        setTimeout(() => this.setState({ playerJustMounted: false }), 5000);
+
         initPlayer();
+        addEventListener('keydown', this.handleKeyPress);
+        setTimeout(() => this.setState({ playerJustMounted: false }), 5000);
       }
+
+      if (player && player.get('hp') <= 0) removeEventListener('keydown', this.handleKeyPress);
     }
   }
 
@@ -160,7 +174,7 @@ Grid.propTypes = {
 };
 
 const mapStateToProps = state => (
-  pick(state.toObject(), ['rows', 'columns', 'tiles', 'player', 'creatures', 'items', 'lastAction'])
+  pick(state.toObject(), ['rows', 'columns', 'tiles', 'player', 'creatures', 'items'])
 );
 
 const mapDispatchToProps = {

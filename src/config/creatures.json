@@ -5,7 +5,7 @@
         "race": "kobold",
         "maxHP": 30,
         "maxHP": 30,
-        "attack": [5, 8],
+        "attack": [50, 80],
         "protection": 0,
         "lvl": "1",
         "equipment": {

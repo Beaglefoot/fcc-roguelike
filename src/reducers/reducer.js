@@ -12,7 +12,8 @@ import {
   LEVEL_UP,
   EQUIP_ITEM,
   ATTACK_CREATURE,
-  CLEAR_STATE
+  CLEAR_STATE,
+  PLAYER_DIES
 } from '../actions';
 
 import {
@@ -76,6 +77,8 @@ const reducer = (state = Map(), { type, payload } = {}) => {
     return exchangeAttacks(newState, newState.get('player'), payload);
   case CLEAR_STATE:
     return state.clear();
+  case PLAYER_DIES:
+    return newState;
   default:
     return newState;
   }

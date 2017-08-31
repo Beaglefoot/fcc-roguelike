@@ -48,7 +48,8 @@ class Logger extends React.PureComponent {
           .replace(/(.*), /, (_, p1) => p1.concat(' and '));
 
         return `${capitalize(race)} dies.${items.length ? ' It drops '.concat(items, '.') : ''}`;
-      }
+      },
+      PLAYER_DIES: () => 'You feel unbearable weakness and the world around you fades...'
     }[action.get('type')] || (() => ''))();
 
     if (msg) this.setState({ history: this.state.history.concat(msg) });

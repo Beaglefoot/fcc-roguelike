@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { levelUp } from '../../actions';
+import { levelUp, playerDies } from '../../actions';
 
 import { flyingText, flicker } from './Player.scss';
 
@@ -21,14 +21,17 @@ class Player extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { player, levelUp } = this.props;
+    const { player, levelUp, playerDies } = this.props;
     const xp = player.get('xp');
     const xpCeil = player.get('xpRange').last();
+    const hp = player.get('hp');
 
     if (xp >= xpCeil) {
       levelUp();
       this.animateLevelUp();
     }
+
+    if (hp <= 0) playerDies();
   }
 
   render() {
@@ -43,4 +46,4 @@ class Player extends React.PureComponent {
   }
 }
 
-export default connect(store => ({ player: store.get('player') }), { levelUp })(Player);
+export default connect(store => ({ player: store.get('player') }), { levelUp, playerDies })(Player);
