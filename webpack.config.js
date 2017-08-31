@@ -4,18 +4,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
-// Import settings from .babelrc which should provide a workaround
-// with Mocha, saving treeshaking ability
-const readFileSync = require('fs').readFileSync;
-const babelrc = JSON.parse(readFileSync('.babelrc', 'utf8'));
-const esIndex = babelrc.presets.findIndex(e => e === 'es2015');
-
-babelrc.presets[esIndex] = [ 'es2015', { 'modules': false } ];
-babelrc.plugins.push('react-hot-loader/babel');
-
-// Stop using .babelrc and instead use options provided here
-babelrc.babelrc = false;
-
 module.exports = {
   entry: [
     'react-hot-loader/patch',
@@ -35,8 +23,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: babelrc
+        loader: 'babel-loader'
       },
       {
         test: /\.css$/,

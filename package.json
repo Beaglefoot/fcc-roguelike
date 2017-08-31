@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./test/setup.js \"{test,src}/**/*_test.@(js|jsx)\" --colors",
+    "test": "env NODE_ENV=test mocha --compilers js:babel-core/register --require ./test/setup.js \"{test,src}/**/*_test.@(js|jsx)\" --colors",
     "test:watch": "npm run test -- --watch --watch-extensions jsx",
     "build": "node ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.config.js",
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js"
