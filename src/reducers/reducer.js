@@ -13,7 +13,8 @@ import {
   EQUIP_ITEM,
   ATTACK_CREATURE,
   CLEAR_STATE,
-  PLAYER_DIES
+  PLAYER_DIES,
+  INIT_PORTAL
 } from '../actions';
 
 import {
@@ -29,6 +30,8 @@ import {
   consumeHealthPotion,
   equipItem
 } from '../helpers/items';
+
+import { placePortal } from '../helpers/portal';
 
 import { levels as levelsObject } from '../config/levels';
 import { creatures as creaturesObject } from '../config/creatures';
@@ -79,6 +82,12 @@ const reducer = (state = Map(), { type, payload } = {}) => {
     return state.clear();
   case PLAYER_DIES:
     return newState;
+  case INIT_PORTAL:
+    return (
+      levels.getIn([newState.get('currentGameLevel') - 1, 'portal'])
+        ? placePortal(newState)
+        : newState.set('portal', Map())
+    );
   default:
     return newState;
   }

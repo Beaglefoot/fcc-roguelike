@@ -17,7 +17,8 @@ import {
   pickItem,
   useHealPotion,
   attackCreature,
-  killCreature
+  killCreature,
+  initPortal
 } from '../../actions';
 
 import {
@@ -86,10 +87,13 @@ class Grid extends React.PureComponent {
       items,
       initItems,
       killCreature,
-      tiles
+      tiles,
+      initPortal,
+      portal
     } = this.props;
 
     if (tiles) {
+      if (!portal) initPortal();
       if (!creatures) initCreatures();
       else {
         const creatureToKill = creatures.find(creature => (
@@ -118,7 +122,7 @@ class Grid extends React.PureComponent {
     return (_, index) => {
       const currentPosition = Map({ x: index, y: rowIndex });
       const { x, y } = playerPosition.toObject();
-      const { creatures, items } = this.props;
+      const { creatures, items, portal } = this.props;
       const creatureAtCurrentTile = creatures && creatures.get(currentPosition);
       const itemsAtCurrentTile = items && items.get(currentPosition);
 
@@ -132,6 +136,7 @@ class Grid extends React.PureComponent {
             { x === index && y === rowIndex && <Player justMounted={this.state.playerJustMounted} /> }
             { creatureAtCurrentTile && <Creature creature={creatureAtCurrentTile} /> }
             { itemsAtCurrentTile && '!' }
+            { portal && portal.equals(currentPosition) && '^' }
           </div>
         </td>
       );
@@ -174,7 +179,10 @@ Grid.propTypes = {
 };
 
 const mapStateToProps = state => (
-  pick(state.toObject(), ['rows', 'columns', 'tiles', 'player', 'creatures', 'items'])
+  pick(
+    state.toObject(),
+    ['rows', 'columns', 'tiles', 'player', 'creatures', 'items', 'portal']
+  )
 );
 
 const mapDispatchToProps = {
@@ -186,7 +194,8 @@ const mapDispatchToProps = {
   pickItem,
   useHealPotion,
   attackCreature,
-  killCreature
+  killCreature,
+  initPortal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

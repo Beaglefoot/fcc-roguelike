@@ -16,14 +16,16 @@ export const findKeyByCode = code => (
 
 export const getRandomPlacementPosition = state => {
   const playerPosition = state.getIn(['player', 'position']) || Map();
-  const creaturePositions = (map => map ? map.mapKeys(k => k): Map())(state.get('creatures'));
+  const creaturePositions = (map => map ? map.mapKeys(k => k) : Map())(state.get('creatures'));
+  const itemPositions = (map => map ? map.mapKeys(k => k) : Map())(state.get('items'));
+  const portalPosition = state.get('portal');
 
   return Map(
     getRandomMapValue(
       state.get('tiles').filter((tile, key) => (
-        tile.get('type') !== 'wall' &&
-        !key.equals(playerPosition) &&
-        !creaturePositions.has(key)
+        tile.get('type') === 'room' &&
+        [ playerPosition, portalPosition ].every(pos => !key.equals(pos)) &&
+        [ creaturePositions, itemPositions ].every(map => !map.has(key))
       ))
     ).get('position')
   );

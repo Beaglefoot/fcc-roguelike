@@ -17,6 +17,7 @@ export const EQUIP_ITEM = 'EQUIP_ITEM';
 export const ATTACK_CREATURE = 'ATTACK_CREATURE';
 export const CLEAR_STATE = 'CLEAR_STATE';
 export const PLAYER_DIES = 'PLAYER_DIES';
+export const INIT_PORTAL = 'INIT_PORTAL';
 
 // grid looses it's type after returning from web worker
 export const generateGrid = () => dispatch => {
@@ -46,3 +47,4 @@ export const equipItem = (item = Map()) => ({ type: EQUIP_ITEM, payload: item })
 export const attackCreature = (creature = Map()) => ({ type: ATTACK_CREATURE, payload: creature });
 export const clearState = () => ({ type: CLEAR_STATE });
 export const playerDies = () => ({ type: PLAYER_DIES });
+export const initPortal = () => ({ type: INIT_PORTAL });
