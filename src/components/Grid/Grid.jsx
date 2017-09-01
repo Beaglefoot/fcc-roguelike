@@ -18,7 +18,8 @@ import {
   useHealPotion,
   attackCreature,
   killCreature,
-  initPortal
+  initPortal,
+  teleportToNextLevel
 } from '../../actions';
 
 import {
@@ -89,7 +90,8 @@ class Grid extends React.PureComponent {
       killCreature,
       tiles,
       initPortal,
-      portal
+      portal,
+      teleportToNextLevel
     } = this.props;
 
     if (tiles) {
@@ -114,7 +116,10 @@ class Grid extends React.PureComponent {
         setTimeout(() => this.setState({ playerJustMounted: false }), 5000);
       }
 
-      if (player && player.get('hp') <= 0) removeEventListener('keydown', this.handleKeyPress);
+      if (player) {
+        if (player.get('hp') <= 0) removeEventListener('keydown', this.handleKeyPress);
+        if (player.get('position').equals(portal)) teleportToNextLevel();
+      }
     }
   }
 
@@ -195,7 +200,8 @@ const mapDispatchToProps = {
   useHealPotion,
   attackCreature,
   killCreature,
-  initPortal
+  initPortal,
+  teleportToNextLevel
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

@@ -18,12 +18,13 @@ export const ATTACK_CREATURE = 'ATTACK_CREATURE';
 export const CLEAR_STATE = 'CLEAR_STATE';
 export const PLAYER_DIES = 'PLAYER_DIES';
 export const INIT_PORTAL = 'INIT_PORTAL';
+export const TELEPORT_TO_NEXT_LEVEL = 'TELEPORT_TO_NEXT_LEVEL';
 
 // grid looses it's type after returning from web worker
-export const generateGrid = () => dispatch => {
+export const generateGrid = (gameLevel = 1, callback) => dispatch => {
   const worker = new GridWorker();
 
-  worker.postMessage('getGrid');
+  worker.postMessage(gameLevel);
   worker.onmessage = ({ data }) => {
     data = fromJS(data);
     const tiles = convertTilesToMap(data.get('tiles'));
@@ -32,6 +33,8 @@ export const generateGrid = () => dispatch => {
       type: GENERATE_GRID,
       payload: data.set('tiles', tiles)
     });
+
+    if (callback) callback();
   };
 };
 
@@ -48,3 +51,12 @@ export const attackCreature = (creature = Map()) => ({ type: ATTACK_CREATURE, pa
 export const clearState = () => ({ type: CLEAR_STATE });
 export const playerDies = () => ({ type: PLAYER_DIES });
 export const initPortal = () => ({ type: INIT_PORTAL });
+export const teleportToNextLevel = () => (dispatch, getState) => {
+  const nextGameLevel = getState().get('currentGameLevel') + 1;
+
+  dispatch(clearState());
+  dispatch(generateGrid(
+    nextGameLevel,
+    () => dispatch({ type: TELEPORT_TO_NEXT_LEVEL })
+  ));
+};

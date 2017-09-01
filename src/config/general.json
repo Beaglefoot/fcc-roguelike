@@ -9,7 +9,6 @@
     "maxRoomToSectionProportion": 0.75,
     "splitDepth": 4,
     "minSplitProportion": 0.45,
-    "maxSplitProportion": 0.55,
-    "currentGameLevel": 1
+    "maxSplitProportion": 0.55
   }
 }

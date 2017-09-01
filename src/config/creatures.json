@@ -41,7 +41,7 @@
         }
       },
       {
-        "race": "ogre",
+        "race": "minotaur",
         "maxHP": 70,
         "attack": [10, 12],
         "protection": 0,
