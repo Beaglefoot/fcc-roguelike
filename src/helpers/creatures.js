@@ -50,10 +50,13 @@ export const pickRandomCreature = (creatures = List()) => (
 
 export const populateWorld = (state, levelSettings = Map(), creatures = Map()) => {
   const currentLevel = state.get('currentGameLevel');
-  const creatureList = creatures.get(String(currentLevel));
+  const creatureList = creatures.getIn([String(currentLevel), 'common']);
+  const bossesList = creatures.getIn([String(currentLevel), 'bosses']) || List();
 
-  return new Array(levelSettings.get('numberOfCreatures')).fill()
+  const stateWithCreatures = new Array(levelSettings.get('numberOfCreatures')).fill()
     .reduce(state => addCreatureToState(state, pickRandomCreature(creatureList)), state);
+
+  return bossesList.reduce((state, boss) => addCreatureToState(state, boss), stateWithCreatures);
 };
 
 export const dropItems = (state, creature) => {
