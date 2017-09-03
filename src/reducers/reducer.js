@@ -81,7 +81,7 @@ const reducer = (state = Map(), { type, payload } = {}) => {
     return state.clear();
   case INIT_PORTAL:
     return (
-      levels.getIn([newState.get('currentGameLevel') - 1, 'portal'])
+      newState.get('currentGameLevel') !== newState.get('totalLevels')
         ? placePortal(newState)
         : newState.set('portal', Map())
     );

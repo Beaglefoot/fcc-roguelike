@@ -5,24 +5,21 @@
       "creaturesLvl": 1,
       "boss": false,
       "numberOfConsumables": 27,
-      "consumables": "Weak Health Potion",
-      "portal": true
+      "consumables": "Weak Health Potion"
     },
     {
       "numberOfCreatures": 12,
       "creaturesLvl": 2,
       "boss": false,
       "numberOfConsumables": 7,
-      "consumables": "Medium Health Potion",
-      "portal": true
+      "consumables": "Medium Health Potion"
     },
     {
       "numberOfCreatures": 12,
       "creaturesLvl": 3,
       "boss": true,
       "numberOfConsumables": 7,
-      "consumables": "Strong Health Potion",
-      "portal": false
+      "consumables": "Strong Health Potion"
     }
   ]
 }
