@@ -21,22 +21,25 @@ export const INIT_PORTAL = 'INIT_PORTAL';
 export const TELEPORT_TO_NEXT_LEVEL = 'TELEPORT_TO_NEXT_LEVEL';
 
 // grid looses it's type after returning from web worker
-export const generateGrid = (gameLevel = 1, callback) => dispatch => {
-  const worker = new GridWorker();
+export const generateGrid = (gameLevel = 1) => dispatch => (
+  new Promise((resolve, reject) => {
+    const worker = new GridWorker();
 
-  worker.postMessage(gameLevel);
-  worker.onmessage = ({ data }) => {
-    data = fromJS(data);
-    const tiles = convertTilesToMap(data.get('tiles'));
+    worker.postMessage(gameLevel);
+    worker.onmessage = ({ data }) => {
+      data = fromJS(data);
+      const tiles = convertTilesToMap(data.get('tiles'));
 
-    dispatch({
-      type: GENERATE_GRID,
-      payload: data.set('tiles', tiles)
-    });
+      dispatch({
+        type: GENERATE_GRID,
+        payload: data.set('tiles', tiles)
+      });
 
-    if (callback) callback();
-  };
-};
+      resolve();
+    };
+    worker.onerror = ({ message }) => reject(message);
+  })
+);
 
 export const initPlayer = () => ({ type: INIT_PLAYER });
 export const movePlayer = (position = Map()) => ({ type: MOVE_PLAYER, payload: position });
@@ -51,12 +54,23 @@ export const attackCreature = (creature = Map()) => ({ type: ATTACK_CREATURE, pa
 export const clearState = () => ({ type: CLEAR_STATE });
 export const playerDies = () => ({ type: PLAYER_DIES });
 export const initPortal = () => ({ type: INIT_PORTAL });
+export const generateWorld = gameLevel => dispatch => (
+  dispatch(generateGrid(gameLevel))
+    .then(() => (
+      [
+        initPortal,
+        initCreatures,
+        initItems,
+        initPlayer
+      ].forEach(action => dispatch(action()))
+    ))
+    .catch(console.log)
+);
 export const teleportToNextLevel = () => (dispatch, getState) => {
   const nextGameLevel = getState().get('currentGameLevel') + 1;
 
   dispatch(clearState());
-  dispatch(generateGrid(
-    nextGameLevel,
+  dispatch(generateWorld(nextGameLevel)).then(
     () => dispatch({ type: TELEPORT_TO_NEXT_LEVEL })
-  ));
+  );
 };

@@ -9,7 +9,7 @@ import pick from 'lodash/pick';
 import classes, { tile, grid } from './Grid.scss';
 
 import {
-  generateGrid,
+  generateWorld,
   initPlayer,
   movePlayer,
   initCreatures,
@@ -54,7 +54,7 @@ class Grid extends React.PureComponent {
     } = this.props;
     const key = findKeyByCode(event.keyCode);
 
-    if (!key) return;
+    if (!key || !player) return;
 
     const playerPosition = player.get('position');
 
@@ -72,54 +72,40 @@ class Grid extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.generateGrid();
+    this.props.generateWorld();
   }
 
   componentWillUnmount() {
     removeEventListener('keydown', this.handleKeyPress);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const {
       player,
-      initPlayer,
       creatures,
-      initCreatures,
-      items,
-      initItems,
       killCreature,
-      tiles,
-      initPortal,
       portal,
       teleportToNextLevel
     } = this.props;
 
-    if (tiles) {
-      if (!portal) initPortal();
-      if (!creatures) initCreatures();
-      else {
-        const creatureToKill = creatures.find(creature => (
-          creature.get('hp') <= 0 && !creature.get('isDead')
-        ));
-        if (creatureToKill) killCreature(creatureToKill);
-      }
+    if (creatures) {
+      const creatureToKill = creatures.find(creature => (
+        creature.get('hp') <= 0 && !creature.get('isDead')
+      ));
+      if (creatureToKill) killCreature(creatureToKill);
+    }
 
-      if (!items) initItems();
-      // 'else' is here to make sure player render is the last.
-      // With a player on map only closest rows of a grid render.
-      else if (!player) {
+    if (player) {
+      if (!prevProps.player) {
         /* eslint react/no-did-update-set-state: off */
         this.setState({ playerJustMounted: true });
 
-        initPlayer();
         addEventListener('keydown', this.handleKeyPress);
         setTimeout(() => this.setState({ playerJustMounted: false }), 5000);
       }
 
-      if (player) {
-        if (player.get('hp') <= 0) removeEventListener('keydown', this.handleKeyPress);
-        if (player.get('position').equals(portal)) teleportToNextLevel();
-      }
+      if (player.get('hp') <= 0) removeEventListener('keydown', this.handleKeyPress);
+      if (player.get('position').equals(portal)) teleportToNextLevel();
     }
   }
 
@@ -191,7 +177,7 @@ const mapStateToProps = state => (
 );
 
 const mapDispatchToProps = {
-  generateGrid,
+  generateWorld,
   initPlayer,
   movePlayer,
   initCreatures,
