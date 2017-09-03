@@ -60,6 +60,12 @@ class Logger extends React.PureComponent {
       TELEPORT_TO_NEXT_LEVEL: () => '\
       Once you step into the portal your surroundings change their shape.\
       Your vision is blurred and then suddenly, it\'s sharp again. Everything looks different...\
+      ',
+      WIN_GAME: () => '\
+      After defeating the evil mimic you find out something unusual.\
+      Instead of another corpse you have a chest full of gold, your ultimate goal.\
+      Congratulations on beating the dungeon!\
+      Would you like to start over?\
       '
     }[action.get('type')] || (() => ''))();
 
