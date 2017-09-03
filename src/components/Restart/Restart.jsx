@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { clearState, generateGrid } from '../../actions';
+import { clearState, generateWorld } from '../../actions';
 
 import { restart } from './Restart.scss';
 
@@ -10,11 +10,11 @@ const Restart = props => (
     className={restart}
     onClick={() => {
       props.clearState();
-      props.generateGrid();
+      props.generateWorld();
     }}
   >
     Restart
   </div>
 );
 
-export default connect(null, { clearState, generateGrid })(Restart);
+export default connect(null, { clearState, generateWorld })(Restart);
