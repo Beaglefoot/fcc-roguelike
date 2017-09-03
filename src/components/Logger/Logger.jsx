@@ -56,8 +56,11 @@ class Logger extends React.PureComponent {
       GENERATE_WORLD: () => '\
       You heard some rumors about a large chest full of gold somewhere deep in this dungeon.\
       Will you succeed in finding it?\
+      ',
+      TELEPORT_TO_NEXT_LEVEL: () => '\
+      Once you step into the portal you surroundings change their shape.\
+      Your vision is blurred and then suddenly, it\'s sharp again. Everything looks different...\
       '
-
     }[action.get('type')] || (() => ''))();
 
     if (msg) this.setState({ history: this.state.history.concat(msg) });
