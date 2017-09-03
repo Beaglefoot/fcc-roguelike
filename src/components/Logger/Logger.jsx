@@ -52,7 +52,12 @@ class Logger extends React.PureComponent {
       PLAYER_DIES: () => [
         'You feel unbearable weakness and the world around you fades...',
         'Game Over'
-      ]
+      ],
+      GENERATE_WORLD: () => '\
+      You heard some rumors about a large chest full of gold somewhere deep in this dungeon.\
+      Will you succeed in finding it?\
+      '
+
     }[action.get('type')] || (() => ''))();
 
     if (msg) this.setState({ history: this.state.history.concat(msg) });

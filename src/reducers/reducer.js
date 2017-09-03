@@ -14,8 +14,7 @@ import {
   ATTACK_CREATURE,
   CLEAR_STATE,
   PLAYER_DIES,
-  INIT_PORTAL,
-  TELEPORT_TO_NEXT_LEVEL
+  INIT_PORTAL
 } from '../actions';
 
 import {
@@ -89,8 +88,6 @@ const reducer = (state = Map(), { type, payload } = {}) => {
         ? placePortal(newState)
         : newState.set('portal', Map())
     );
-  case TELEPORT_TO_NEXT_LEVEL:
-    return newState;
   default:
     return newState;
   }

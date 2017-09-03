@@ -18,7 +18,6 @@ export const ATTACK_CREATURE = 'ATTACK_CREATURE';
 export const CLEAR_STATE = 'CLEAR_STATE';
 export const PLAYER_DIES = 'PLAYER_DIES';
 export const INIT_PORTAL = 'INIT_PORTAL';
-export const TELEPORT_TO_NEXT_LEVEL = 'TELEPORT_TO_NEXT_LEVEL';
 
 // grid looses it's type after returning from web worker
 export const generateGrid = (gameLevel = 1) => dispatch => (
@@ -64,6 +63,7 @@ export const generateWorld = gameLevel => dispatch => (
         initPlayer
       ].forEach(action => dispatch(action()))
     ))
+    .then(() => (!gameLevel || gameLevel === 1) && dispatch({ type: 'GENERATE_WORLD' }))
     .catch(console.log)
 );
 export const teleportToNextLevel = () => (dispatch, getState) => {
@@ -71,6 +71,6 @@ export const teleportToNextLevel = () => (dispatch, getState) => {
 
   dispatch(clearState());
   dispatch(generateWorld(nextGameLevel)).then(
-    () => dispatch({ type: TELEPORT_TO_NEXT_LEVEL })
+    () => dispatch({ type: 'TELEPORT_TO_NEXT_LEVEL' })
   );
 };
