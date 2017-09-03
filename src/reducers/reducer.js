@@ -13,7 +13,6 @@ import {
   EQUIP_ITEM,
   ATTACK_CREATURE,
   CLEAR_STATE,
-  PLAYER_DIES,
   INIT_PORTAL
 } from '../actions';
 
@@ -80,8 +79,6 @@ const reducer = (state = Map(), { type, payload } = {}) => {
     return exchangeAttacks(newState, newState.get('player'), payload);
   case CLEAR_STATE:
     return state.clear();
-  case PLAYER_DIES:
-    return newState;
   case INIT_PORTAL:
     return (
       levels.getIn([newState.get('currentGameLevel') - 1, 'portal'])

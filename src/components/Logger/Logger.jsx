@@ -58,7 +58,7 @@ class Logger extends React.PureComponent {
       Will you succeed in finding it?\
       ',
       TELEPORT_TO_NEXT_LEVEL: () => '\
-      Once you step into the portal you surroundings change their shape.\
+      Once you step into the portal your surroundings change their shape.\
       Your vision is blurred and then suddenly, it\'s sharp again. Everything looks different...\
       '
     }[action.get('type')] || (() => ''))();

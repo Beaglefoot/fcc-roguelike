@@ -56,7 +56,7 @@ export const populateWorld = (state, levelSettings = Map(), creatures = Map()) =
   const stateWithCreatures = new Array(levelSettings.get('numberOfCreatures')).fill()
     .reduce(state => addCreatureToState(state, pickRandomCreature(creatureList)), state);
 
-  return bossesList.reduce((state, boss) => addCreatureToState(state, boss), stateWithCreatures);
+  return bossesList.reduce((state, boss) => addCreatureToState(state, boss.set('isBoss', true)), stateWithCreatures);
 };
 
 export const dropItems = (state, creature) => {

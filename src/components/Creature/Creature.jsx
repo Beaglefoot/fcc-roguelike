@@ -6,11 +6,6 @@ import { connect } from 'react-redux';
 import { killCreature } from '../../actions';
 
 class Creature extends React.PureComponent {
-  // componentDidUpdate() {
-  //   const { creature, killCreature } = this.props;
-  //   if (creature.get('hp') <= 0) killCreature(creature);
-  // }
-
   markDamageWithColor(hp, maxHP) {
     if (hp <= 0) return 'rgb(0, 0, 0)';
     return `rgb(${Math.floor((maxHP - hp) * 255 / maxHP)}, 0, 0)`;

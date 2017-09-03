@@ -1,4 +1,5 @@
 import { world } from '../config/general';
+import { levels } from '../config/levels';
 
 import {
   generateTiles,
@@ -57,7 +58,8 @@ onmessage = ({ data: currentGameLevel }) => {
     // save immutable functionality. More on this:
     // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#Transferring_data_to_and_from_workers_further_details
     tiles: connectSectionsWithCorridors(sections).toJS(),
-    currentGameLevel
+    currentGameLevel,
+    totalLevels: levels.length
   };
 
 
