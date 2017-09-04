@@ -1,0 +1,57 @@
+@import 'src/styles/variables.scss';
+
+.help {
+  cursor: pointer;
+
+  &:hover {
+    color: $clr_help_hover;
+  }
+}
+
+.overlay, .text {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.overlay {
+  z-index: 1;
+  background: $clr_help_dim;
+  opacity: 0.8;
+}
+
+.text {
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 12em 12em;
+  grid-template-rows: minmax(auto, 13em);
+  grid-column-gap: 5em;
+  justify-content: center;
+  align-content: center;
+
+  color: $clr_help_font;
+  font-size: 2em;
+
+  transform: translateY(-2em);
+}
+
+.keys, .legend {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-column-gap: 1em;
+  grid-row-gap: 0.2em;
+  align-content: start;
+
+  h3 {
+    grid-column: 1 / -1;
+    grid-row: 1 / 1;
+  }
+}
+
+.tips {
+  margin: 0;
+  grid-column: span 2;
+  grid-row: 2;
+}

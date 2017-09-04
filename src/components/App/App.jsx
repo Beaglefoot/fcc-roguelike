@@ -8,6 +8,7 @@ import Stats from '../Stats/Stats';
 import Inventory from '../Inventory/Inventory';
 import Logger from '../Logger/Logger';
 import Restart from '../Restart/Restart';
+import Help from '../Help/Help';
 
 import { app, health, experience, bars, info } from './App.scss';
 
@@ -35,6 +36,7 @@ const App = props => {
           </div>
       }
       { currentGameLevel && <Restart /> }
+      { currentGameLevel && <Help /> }
     </div>
   );
 };
