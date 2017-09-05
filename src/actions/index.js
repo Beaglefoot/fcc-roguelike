@@ -19,7 +19,7 @@ export const CLEAR_STATE = 'CLEAR_STATE';
 export const PLAYER_DIES = 'PLAYER_DIES';
 export const INIT_PORTAL = 'INIT_PORTAL';
 
-// grid looses it's type after returning from web worker
+// grid looses its type after returning from web worker
 export const generateGrid = (gameLevel = 1) => dispatch => (
   new Promise((resolve, reject) => {
     const worker = new GridWorker();

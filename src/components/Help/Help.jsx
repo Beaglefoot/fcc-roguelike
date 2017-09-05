@@ -69,7 +69,7 @@ class Help extends React.PureComponent {
                   <h3>Tips</h3>
                   <ul>
                     <li>To get weapon and armor you have to fight other creatures</li>
-                    <li>To fight a creature simply move in it's direction</li>
+                    <li>To fight a creature simply move in its direction</li>
                     <li>You use portals to move between levels</li>
                     <li>Read Story Log to know which corpses are worth scavenging</li>
                   </ul>

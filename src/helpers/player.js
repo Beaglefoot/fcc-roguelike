@@ -114,3 +114,7 @@ export const recalcBattleStats = (player = Map()) => (
       player.getIn(['equipped', 'armor', 'protection']) || 0
     )
 );
+
+export const hasHealthPotion = (player = Map()) => (
+  player.get('inventory').some(item => item.get('name').includes('Potion'))
+);

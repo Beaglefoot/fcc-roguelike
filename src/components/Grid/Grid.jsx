@@ -26,7 +26,8 @@ import {
   findKeyByCode,
   isAreaRestricted,
   getNewPosition,
-  isTileOccupiedByCreature
+  isTileOccupiedByCreature,
+  hasHealthPotion
 } from '../../helpers/player';
 import GridRow from './GridRow';
 import Loading from '../Loading/Loading';
@@ -62,7 +63,7 @@ class Grid extends React.PureComponent {
       const itemsHere = items.get(playerPosition) || List();
       if (itemsHere.size) pickItem(Map().set(playerPosition, itemsHere));
     }
-    else if (key === 'h') useHealPotion();
+    else if (key === 'h') hasHealthPotion(player) && useHealPotion();
     else {
       const newPosition = getNewPosition(player, key);
 
