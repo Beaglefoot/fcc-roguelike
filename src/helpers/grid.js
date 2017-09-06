@@ -230,3 +230,25 @@ export const connectSectionsWithCorridors = (sections = List(List(Map()))) => {
     }, Map({ result: List(), prev: List() })).get('result')
   );
 };
+
+export const getDistance = (position1 = Map(), position2 = Map()) => (
+  Math.abs(position1.get('x') - position2.get('x')) + Math.abs(position1.get('y') - position2.get('y'))
+);
+
+export const getSurroundingTileCoordinates = (position = Map(), radius = 1, rows = 0, columns = 0) => {
+  const { x, y } = position.toObject();
+
+  return Range(x - radius, x + radius + 1).map(x => (
+    Range(y - radius, y + radius + 1).map(y => Map({ x, y }))
+  ))
+    .flatten(1)
+    .filter(pos => {
+      const { x, y } = pos.toObject();
+      return (
+        getDistance(pos, position) <= radius &&
+        x >= 0 && x <= columns &&
+        y >= 0 && y <= rows
+      );
+    })
+    .toList();
+};

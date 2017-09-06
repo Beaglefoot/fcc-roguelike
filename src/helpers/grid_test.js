@@ -1,5 +1,8 @@
-import { expect } from 'chai';
-import { fromJS } from 'immutable';
+import chai, { expect } from 'chai';
+import { Map, fromJS } from 'immutable';
+import chaiImmutable from 'chai-immutable';
+
+chai.use(chaiImmutable);
 
 import {
   Tile,
@@ -9,7 +12,9 @@ import {
   createOfType,
   splitTiles,
   getSidesLength,
-  getDirectCorridorCoord
+  getDirectCorridorCoord,
+  getDistance,
+  getSurroundingTileCoordinates
 } from './grid';
 
 describe('grid helper functions', () => {
@@ -180,6 +185,75 @@ describe('grid helper functions', () => {
         { x: 3, y: 3 },
         { x: 4, y: 3 }
       ]).to.deep.include.members(corridorCoord);
+    });
+  });
+
+  describe('getDistance()', () => {
+    it('should return a number of tiles to traverse to get from one position to another', () => {
+      expect(
+        getDistance(Map({ x: 1, y: 10 }), Map({ x: 1, y: 1 }))
+      ).to.equal(9);
+
+      expect(
+        getDistance(Map({ x: 1, y: 10 }), Map({ x: 1, y: 12 }))
+      ).to.equal(2);
+
+      expect(
+        getDistance(Map({ x: 0, y: 0 }), Map({ x: 0, y: 0 }))
+      ).to.equal(0);
+
+      expect(
+        getDistance(Map({ x: 2, y: 1 }), Map({ x: 3, y: 4 }))
+      ).to.equal(4);
+    });
+  });
+
+  describe('getSurroundingTileCoordinates()', () => {
+    it('should return tiles around a given position', () => {
+      const rows = 10;
+      const columns = 10;
+      const radius = 2;
+      const position = Map({ x: 2, y: 2 });
+      const result = getSurroundingTileCoordinates(position, radius, rows, columns);
+
+      expect(result.toJS()).to.deep.include.members([
+        { x: 0, y: 2 },
+        { x: 1, y: 2 },
+        { x: 2, y: 2 },
+        { x: 3, y: 2 },
+        { x: 4, y: 2 },
+        { y: 0, x: 2 },
+        { y: 1, x: 2 },
+        { y: 3, x: 2 },
+        { y: 4, x: 2 },
+        { x: 1, y: 1 },
+        { x: 3, y: 3 },
+        { x: 1, y: 3 },
+        { x: 3, y: 1 }
+      ]);
+    });
+
+    it('should ignore tiles beyond given rows and columns', () => {
+      const rows = 10;
+      const columns = 10;
+      const radius = 2;
+      const position = Map({ x: 1, y: 1 });
+      const result = getSurroundingTileCoordinates(position, radius, rows, columns);
+      console.log(result);
+
+      expect(result.toJS()).to.deep.include.members([
+        { x: 0, y: 1 },
+        { x: 1, y: 1 },
+        { x: 2, y: 1 },
+        { x: 3, y: 1 },
+        { y: 0, x: 1 },
+        { y: 2, x: 1 },
+        { y: 3, x: 1 },
+        { x: 0, y: 1 },
+        { x: 2, y: 2 },
+        { x: 0, y: 2 },
+        { x: 2, y: 1 }
+      ]).and.not.to.include({ x: -1, y: 1 });
     });
   });
 });

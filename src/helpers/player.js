@@ -78,7 +78,8 @@ export const createPlayer = (state, levelSettings = Map()) => (
       attack: levelSettings.get('baseAttack'),
       protection: 0,
       inventory: List(),
-      equipped: Map({ weapon: Map(), armor: Map() })
+      equipped: Map({ weapon: Map(), armor: Map() }),
+      visibilityRadius: 4
     })
 );
 
