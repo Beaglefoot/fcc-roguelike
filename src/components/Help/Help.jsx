@@ -48,11 +48,10 @@ class Help extends React.PureComponent {
             exitActive: fadeExitActive,
           }}
         >
-          <div>
+          <div onClick={this.switchVisibility}>
             <div className={overlay} />
             <div
               className={text}
-              onClick={this.switchVisibility}
             >
               <div className={legend}>
                 <h3>Legend</h3>

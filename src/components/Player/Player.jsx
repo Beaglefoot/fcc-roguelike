@@ -17,7 +17,7 @@ class Player extends React.PureComponent {
 
     document.body.appendChild(levelUpElement);
 
-    setTimeout(() => document.body.removeChild(levelUpElement), 5000);
+    setTimeout(() => document.body.removeChild(levelUpElement), 3000);
   }
 
   componentDidUpdate() {

@@ -1,3 +1,5 @@
+import random from 'lodash/random';
+
 import { world } from '../config/general';
 import { levels } from '../config/levels';
 
@@ -18,7 +20,9 @@ onmessage = ({ data: currentGameLevel }) => {
     columns,
     splitDepth,
     minRoomToSectionProportion,
-    maxRoomToSectionProportion
+    maxRoomToSectionProportion,
+    wallVariabilityAmount,
+    wallVariabilityDegree
   } = world;
 
   // Each section contains a room
@@ -57,7 +61,12 @@ onmessage = ({ data: currentGameLevel }) => {
     // tiles have to be converted to usual object to
     // save immutable functionality. More on this:
     // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#Transferring_data_to_and_from_workers_further_details
-    tiles: connectSectionsWithCorridors(sections).toJS(),
+    tiles: connectSectionsWithCorridors(sections)
+      .map(tile => (
+        tile.get('type') === 'wall' && random(0, 1, true) < wallVariabilityAmount
+          ? tile.set('opacity', random(wallVariabilityDegree, 1))
+          : tile
+      )).toJS(),
     currentGameLevel,
     totalLevels: levels.length
   };

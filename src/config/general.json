@@ -9,6 +9,8 @@
     "maxRoomToSectionProportion": 0.75,
     "splitDepth": 4,
     "minSplitProportion": 0.45,
-    "maxSplitProportion": 0.55
+    "maxSplitProportion": 0.55,
+    "wallVariabilityAmount": 0.2,
+    "wallVariabilityDegree": 0.8
   }
 }

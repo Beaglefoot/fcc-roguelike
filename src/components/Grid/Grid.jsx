@@ -130,6 +130,7 @@ class Grid extends React.PureComponent {
               classes[currentTile.get('type')],
               { [dimBorder]: !currentTile.get('visible') }
             )}
+            style={{ opacity: currentTile.get('opacity') || 1 }}
           >
             { currentTile.get('visible') || <div className={dimOverlay} /> }
             { x === index && y === rowIndex && <Player justMounted={this.state.playerJustMounted} /> }
@@ -172,7 +173,8 @@ class Grid extends React.PureComponent {
       columns
     );
 
-    tiles = visibleTiles.reduce((tiles, tile) => tiles.setIn([tile, 'visible'], true), tiles);
+    tiles = visibleTiles
+      .reduce((tiles, tile) => tiles.setIn([tile, 'visible'], true), tiles);
 
     return (
       <table className={grid}>
