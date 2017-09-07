@@ -239,7 +239,6 @@ describe('grid helper functions', () => {
       const radius = 2;
       const position = Map({ x: 1, y: 1 });
       const result = getSurroundingTileCoordinates(position, radius, rows, columns);
-      console.log(result);
 
       expect(result.toJS()).to.deep.include.members([
         { x: 0, y: 1 },

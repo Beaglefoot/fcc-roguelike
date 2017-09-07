@@ -30,5 +30,6 @@
       "xpRange": [40, 999],
       "baseAttack": [22, 25]
     }
-  ]
+  ],
+  "visibilityRadius": 5
 }

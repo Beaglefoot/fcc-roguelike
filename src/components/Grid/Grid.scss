@@ -8,7 +8,7 @@
 .tile {
   height: 1.2em;
   width: 1.2em;
-  border: 1px solid $clr_grid;
+  // border: 1px solid $clr_grid;
   padding: 0;
 
   & > * {
@@ -19,18 +19,32 @@
 
 .wall {
   background: $clr_wall;
+  border: 1px solid $clr_grid_dark;
 }
 
 .room {
   background: $clr_room;
+  border: 1px solid $clr_grid;
 }
 
 .corridor {
   background: $clr_corridor;
+  border: 1px solid $clr_grid;
 }
 
 .wall, .room, .corridor {
   text-align: center;
   overflow: hidden;
   height: inherit;
+}
+
+.dim-overlay {
+  width: inherit;
+  height: 2em;
+  z-index: 1;
+  background: $clr_fog;
+}
+
+.dim-border {
+  border-color: mix($clr_grid, $clr_fog, 10%);
 }

@@ -2,6 +2,7 @@ import { Map, List } from 'immutable';
 import random from 'lodash/random';
 
 import { getRandomMapValue } from '../helpers/common';
+import { visibilityRadius } from '../config/player';
 
 export const findKeyByCode = code => (
   {
@@ -79,7 +80,7 @@ export const createPlayer = (state, levelSettings = Map()) => (
       protection: 0,
       inventory: List(),
       equipped: Map({ weapon: Map(), armor: Map() }),
-      visibilityRadius: 4
+      visibilityRadius
     })
 );
 

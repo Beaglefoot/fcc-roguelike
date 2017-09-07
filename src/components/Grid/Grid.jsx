@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { Map, List } from 'immutable';
 import throttle from 'lodash/throttle';
 import pick from 'lodash/pick';
+import classNames from 'classnames';
 
-import classes, { tile, grid } from './Grid.scss';
+import classes, { tile, grid, dimOverlay, dimBorder } from './Grid.scss';
 
 import {
   generateWorld,
@@ -29,6 +30,9 @@ import {
   isTileOccupiedByCreature,
   hasHealthPotion
 } from '../../helpers/player';
+
+import { getSurroundingTileCoordinates } from '../../helpers/grid';
+
 import GridRow from './GridRow';
 import Loading from '../Loading/Loading';
 import Player from '../Player/Player';
@@ -39,7 +43,7 @@ class Grid extends React.PureComponent {
   constructor() {
     super();
     this.state = { playerJustMounted: true };
-    this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 200);
+    this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 180);
   }
 
   handleKeyPress(event) {
@@ -110,10 +114,11 @@ class Grid extends React.PureComponent {
     }
   }
 
-  generateTile(tiles, rowIndex, playerPosition) {
+  generateTile(tiles, rowIndex) {
     return (_, index) => {
       const currentPosition = Map({ x: index, y: rowIndex });
-      const { x, y } = playerPosition.toObject();
+      const currentTile = tiles.get(currentPosition);
+      const { x, y } = this.playerPosition.toObject();
       const { creatures, items, portal } = this.props;
       const creatureAtCurrentTile = creatures && creatures.get(currentPosition);
       const itemsAtCurrentTile = items && items.get(currentPosition);
@@ -121,10 +126,12 @@ class Grid extends React.PureComponent {
       return (
         <td key={index} className={tile}>
           <div
-            className={classes[
-              tiles.getIn([currentPosition, 'type'])
-            ]}
+            className={classNames(
+              classes[currentTile.get('type')],
+              { [dimBorder]: !currentTile.get('visible') }
+            )}
           >
+            { currentTile.get('visible') || <div className={dimOverlay} /> }
             { x === index && y === rowIndex && <Player justMounted={this.state.playerJustMounted} /> }
             { creatureAtCurrentTile && <Creature creature={creatureAtCurrentTile} /> }
             { itemsAtCurrentTile && '!' }
@@ -135,27 +142,43 @@ class Grid extends React.PureComponent {
     };
   }
 
-  generateRow(tiles, columns, playerPosition) {
+  generateRow(tiles, columns) {
     return (_, rowIndex) => (
-      <GridRow key={rowIndex} rowIndex={rowIndex} playerRow={playerPosition.get('y')}>
+      <GridRow
+        key={rowIndex}
+        rowIndex={rowIndex}
+        playerRow={this.playerPosition.get('y')}
+        visibilityRadius={this.visibilityRadius}
+      >
         {
-          new Array(columns).fill().map(this.generateTile(tiles, rowIndex, playerPosition))
+          new Array(columns).fill().map(this.generateTile(tiles, rowIndex))
         }
       </GridRow>
     );
   }
 
   render() {
-    const { rows, columns, tiles, player } = this.props;
+    const { rows, columns, player } = this.props;
+    let { tiles } = this.props;
 
     if (!tiles) return <Loading />;
-    const playerPosition = player ? player.get('position') : Map();
+    this.playerPosition = player ? player.get('position') : Map();
+    this.visibilityRadius = player ? player.get('visibilityRadius') : 0;
+
+    const visibleTiles = getSurroundingTileCoordinates(
+      this.playerPosition,
+      this.visibilityRadius,
+      rows,
+      columns
+    );
+
+    tiles = visibleTiles.reduce((tiles, tile) => tiles.setIn([tile, 'visible'], true), tiles);
 
     return (
       <table className={grid}>
         <tbody>
           {
-            new Array(rows).fill().map(this.generateRow(tiles, columns, playerPosition))
+            new Array(rows).fill().map(this.generateRow(tiles, columns))
           }
         </tbody>
       </table>

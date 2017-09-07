@@ -81,6 +81,7 @@ class Help extends React.PureComponent {
               <div className={tips}>
                 <h3>Tips</h3>
                 <ul>
+                  <li>To equip item click on it in inventory list</li>
                   <li>To get weapon and armor you have to fight other creatures</li>
                   <li>To fight a creature simply move in its direction</li>
                   <li>You use portals to move between levels</li>

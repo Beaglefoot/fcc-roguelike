@@ -56,10 +56,10 @@ export const generateWorld = gameLevel => dispatch => (
   dispatch(generateGrid(gameLevel))
     .then(() => (
       [
+        initPlayer,
         initPortal,
         initCreatures,
         initItems,
-        initPlayer
       ].forEach(action => dispatch(action()))
     ))
     .then(() => (!gameLevel || gameLevel === 1) && dispatch({ type: 'GENERATE_WORLD' }))
