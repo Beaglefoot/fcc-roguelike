@@ -32,7 +32,7 @@ const App = props => {
           <div className={info}>
             <Stats {...player} floor={currentGameLevel} />
             <Logger {...props} />
-            <Inventory inventory={inventory} />
+            <Inventory inventory={inventory} playerIsAlive={hp > 0} />
           </div>
       }
       { currentGameLevel && <Restart /> }

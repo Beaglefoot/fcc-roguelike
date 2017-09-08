@@ -8,7 +8,7 @@ import { inventory, list, item as itemClass } from './Inventory.scss';
 
 
 
-const Inventory = ({ inventory: inventoryList, equipItem, useHealPotion }) => (
+const Inventory = ({ inventory: inventoryList, equipItem, useHealPotion, playerIsAlive }) => (
   <div className={inventory}>
     <div>Inventory:</div>
     <ul className={list}>
@@ -17,7 +17,11 @@ const Inventory = ({ inventory: inventoryList, equipItem, useHealPotion }) => (
           <li
             key={key}
             className={itemClass}
-            onClick={() => getItemType(item) === 'potion' ? useHealPotion(item.set('key', key)) : equipItem(item.set('key', key))}
+            onClick={() => (
+              playerIsAlive && getItemType(item) === 'potion'
+                ? useHealPotion(item.set('key', key))
+                : equipItem(item.set('key', key))
+            )}
           >
             {`${getItemAsString(item)}`}
           </li>
