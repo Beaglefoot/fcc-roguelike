@@ -1,6 +1,8 @@
 import React from 'react';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import capitalize from 'lodash/capitalize';
+
+import { bossInRange } from '../../helpers/player';
 
 import { logger } from './Logger.scss';
 
@@ -17,6 +19,7 @@ class Logger extends React.PureComponent {
     const currentPlayer = this.props.player;
 
     const msg = ({
+      MOVE_PLAYER: () => (bossInRange(player) && !bossInRange(currentPlayer)) && bossInRange(player).get('encounterText'),
       ATTACK_CREATURE: () => {
         const race = action.getIn(['payload', 'race']);
         const creaturePosition = action.getIn(['payload', 'position']);
@@ -53,20 +56,26 @@ class Logger extends React.PureComponent {
         'You feel unbearable weakness and the world around you fades...',
         'Game Over'
       ],
-      GENERATE_WORLD: () => '\
-      You heard some rumors about a large chest full of gold somewhere deep in this dungeon.\
-      Will you succeed in finding it?\
-      ',
-      TELEPORT_TO_NEXT_LEVEL: () => '\
-      Once you step into the portal your surroundings change their shape.\
-      Your vision is blurred and then suddenly, it\'s sharp again. Everything looks different...\
-      ',
-      WIN_GAME: () => '\
-      After defeating the evil mimic you find out something unusual.\
-      Instead of another corpse you have a chest full of gold, your ultimate goal.\
-      Congratulations on beating the dungeon!\
-      Would you like to start over?\
-      '
+      GENERATE_WORLD: () => [
+        ''.concat(
+          'You heard some rumors about a large chest full of gold somewhere deep in this dungeon. ',
+          'Will you succeed in finding it?'
+        ),
+        (bossInRange(player) || Map()).get('encounterText')
+      ],
+      TELEPORT_TO_NEXT_LEVEL: () => [
+        ''.concat(
+          'Once you step into the portal your surroundings change their shape.',
+          'Your vision is blurred and then suddenly, it\'s sharp again. Everything looks different...'
+        ),
+        (bossInRange(player) || Map()).get('encounterText')
+      ],
+      WIN_GAME: () => ''.concat(
+        'After defeating the evil mimic you find out something unusual.',
+        'Instead of another corpse you have a chest full of gold, your ultimate goal.',
+        'Congratulations on beating the dungeon!',
+        'Would you like to start over?'
+      )
     }[action.get('type')] || (() => ''))();
 
     if (msg) this.setState({ history: this.state.history.concat(msg) });

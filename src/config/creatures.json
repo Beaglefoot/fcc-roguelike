@@ -39,7 +39,8 @@
             "weapon":     { "name":  "Spear",      "chance": 1 },
             "armor":      { "name":  "Chainmail",  "chance":  1 },
             "inventory":  {}
-          }
+          },
+          "encounterText": "You see a creature which looks like extremely strong version of goblin. It wears a spear and a chainmail."
         }
       ]
     },
@@ -109,7 +110,8 @@
             "weapon":     {},
             "armor":      {},
             "inventory":  {}
-          }
+          },
+          "encounterText": "You see a large chest with gold platings. There is beautifully carved \"M\" on it."
         }
       ]
     }

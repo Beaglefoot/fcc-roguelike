@@ -143,3 +143,5 @@ export const recalcBattleStats = (player = Map()) => (
 export const hasHealthPotion = (player = Map()) => (
   player.get('inventory').some(item => item.get('name').includes('Potion'))
 );
+
+export const bossInRange = player => player.get('creaturesInRange').find((creature = Map()) => creature.get('isBoss'));
