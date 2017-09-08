@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Map } from 'immutable';
+import { List } from 'immutable';
 import capitalize from 'lodash/capitalize';
 
 import { bossInRange } from '../../helpers/player';
@@ -24,15 +24,24 @@ class Logger extends React.PureComponent {
         const race = action.getIn(['payload', 'race']);
         const creaturePosition = action.getIn(['payload', 'position']);
         const hpPath = [creaturePosition, 'hp'];
-        const currentCreatureHP = currentCreatures.getIn(hpPath);
-        const creatureDamage = currentCreatureHP - creatures.getIn(hpPath);
+        const creatureHP = currentCreatures.getIn(hpPath);
+        const creatureMaxHP = currentCreatures.getIn([creaturePosition, 'maxHP']);
+        const creatureDamage = creatureHP - creatures.getIn(hpPath);
         const playerDamage = currentPlayer.get('hp') - player.get('hp');
 
-        return `You attack ${race} and deal [${creatureDamage}] damage. ${capitalize(race)} `.concat(
-          (playerDamage === 0 && currentCreatureHP > 0)
-            ? 'is unable to retaliate.'
-            : `retaliates with [${playerDamage}] damage.`
+        const result = [
+          `You attack ${race} and deal [${creatureDamage}] damage. ${capitalize(race)} `.concat(
+            (playerDamage === 0 && creatureHP > 0)
+              ? 'is unable to retaliate.'
+              : `retaliates with [${playerDamage}] damage.`
+          )
+        ];
+
+        if (race === 'Mimic' && creatureHP === creatureMaxHP) result.unshift(
+          'Once you get closer to the chest, you find out that it\'s actually a living creature with a row of sharp white teeth. Mimic!'
         );
+
+        return result;
       },
       USE_HEAL_POTION: () => `You are healed by [${player.get('hp') - currentPlayer.get('hp')}] points.`,
       PICK_ITEM: () => `You pick ${action.get('payload').first().last().get('name')}.`,
@@ -56,24 +65,32 @@ class Logger extends React.PureComponent {
         'You feel unbearable weakness and the world around you fades...',
         'Game Over'
       ],
-      GENERATE_WORLD: () => [
-        ''.concat(
-          'You heard some rumors about a large chest full of gold somewhere deep in this dungeon. ',
-          'Will you succeed in finding it?'
-        ),
-        (bossInRange(player) || Map()).get('encounterText')
-      ],
-      TELEPORT_TO_NEXT_LEVEL: () => [
-        ''.concat(
-          'Once you step into the portal your surroundings change their shape.',
-          'Your vision is blurred and then suddenly, it\'s sharp again. Everything looks different...'
-        ),
-        (bossInRange(player) || Map()).get('encounterText')
-      ],
+      GENERATE_WORLD: () => {
+        const result = [
+          ''.concat(
+            'You heard some rumors about a large chest full of gold somewhere deep in this dungeon. ',
+            'Will you succeed in finding it?'
+          )
+        ];
+
+        if (bossInRange(player)) result.push(bossInRange(player).get('encounterText'));
+        return result;
+      },
+      TELEPORT_TO_NEXT_LEVEL: () => {
+        const result = [
+          ''.concat(
+            'Once you step into the portal your surroundings change their shape. ',
+            'Your vision is blurred and then suddenly, it\'s sharp again. Everything looks different...'
+          )
+        ];
+
+        if (bossInRange(player)) result.push(bossInRange(player).get('encounterText'));
+        return result;
+      },
       WIN_GAME: () => ''.concat(
-        'After defeating the evil mimic you find out something unusual.',
-        'Instead of another corpse you have a chest full of gold, your ultimate goal.',
-        'Congratulations on beating the dungeon!',
+        'After defeating the evil mimic you find out something unusual. ',
+        'Instead of another corpse you have a chest full of gold, your ultimate goal. ',
+        'Congratulations on beating the dungeon! ',
         'Would you like to start over?'
       )
     }[action.get('type')] || (() => ''))();
