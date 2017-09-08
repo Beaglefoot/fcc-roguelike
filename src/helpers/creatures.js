@@ -48,6 +48,12 @@ export const pickRandomCreature = (creatures = List()) => (
   creatures.get(random(0, creatures.size - 1))
 );
 
+export const getCreaturesInRange = (creatures = Map(), visibleTiles = List()) => (
+  visibleTiles.reduce((creaturesInRange, pos) => (
+    creaturesInRange.set(pos, creatures.get(pos))
+  ), Map())
+);
+
 export const populateWorld = (state, levelSettings = Map(), creatures = Map()) => {
   const currentLevel = state.get('currentGameLevel');
   const creatureList = creatures.getIn([String(currentLevel), 'common']);
@@ -56,7 +62,16 @@ export const populateWorld = (state, levelSettings = Map(), creatures = Map()) =
   const stateWithCreatures = new Array(levelSettings.get('numberOfCreatures')).fill()
     .reduce(state => addCreatureToState(state, pickRandomCreature(creatureList)), state);
 
-  return bossesList.reduce((state, boss) => addCreatureToState(state, boss.set('isBoss', true)), stateWithCreatures);
+  const populatedState = bossesList.reduce((state, boss) => (
+    addCreatureToState(state, boss.set('isBoss', true))
+  ), stateWithCreatures);
+
+  return populatedState.update('player', player => (
+    player.set(
+      'creaturesInRange',
+      getCreaturesInRange(populatedState.get('creatures'), player.get('visibleTiles'))
+    )
+  ));
 };
 
 export const dropItems = (state, creature) => {

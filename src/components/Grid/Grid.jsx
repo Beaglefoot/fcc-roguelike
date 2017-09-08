@@ -31,8 +31,6 @@ import {
   hasHealthPotion
 } from '../../helpers/player';
 
-import { getSurroundingTileCoordinates } from '../../helpers/grid';
-
 import GridRow from './GridRow';
 import Loading from '../Loading/Loading';
 import Player from '../Player/Player';
@@ -166,14 +164,7 @@ class Grid extends React.PureComponent {
     this.playerPosition = player ? player.get('position') : Map();
     this.visibilityRadius = player ? player.get('visibilityRadius') : 0;
 
-    const visibleTiles = getSurroundingTileCoordinates(
-      this.playerPosition,
-      this.visibilityRadius,
-      rows,
-      columns
-    );
-
-    tiles = visibleTiles
+    if (player) tiles = player.get('visibleTiles')
       .reduce((tiles, tile) => tiles.setIn([tile, 'visible'], true), tiles);
 
     return (

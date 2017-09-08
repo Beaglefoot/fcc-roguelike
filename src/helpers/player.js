@@ -1,7 +1,9 @@
 import { Map, List } from 'immutable';
 import random from 'lodash/random';
 
-import { getRandomMapValue } from '../helpers/common';
+import { getRandomMapValue } from './common';
+import { getSurroundingTileCoordinates } from './grid';
+import { getCreaturesInRange } from './creatures';
 import { visibilityRadius } from '../config/player';
 
 export const findKeyByCode = code => (
@@ -67,12 +69,32 @@ export const isTileOccupiedByCreature = (creatures = Map(), position = Map()) =>
   creatures.has(position) && creatures.getIn([position, 'hp']) > 0
 );
 
-export const getRepositionedPlayer = (state, newPosition) => (
-  state.setIn(['player', 'position'], newPosition)
-);
+export const getRepositionedPlayer = (state, newPosition) => {
+  const visibleTiles = getSurroundingTileCoordinates(
+    newPosition,
+    state.getIn(['player', 'visibilityRadius']),
+    state.get('rows'),
+    state.get('columns')
+  );
 
-export const createPlayer = (state, levelSettings = Map()) => (
-  Map({ position: getRandomPlacementPosition(state) })
+  return state.update('player', player => (
+    player
+      .set('position', newPosition)
+      .set('visibleTiles', visibleTiles)
+      .set('creaturesInRange', getCreaturesInRange(state.get('creatures'), visibleTiles))
+  ));
+};
+
+export const createPlayer = (state, levelSettings = Map()) => {
+  const position = getRandomPlacementPosition(state);
+  const visibleTiles = getSurroundingTileCoordinates(
+    position,
+    visibilityRadius,
+    state.get('rows'),
+    state.get('columns')
+  );
+
+  return Map({ position })
     .concat(levelSettings, {
       hp: levelSettings.get('maxHP'),
       xp: 0,
@@ -80,9 +102,10 @@ export const createPlayer = (state, levelSettings = Map()) => (
       protection: 0,
       inventory: List(),
       equipped: Map({ weapon: Map(), armor: Map() }),
-      visibilityRadius
-    })
-);
+      visibilityRadius,
+      visibleTiles
+    });
+};
 
 export const calcAttack = (baseAttack = List(), weapon = Map()) => (
   baseAttack.mergeWith((base, wep) => base + wep, weapon.get('damage'))
