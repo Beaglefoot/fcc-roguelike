@@ -68,8 +68,10 @@ class Logger extends React.PureComponent {
       GENERATE_WORLD: () => {
         const result = [
           ''.concat(
-            'You heard some rumors about a large chest full of gold somewhere deep in this dungeon. ',
-            'Will you succeed in finding it?'
+            'After drowning in debt for decades, you decide that it\'s time to change everything. ',
+            'So you buy the \'Journal Of Most Prosperous Dugeons\' and find for yourself kinda lazy, but profitable adventure. ',
+            'There is a catchy advertisement about a large chest full of gold somewhere deep in this dungeon. ',
+            'But will you succeed in finding it?'
           )
         ];
 
