@@ -41,7 +41,7 @@ class Grid extends React.PureComponent {
   constructor() {
     super();
     this.state = { playerJustMounted: true };
-    this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 180);
+    this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 200);
   }
 
   handleKeyPress(event) {
@@ -115,7 +115,7 @@ class Grid extends React.PureComponent {
   generateTile(tiles, rowIndex) {
     return (_, index) => {
       const currentPosition = Map({ x: index, y: rowIndex });
-      const currentTile = tiles.get(currentPosition);
+      const currentTile = tiles.get(currentPosition).toObject();
       const { x, y } = this.playerPosition.toObject();
       const { creatures, items, portal } = this.props;
       const creatureAtCurrentTile = creatures && creatures.get(currentPosition);
@@ -125,16 +125,18 @@ class Grid extends React.PureComponent {
         <td key={index} className={tile}>
           <div
             className={classNames(
-              classes[currentTile.get('type')],
-              { [dimBorder]: !currentTile.get('visible') }
+              classes[currentTile.type],
+              { [dimBorder]: !currentTile.visible }
             )}
-            style={{ opacity: currentTile.get('opacity') || 1 }}
+            style={{ opacity: currentTile.opacity || 1 }}
           >
-            { currentTile.get('visible') || <div className={dimOverlay} /> }
-            { x === index && y === rowIndex && <Player justMounted={this.state.playerJustMounted} /> }
-            { creatureAtCurrentTile && <Creature creature={creatureAtCurrentTile} /> }
-            { itemsAtCurrentTile && '!' }
-            { portal && portal.equals(currentPosition) && '^' }
+            {
+              !currentTile.visible ? <div className={dimOverlay} />
+                : (x === index && y === rowIndex) ? <Player justMounted={this.state.playerJustMounted} />
+                  : creatureAtCurrentTile ? <Creature creature={creatureAtCurrentTile} />
+                    : itemsAtCurrentTile ? '!'
+                      : (portal && portal.equals(currentPosition)) && '^'
+            }
           </div>
         </td>
       );
