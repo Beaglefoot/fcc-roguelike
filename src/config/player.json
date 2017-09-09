@@ -9,25 +9,25 @@
     {
       "level": 2,
       "maxHP": 120,
-      "xpRange": [2, 20],
+      "xpRange": [0, 20],
       "baseAttack": [8, 13]
     },
     {
       "level": 3,
       "maxHP": 150,
-      "xpRange": [20, 30],
+      "xpRange": [0, 30],
       "baseAttack": [11, 16]
     },
     {
       "level": 4,
       "maxHP": 170,
-      "xpRange": [30, 40],
+      "xpRange": [0, 40],
       "baseAttack": [14, 19]
     },
     {
       "level": 5,
       "maxHP": 200,
-      "xpRange": [40, 999],
+      "xpRange": [0, 999],
       "baseAttack": [22, 25]
     }
   ],

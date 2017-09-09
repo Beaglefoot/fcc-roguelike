@@ -13,8 +13,6 @@ class Logger extends React.PureComponent {
   }
 
   componentWillReceiveProps({ lastAction: action, creatures, player }) {
-    console.log(action.get('type'));
-
     const currentCreatures = this.props.creatures;
     const currentPlayer = this.props.player;
 

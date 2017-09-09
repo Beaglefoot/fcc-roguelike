@@ -23,7 +23,11 @@ const App = props => {
         { typeof hp !== 'undefined' && <Bar className={health} value={hp} max={maxHP} /> }
         {
           typeof xp !== 'undefined' &&
-            <Bar className={experience} value={xp} max={xpRange.last()} min={xpRange.first()} />
+            <Bar
+              className={experience}
+              value={xp}
+              max={xpRange.last()}
+            />
         }
       </div>
       <Grid />

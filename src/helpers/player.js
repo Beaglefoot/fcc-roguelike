@@ -121,6 +121,7 @@ export const improvePlayerStats = (state, levelingTable) => {
     player
       .merge(newStats)
       .set('hp', newStats.get('maxHP'))
+      .set('xp', 0)
       .set('attack', calcAttack(
         newStats.get('baseAttack'),
         player.getIn(['equipped', 'weapon']))
