@@ -2,14 +2,17 @@
   "weapons": {
     "Dagger":          { "name": "Dagger", "damage":  [1, 4] },
     "Sword":           { "name": "Sword", "damage":  [3, 12] },
+    "Scimitar":        { "name": "Scimitar", "damage":  [4, 9] },
     "Spear":           { "name": "Spear", "damage":  [1, 15] },
     "Hammer":          { "name": "Hammer", "damage":  [9, 10] },
-    "Two-handed Axe":  { "name": "Two-handed Axe", "damage":  [5, 20] }
+    "Two-handed Axe":  { "name": "Two-handed Axe", "damage":  [5, 20] },
+    "Halberd":         { "name": "Halberd", "damage":  [3, 18] },
+    "Axe":             { "name": "Axe", "damage":  [4, 11] }
   },
   "armor": {
-    "Leather Armor":  { "name": "Leather Armor", "protection":  1 },
-    "Chainmail":      { "name": "Chainmail", "protection":  2 },
-    "Plate Armor":    { "name": "Plate Armor", "protection":  3 }
+    "Leather Armor":  { "name": "Leather Armor", "protection":  2 },
+    "Chainmail":      { "name": "Chainmail", "protection":  3 },
+    "Plate Armor":    { "name": "Plate Armor", "protection":  5 }
   },
   "consumables": {
     "Weak Health Potion":    { "name": "Weak Health Potion",   "effect":  30 },

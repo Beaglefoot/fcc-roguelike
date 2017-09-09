@@ -6,13 +6,13 @@
           "race": "kobold",
           "maxHP": 30,
           "maxHP": 30,
-          "attack": [50, 80],
+          "attack": [5, 8],
           "protection": 0,
           "lvl": "1",
           "equipment": {
-            "weapon":     { "name":  "Dagger",             "chance":  1 },
-            "armor":      { "name":  "Leather Armor",      "chance":  0.9 },
-            "inventory":  { "name":  "Weak Health Potion", "chance":  0.9 }
+            "weapon":     { "name":  "Dagger",             "chance":  0.3 },
+            "armor":      { "name":  "Leather Armor",      "chance":  0.1 },
+            "inventory":  { "name":  "Weak Health Potion", "chance":  0.1 }
           }
         },
         {
@@ -22,8 +22,8 @@
           "protection": 0,
           "lvl": "1",
           "equipment": {
-            "weapon":     { "name":  "Spear",              "chance":  0.2 },
-            "armor":      { "name":  "Leather Armor",      "chance":  0.2 },
+            "weapon":     { "name":  "Spear",              "chance":  0.1 },
+            "armor":      { "name":  "Leather Armor",      "chance":  0.1 },
             "inventory":  { "name":  "Weak Health Potion", "chance":  0.1 }
           }
         }
@@ -36,11 +36,11 @@
           "protection": 2,
           "lvl": "3",
           "equipment": {
-            "weapon":     { "name":  "Spear",      "chance": 1 },
+            "weapon":     { "name":  "Scimitar",   "chance": 1 },
             "armor":      { "name":  "Chainmail",  "chance":  1 },
-            "inventory":  {}
+            "inventory":  { "name": "Medium Health Potion", "chance": 1 }
           },
-          "encounterText": "You see a creature which looks like extremely strong version of goblin. It wears a spear and a chainmail."
+          "encounterText": "You see a creature which looks like extremely strong version of goblin. It wears a scimitar and a chainmail."
         }
       ]
     },
@@ -65,10 +65,25 @@
           "protection": 0,
           "lvl": "2",
           "equipment": {
-            "weapon":     { "name":  "Hammer",               "chance":  0.5 },
+            "weapon":     { "name":  "Axe",                  "chance":  0.5 },
             "armor":      { "name":  "Leather Armor",        "chance":  0.1 },
             "inventory":  { "name":  "Medium Health Potion", "chance":  0.1 }
           }
+        }
+      ],
+      "bosses": [
+        {
+          "race": "Ogre",
+          "maxHP": 150,
+          "attack": [14, 18],
+          "protection": 2,
+          "lvl": "3",
+          "equipment": {
+            "weapon":     { "name":  "Halberd",      "chance": 1 },
+            "armor":      { "name":  "Plate Armor",  "chance":  1 },
+            "inventory":  { "name": "Strong Health Potion", "chance": 1 }
+          },
+          "encounterText": "You see an orge. It rises above all other creatures on this floor and holds a massive halberd in its hands."
         }
       ]
     },
@@ -94,7 +109,7 @@
           "lvl": "3",
           "equipment": {
             "weapon":     { "name":  "Hammer",               "chance":  0.5 },
-            "armor":      { "name":  "Plate Armor",          "chance":  0.4 },
+            "armor":      { "name":  "Plate Armor",          "chance":  0.2 },
             "inventory":  { "name":  "Strong Health Potion", "chance":  0.1 }
           }
         }
