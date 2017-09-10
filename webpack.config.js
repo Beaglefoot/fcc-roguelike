@@ -2,6 +2,7 @@
 // in output.path and module.loaders inclusions
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -34,20 +35,22 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]--[hash:base64:5]',
-              camelCase: true
-            }
-          },
-          'sass-loader'
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                sourceMap: true,
+                importLoaders: 1,
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+                camelCase: true
+              }
+            },
+            'sass-loader'
+          ]
+        })
       },
       {
         test: /_worker\.js$/,
@@ -70,6 +73,7 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html'
     }),
+    new ExtractTextPlugin('style.css'),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
   ],
