@@ -40,7 +40,7 @@ export const generateGrid = (gameLevel = 1) => dispatch => (
   })
 );
 
-export const initPlayer = () => ({ type: INIT_PLAYER });
+export const initPlayer = (player = Map()) => ({ type: INIT_PLAYER, payload: player });
 export const movePlayer = (position = Map()) => ({ type: MOVE_PLAYER, payload: position });
 export const initCreatures = () => ({ type: INIT_CREATURES });
 export const initItems = () => ({ type: INIT_ITEMS });
@@ -66,11 +66,16 @@ export const generateWorld = gameLevel => dispatch => (
     .catch(console.log)
 );
 export const teleportToNextLevel = () => (dispatch, getState) => {
-  const nextGameLevel = getState().get('currentGameLevel') + 1;
+  const state = getState();
+  const nextGameLevel = state.get('currentGameLevel') + 1;
+  const player = state.get('player').delete('position').delete('visibleTiles');
 
   dispatch(clearState());
   dispatch(generateWorld(nextGameLevel)).then(
-    () => dispatch({ type: 'TELEPORT_TO_NEXT_LEVEL' })
+    () => {
+      dispatch(initPlayer(player));
+      dispatch({ type: 'TELEPORT_TO_NEXT_LEVEL' });
+    }
   );
 };
 export const killCreature = (creature = Map()) => (dispatch, getState) => {

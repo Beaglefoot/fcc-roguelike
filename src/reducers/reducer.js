@@ -50,7 +50,11 @@ const reducer = (state = Map(), { type, payload } = {}) => {
   case GENERATE_GRID:
     return newState.merge(payload);
   case INIT_PLAYER:
-    return newState.set('player', createPlayer(newState, levelingTable.get(0)));
+    return payload.size > 0 ? (
+      newState.mergeIn(['player'], payload)
+    ) : (
+      newState.set('player', createPlayer(newState, levelingTable.get(0)))
+    );
   case MOVE_PLAYER:
     return getRepositionedPlayer(newState, payload);
   case INIT_CREATURES:
