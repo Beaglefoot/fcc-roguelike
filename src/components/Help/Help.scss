@@ -2,6 +2,7 @@
 
 .help {
   cursor: pointer;
+  transition: color 0.3s;
 
   &:hover {
     color: $clr_help_hover;
@@ -40,8 +41,8 @@
 
 .keys, .legend {
   display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-column-gap: 1em;
+  grid-template-columns: 1fr 3fr;
+  grid-column-gap: 1.2em;
   grid-row-gap: 0.2em;
   align-content: start;
 
@@ -55,6 +56,10 @@
   margin: 0;
   grid-column: span 2;
   grid-row: 2;
+
+  li {
+    margin-bottom: 0.3em;
+  }
 }
 
 .fade-enter {

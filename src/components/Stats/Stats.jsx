@@ -9,12 +9,12 @@ import { stats } from './Stats.scss';
 
 const Stats = ({ level, attack, protection, equipped, floor, className }) => (
   <ul className={classNames(stats, className)}>
-    <li>{`Floor: ${floor}`}</li>
-    <li>{`Level: ${level}`}</li>
-    <li>{`Attack: ${attack.first()}-${attack.last()}`}</li>
-    <li>{`Protection: ${protection}`}</li>
-    <li>{`Weapon: ${getWeaponAsString(equipped.get('weapon'))}`}</li>
-    <li>{`Armor: ${getItemAsString(equipped.get('armor'), 'Linen Cloth (0)')}`}</li>
+    <li><span>{'Floor: '}</span>{floor}</li>
+    <li><span>{'Level: '}</span>{level}</li>
+    <li><span>{'Attack: '}</span>{`${attack.first()}-${attack.last()}`}</li>
+    <li><span>{'Protection: '}</span>{protection}</li>
+    <li><span>{'Weapon: '}</span>{getWeaponAsString(equipped.get('weapon'))}</li>
+    <li><span>{'Armor: '}</span>{getItemAsString(equipped.get('armor'), 'Linen Cloth (0)')}</li>
   </ul>
 );
 

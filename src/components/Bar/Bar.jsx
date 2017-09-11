@@ -12,7 +12,7 @@ const Bar = ({ className, value, max, min = 0 }) => (
       style={{ width: calcPercentage(value, max, min) + '%' }}
     />
     <div className={text}>
-      {`${value}/${max}`}
+      {`${value} / ${max}`}
     </div>
   </div>
 );

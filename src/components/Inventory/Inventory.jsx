@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { equipItem, useHealPotion } from '../../actions';
 
 import { getItemAsString, getItemType } from '../../helpers/items';
-import { inventory, list, item as itemClass } from './Inventory.scss';
+import { inventory, list, item as itemClass, title } from './Inventory.scss';
 
 
 
@@ -19,7 +19,7 @@ const Inventory = ({
   className
 }) => (
   <div className={classNames(inventory, className)}>
-    <div>Inventory:</div>
+    <div className={title}>Inventory:</div>
     <ul className={list}>
       {
         inventoryList.map((item, key) => (

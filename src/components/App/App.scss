@@ -1,35 +1,49 @@
 @import 'src/styles/variables.scss';
 
+:global {
+  body {
+    background: $clr_app_background;
+  }
+}
+
+$row_gap: 1em;
+
 .app {
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
-  grid-row-gap: 1em;
+  grid-gap: $row_gap;
   justify-content: center;
+  font-family: $fnt_family_app;
   font-size: $fnt_size_parent;
-  max-width: 100em;
+  max-width: $app_max_width;
   margin: 0 auto;
-  border: 1px solid orange;
-  box-sizing: border-box;
+  color: $clr_app_text;
 }
 
 .title {
   grid-column: 1 / -1;
   grid-row: 1;
   text-align: center;
+  color: $clr_app_title;
+  text-shadow: 0 0 2px $clr_app_title;
 }
 
 .bars {
   grid-column: 2 / 3;
   grid-row: 2;
   width: 100%;
-  height: 1.2em;
   display: flex;
   flex-direction: column;
+  margin-bottom: -$row_gap;
 }
 
 .grid {
   grid-column: 2 / 3;
   grid-row: 3;
+}
+
+.health, .experience {
+  height: 1.2em;
 }
 
 .health {
@@ -56,23 +70,35 @@
 }
 
 .stats {
-  border: 1px solid orange;
-  box-sizing: border-box;
   padding: 1em;
+  margin-bottom: 1em;
+
+  span {
+    opacity: 0.8;
+  }
 }
 
 .inventory {
-  border: 1px solid pink;
-  box-sizing: border-box;
   padding: 1em;
   flex-basis: 100%;
+
+  & > div:first-child {
+    opacity: 0.8;
+  }
+}
+
+.stats, .inventory {
+  border-radius: 5px;
+  background: $clr_section_background;
+
+  li:not(:last-child) {
+    margin-bottom: 0.2em;
+  }
 }
 
 .logger {
   grid-column: 2 / 3;
   grid-row: 4;
-  border: 1px solid green;
-  box-sizing: border-box;
 }
 
 .restart, .help {
@@ -84,4 +110,8 @@
   grid-row: 4;
   justify-self: center;
   align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 3em;
 }

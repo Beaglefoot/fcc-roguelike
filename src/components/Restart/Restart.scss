@@ -2,6 +2,7 @@
 
 .restart {
   cursor: pointer;
+  transition: color 0.3s;
 
   &:hover {
     color: $clr_restart_hover;

@@ -3,7 +3,7 @@
 .logger {
   height: 7em;
   overflow-y: auto;
-  color: $clr_logger_text_shaded;
+  color: $clr_logger_text_dimmed
 
   :last-child {
     color: $clr_logger_text;
@@ -12,4 +12,5 @@
 
 .title {
   font-weight: 700;
+  margin-bottom: 0.5em;
 }

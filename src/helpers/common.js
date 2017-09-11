@@ -14,5 +14,5 @@ export const repeatFunc = (times = 1, fn, startValue) => (
 );
 
 export const calcPercentage = (value, max, min) => (
-  (value - min) / (max - min)  * 100
+  value > 0 ? (value - min) / (max - min)  * 100 : 0
 );

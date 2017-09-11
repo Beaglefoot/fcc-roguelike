@@ -14,8 +14,13 @@
 
 .item {
   cursor: pointer;
+  transition: color 0.3s;
 
   &:hover {
     color: $clr_item_highlight;
   }
+}
+
+.title {
+  margin-bottom: 0.5em;
 }
