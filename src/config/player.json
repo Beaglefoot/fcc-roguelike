@@ -3,7 +3,7 @@
     {
       "level": 1,
       "maxHP": 100,
-      "xpRange": [0, 2],
+      "xpRange": [0, 10],
       "baseAttack": [5, 10]
     },
     {

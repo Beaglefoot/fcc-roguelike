@@ -10,7 +10,21 @@ import Logger from '../Logger/Logger';
 import Restart from '../Restart/Restart';
 import Help from '../Help/Help';
 
-import { app, health, experience, bars, info } from './App.scss';
+import {
+  app,
+  health,
+  experience,
+  bars,
+  title,
+  grid,
+  stats,
+  inventory as invStyle,
+  logger,
+  restart,
+  help,
+  info,
+  buttons
+} from './App.scss';
 
 const App = props => {
   const player = props.player ? props.player.toObject() : {};
@@ -19,28 +33,27 @@ const App = props => {
 
   return (
     <div className={app}>
+      { currentGameLevel && <h1 className={title}>Lazy Dungeon Crawler</h1> }
       <div className={bars}>
         { typeof hp !== 'undefined' && <Bar className={health} value={hp} max={maxHP} /> }
-        {
-          typeof xp !== 'undefined' &&
-            <Bar
-              className={experience}
-              value={xp}
-              max={xpRange.last()}
-            />
-        }
+        { typeof xp !== 'undefined' && <Bar className={experience} value={xp} max={xpRange.last()} /> }
       </div>
-      <Grid />
+      <Grid className={grid} />
       {
         typeof level !== 'undefined' &&
           <div className={info}>
-            <Stats {...player} floor={currentGameLevel} />
-            <Logger {...props} />
-            <Inventory inventory={inventory} playerIsAlive={hp > 0} />
+            <Stats {...player} floor={currentGameLevel} className={stats} />
+            <Inventory inventory={inventory} playerIsAlive={hp > 0} className={invStyle} />
           </div>
       }
-      { currentGameLevel && <Restart /> }
-      { currentGameLevel && <Help /> }
+      { typeof level !== 'undefined' && <Logger {...props} className={logger} /> }
+      {
+        currentGameLevel &&
+          <div className={buttons}>
+            <Restart className={restart} />
+            <Help className={help} />
+          </div>
+      }
     </div>
   );
 };

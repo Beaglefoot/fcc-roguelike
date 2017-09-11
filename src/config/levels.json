@@ -1,12 +1,12 @@
 {
   "levels": [
     {
-      "numberOfCreatures": 32,
-      "numberOfConsumables": 27,
+      "numberOfCreatures": 15,
+      "numberOfConsumables": 7,
       "consumables": "Weak Health Potion"
     },
     {
-      "numberOfCreatures": 12,
+      "numberOfCreatures": 15,
       "numberOfConsumables": 7,
       "consumables": "Medium Health Potion"
     },

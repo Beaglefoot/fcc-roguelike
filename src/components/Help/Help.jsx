@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
 import {
@@ -29,7 +30,7 @@ class Help extends React.PureComponent {
 
   render() {
     return (
-      <div>
+      <div className={this.props.className}>
         <div
           className={help}
           onClick={this.switchVisibility}
@@ -94,5 +95,9 @@ class Help extends React.PureComponent {
     );
   }
 }
+
+Help.propTypes = {
+  className: PropTypes.string
+};
 
 export default Help;

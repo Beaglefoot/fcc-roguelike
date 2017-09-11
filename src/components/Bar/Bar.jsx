@@ -19,7 +19,9 @@ const Bar = ({ className, value, max, min = 0 }) => (
 
 Bar.propTypes = {
   value: PropTypes.number,
-  max: PropTypes.number
+  max: PropTypes.number,
+  min: PropTypes.number,
+  className: PropTypes.string
 };
 
 export default Bar;

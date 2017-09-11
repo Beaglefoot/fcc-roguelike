@@ -41,3 +41,9 @@ $center_absolute_x: calc(0.5em - 50%);
   animation-iteration-count: infinite;
   color: $clr_flicker_animation;
 }
+
+:global {
+  #player-symbol {
+    font-weight: 700;
+  }
+}

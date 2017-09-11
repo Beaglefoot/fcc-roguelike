@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { equipItem, useHealPotion } from '../../actions';
 
@@ -8,8 +11,14 @@ import { inventory, list, item as itemClass } from './Inventory.scss';
 
 
 
-const Inventory = ({ inventory: inventoryList, equipItem, useHealPotion, playerIsAlive }) => (
-  <div className={inventory}>
+const Inventory = ({
+  inventory: inventoryList,
+  equipItem,
+  useHealPotion,
+  playerIsAlive,
+  className
+}) => (
+  <div className={classNames(inventory, className)}>
     <div>Inventory:</div>
     <ul className={list}>
       {
@@ -30,5 +39,13 @@ const Inventory = ({ inventory: inventoryList, equipItem, useHealPotion, playerI
     </ul>
   </div>
 );
+
+Inventory.propTypes = {
+  inventory: ImmutablePropTypes.list,
+  equipItem: PropTypes.func,
+  useHealPotion: PropTypes.func,
+  playerIsAlive: PropTypes.bool,
+  className: PropTypes.string
+};
 
 export default connect(null, { equipItem, useHealPotion })(Inventory);

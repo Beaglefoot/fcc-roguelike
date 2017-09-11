@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { loading } from './Loading.scss';
 
@@ -27,9 +29,14 @@ class Loading extends React.PureComponent {
 
   render() {
     return (
-      <div className={loading}>{`Loading${this.state.dots}`}</div>
+      <div className={classNames(loading, this.props.className)}>{`Loading${this.state.dots}`}</div>
     );
   }
 }
+
+Loading.propTypes = {
+  className: PropTypes.string
+};
+
 
 export default Loading;

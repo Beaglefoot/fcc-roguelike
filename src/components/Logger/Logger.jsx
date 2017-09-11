@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { List } from 'immutable';
 import capitalize from 'lodash/capitalize';
 
 import { bossInRange } from '../../helpers/player';
 
-import { logger } from './Logger.scss';
+import { logger, title } from './Logger.scss';
 
 class Logger extends React.PureComponent {
   constructor() {
@@ -90,6 +92,7 @@ class Logger extends React.PureComponent {
       WIN_GAME: () => ''.concat(
         'After defeating the evil mimic you find out something unusual. ',
         'Instead of another corpse you have a chest full of gold, your ultimate goal. ',
+        'It turns out that ad is true after all... ',
         'Congratulations on beating the dungeon! ',
         'Would you like to start over?'
       )
@@ -105,8 +108,8 @@ class Logger extends React.PureComponent {
 
   render() {
     return (
-      <div>
-        <div>Story Log:</div>
+      <div className={this.props.className}>
+        <div className={title}>Story Log:</div>
         <div className={logger}>
           {
             this.state.history.map((record, index) => (
@@ -118,5 +121,12 @@ class Logger extends React.PureComponent {
     );
   }
 }
+
+Logger.propTypes = {
+  lastAction: ImmutablePropTypes.map,
+  creatures: ImmutablePropTypes.map,
+  player: ImmutablePropTypes.map,
+  className: PropTypes.string
+};
 
 export default Logger;

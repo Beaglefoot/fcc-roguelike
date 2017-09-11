@@ -6,8 +6,8 @@
 }
 
 .tile {
-  height: 1.3em;
-  width: 1.3em;
+  height: $tile_size;
+  width: $tile_size;
   padding: 0;
 
   & > * {

@@ -41,7 +41,7 @@ class Grid extends React.PureComponent {
   constructor() {
     super();
     this.state = { playerJustMounted: true };
-    this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 200);
+    this.handleKeyPress = throttle(this.handleKeyPress.bind(this), 120);
   }
 
   handleKeyPress(event) {
@@ -159,10 +159,10 @@ class Grid extends React.PureComponent {
   }
 
   render() {
-    const { rows, columns, player } = this.props;
+    const { rows, columns, player, className } = this.props;
     let { tiles } = this.props;
 
-    if (!tiles) return <Loading />;
+    if (!tiles) return <Loading className={className} />;
     this.playerPosition = player ? player.get('position') : Map();
     this.visibilityRadius = player ? player.get('visibilityRadius') : 0;
 
@@ -170,7 +170,7 @@ class Grid extends React.PureComponent {
       .reduce((tiles, tile) => tiles.setIn([tile, 'visible'], true), tiles);
 
     return (
-      <table className={grid}>
+      <table className={classNames(grid, className)}>
         <tbody>
           {
             new Array(rows).fill().map(this.generateRow(tiles, columns))
@@ -185,7 +185,11 @@ Grid.propTypes = {
   rows: PropTypes.number,
   columns: PropTypes.number,
   tiles: ImmutablePropTypes.map,
-  player: ImmutablePropTypes.map
+  player: ImmutablePropTypes.map,
+  creatures: ImmutablePropTypes.map,
+  items: ImmutablePropTypes.map,
+  portal: ImmutablePropTypes.map,
+  className: PropTypes.string
 };
 
 const mapStateToProps = state => (
