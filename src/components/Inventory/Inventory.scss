@@ -2,7 +2,6 @@
 
 .inventory {
   height: 7em;
-  overflow: auto;
   user-select: none;
 }
 
@@ -10,6 +9,8 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow: auto;
+  height: calc(100% - 1.2em);
 }
 
 .item {

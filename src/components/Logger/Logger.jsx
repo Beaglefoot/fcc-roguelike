@@ -19,7 +19,10 @@ class Logger extends React.PureComponent {
     const currentPlayer = this.props.player;
 
     const msg = ({
-      MOVE_PLAYER: () => (bossInRange(player) && !bossInRange(currentPlayer)) && bossInRange(player).get('encounterText'),
+      MOVE_PLAYER: () => {
+        const boss = bossInRange(player);
+        if (boss && !bossInRange(currentPlayer) && boss.get('hp') > 0) return boss.get('encounterText');
+      },
       ATTACK_CREATURE: () => {
         const race = action.getIn(['payload', 'race']);
         const creaturePosition = action.getIn(['payload', 'position']);
