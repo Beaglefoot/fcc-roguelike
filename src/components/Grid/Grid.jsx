@@ -53,11 +53,12 @@ class Grid extends React.PureComponent {
       useHealPotion,
       tiles,
       creatures,
-      attackCreature
+      attackCreature,
+      lastAction
     } = this.props;
     const key = findKeyByCode(event.keyCode);
 
-    if (!key || !player) return;
+    if (!key || !player || lastAction.get('type') === 'WIN_GAME') return;
 
     const playerPosition = player.get('position');
 
@@ -195,7 +196,7 @@ Grid.propTypes = {
 const mapStateToProps = state => (
   pick(
     state.toObject(),
-    ['rows', 'columns', 'tiles', 'player', 'creatures', 'items', 'portal']
+    ['rows', 'columns', 'tiles', 'player', 'creatures', 'items', 'portal', 'lastAction']
   )
 );
 
