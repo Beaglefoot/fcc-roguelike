@@ -15,8 +15,6 @@ const store = createStore(
   applyMiddleware(thunk)
 );
 
-store.subscribe(() => window.store = store.getState());
-
 const render = Component => (
   ReactDOM.render(
     <Provider store={store}>
