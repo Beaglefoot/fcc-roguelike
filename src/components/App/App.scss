@@ -25,7 +25,8 @@ $row_gap: 1em;
   grid-row: 1;
   text-align: center;
   color: $clr_app_title;
-  text-shadow: 0 0 2px $clr_app_title;
+  text-shadow: 0 0 2px $clr_app_title,
+  0 0 18px darken($clr_app_background, 4);
 }
 
 .bars {
@@ -103,6 +104,12 @@ $row_gap: 1em;
 
 .restart, .help {
   text-align: center;
+}
+
+.help {
+  h3 {
+    color: $clr_app_title;
+  }
 }
 
 .buttons {

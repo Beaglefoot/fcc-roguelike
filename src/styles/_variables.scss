@@ -12,7 +12,7 @@ $clr_item_highlight: orange;
 $clr_flicker_animation: red;
 $clr_logger_text: rgba(#fff, 0.8);
 $clr_logger_text_dimmed: rgba($clr_logger_text, 0.5);
-$clr_restart_hover: #FF3D00;
+$clr_restart_hover: $clr_health_bar;
 $clr_help_hover: #A7CD2C;
 $clr_help_dim: #000;
 $clr_help_font: #fff;
@@ -20,7 +20,7 @@ $clr_fog: rgba(60, 60, 60, 0.2);
 $clr_app_title: #FFBC11;
 $clr_app_background: #002C2B;
 $clr_app_text: #fff;
-$clr_section_background: rgba(#076461, 0.2);
+$clr_section_background: rgba(lighten($clr_app_background, 4), 0.6);
 
 $fnt_size_parent: 14px;
 $fnt_family_app: 'Lato', sans-serif;
