@@ -1,13 +1,13 @@
 {
   "weapons": {
     "Dagger":          { "name": "Dagger", "damage":  [1, 4] },
-    "Sword":           { "name": "Sword", "damage":  [3, 12] },
-    "Scimitar":        { "name": "Scimitar", "damage":  [4, 9] },
+    "Sword":           { "name": "Sword", "damage":  [4, 11] },
+    "Scimitar":        { "name": "Scimitar", "damage":  [3, 10] },
     "Spear":           { "name": "Spear", "damage":  [1, 15] },
     "Hammer":          { "name": "Hammer", "damage":  [9, 10] },
-    "Two-handed Axe":  { "name": "Two-handed Axe", "damage":  [5, 20] },
-    "Halberd":         { "name": "Halberd", "damage":  [3, 18] },
-    "Axe":             { "name": "Axe", "damage":  [4, 11] }
+    "Two-handed Axe":  { "name": "Two-handed Axe", "damage":  [6, 16] },
+    "Halberd":         { "name": "Halberd", "damage":  [5, 20] },
+    "Axe":             { "name": "Axe", "damage":  [3, 12] }
   },
   "armor": {
     "Leather Armor":  { "name": "Leather Armor", "protection":  2 },

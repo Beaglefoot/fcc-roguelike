@@ -33,7 +33,7 @@ const App = props => {
 
   return (
     <div className={app}>
-      { currentGameLevel && <h1 className={title}>Lazy Dungeon Crawler</h1> }
+      { currentGameLevel && <h1 className={title}>Dungeon as Advertised</h1> }
       <div className={bars}>
         { typeof hp !== 'undefined' && <Bar className={health} value={hp} max={maxHP} /> }
         { typeof xp !== 'undefined' && <Bar className={experience} value={xp} max={xpRange.last()} /> }

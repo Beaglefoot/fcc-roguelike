@@ -11,8 +11,8 @@
           "lvl": "1",
           "equipment": {
             "weapon":     { "name":  "Dagger",             "chance":  0.3 },
-            "armor":      { "name":  "Leather Armor",      "chance":  0.1 },
-            "inventory":  { "name":  "Weak Health Potion", "chance":  0.1 }
+            "armor":      { "name":  "Leather Armor",      "chance":  0.2 },
+            "inventory":  { "name":  "Weak Health Potion", "chance":  0.12 }
           }
         },
         {
@@ -24,7 +24,7 @@
           "equipment": {
             "weapon":     { "name":  "Spear",              "chance":  0.1 },
             "armor":      { "name":  "Leather Armor",      "chance":  0.1 },
-            "inventory":  { "name":  "Weak Health Potion", "chance":  0.1 }
+            "inventory":  { "name":  "Weak Health Potion", "chance":  0.2 }
           }
         }
       ],
@@ -33,8 +33,8 @@
           "race": "Hobgoblin",
           "maxHP": 100,
           "attack": [10, 14],
-          "protection": 2,
-          "lvl": "3",
+          "protection": 1,
+          "lvl": "5",
           "equipment": {
             "weapon":     { "name":  "Scimitar",   "chance": 1 },
             "armor":      { "name":  "Chainmail",  "chance":  1 },
@@ -49,25 +49,25 @@
         {
           "race": "orc",
           "maxHP": 50,
-          "attack": [9, 13],
+          "attack": [10, 15],
           "protection": 0,
           "lvl": "2",
           "equipment": {
             "weapon":     { "name":  "Sword",                 "chance":  0.4 },
             "armor":      { "name":  "Chainmail",             "chance":  0.2 },
-            "inventory":  { "name":  "Medium Health Potion",  "chance":  0.1 }
+            "inventory":  { "name":  "Medium Health Potion",  "chance":  0.15 }
           }
         },
         {
           "race": "minotaur",
           "maxHP": 70,
-          "attack": [10, 12],
+          "attack": [9, 11],
           "protection": 0,
           "lvl": "2",
           "equipment": {
             "weapon":     { "name":  "Axe",                  "chance":  0.5 },
             "armor":      { "name":  "Leather Armor",        "chance":  0.1 },
-            "inventory":  { "name":  "Medium Health Potion", "chance":  0.1 }
+            "inventory":  { "name":  "Medium Health Potion", "chance":  0.15 }
           }
         }
       ],
@@ -77,11 +77,11 @@
           "maxHP": 150,
           "attack": [14, 18],
           "protection": 2,
-          "lvl": "3",
+          "lvl": "10",
           "equipment": {
             "weapon":     { "name":  "Halberd",      "chance": 1 },
             "armor":      { "name":  "Plate Armor",  "chance":  1 },
-            "inventory":  { "name": "Strong Health Potion", "chance": 1 }
+            "inventory":  { "name":  "Strong Health Potion", "chance": 1 }
           },
           "encounterText": "You see an orge. It rises above all other creatures on this floor and holds a massive halberd in its hands."
         }
@@ -109,7 +109,7 @@
           "lvl": "3",
           "equipment": {
             "weapon":     { "name":  "Hammer",               "chance":  0.5 },
-            "armor":      { "name":  "Plate Armor",          "chance":  0.2 },
+            "armor":      { "name":  "Plate Armor",          "chance":  0.1 },
             "inventory":  { "name":  "Strong Health Potion", "chance":  0.1 }
           }
         }
@@ -117,10 +117,10 @@
       "bosses": [
         {
           "race": "Mimic",
-          "maxHP": 300,
-          "attack": [20, 22],
+          "maxHP": 320,
+          "attack": [32, 50],
           "protection": 5,
-          "lvl": "6",
+          "lvl": "15",
           "equipment": {
             "weapon":     {},
             "armor":      {},

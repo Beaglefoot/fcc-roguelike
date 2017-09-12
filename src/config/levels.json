@@ -7,12 +7,12 @@
     },
     {
       "numberOfCreatures": 15,
-      "numberOfConsumables": 7,
+      "numberOfConsumables": 6,
       "consumables": "Medium Health Potion"
     },
     {
-      "numberOfCreatures": 12,
-      "numberOfConsumables": 7,
+      "numberOfCreatures": 15,
+      "numberOfConsumables": 4,
       "consumables": "Strong Health Potion"
     }
   ]
