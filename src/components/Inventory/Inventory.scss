@@ -1,4 +1,5 @@
 @import 'src/styles/variables.scss';
+@import 'src/styles/scrollbar.scss';
 
 .inventory {
   height: 7em;
@@ -11,6 +12,8 @@
   margin: 0;
   overflow: auto;
   height: calc(100% - 1.2em);
+
+  @include scrollbar;
 }
 
 .item {

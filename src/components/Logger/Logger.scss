@@ -1,4 +1,5 @@
 @import 'src/styles/variables.scss';
+@import 'src/styles/scrollbar.scss';
 
 .logger {
   height: 7em;
@@ -8,6 +9,8 @@
   :last-child {
     color: $clr_logger_text;
   }
+
+  @include scrollbar;
 }
 
 .title {
