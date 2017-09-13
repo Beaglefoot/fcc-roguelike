@@ -47,7 +47,16 @@ class Logger extends React.PureComponent {
         return result;
       },
       USE_HEAL_POTION: () => `You are healed by [${player.get('hp') - currentPlayer.get('hp')}] points.`,
-      PICK_ITEM: () => `You pick ${action.get('payload').first().last().get('name')}.`,
+      PICK_ITEM: () => (
+        'You pick '.concat(
+          action
+            .get('payload')
+            .first()
+            .map(item => item.get('name'))
+            .join(', ')
+            .replace(/(.*), /, (_, p1) => p1.concat(' and '))
+          , '.')
+      ),
       EQUIP_ITEM: () => `You equip ${action.getIn(['payload', 'name'])}.`,
       LEVEL_UP: () => 'Your level increases. You feel stronger and revitalized.',
       KILL_CREATURE: () => {

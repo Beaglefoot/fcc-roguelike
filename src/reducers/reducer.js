@@ -25,7 +25,7 @@ import {
 import { populateWorld, creatureDies } from '../helpers/creatures';
 import {
   scatterConsumables,
-  placeItemIntoInventory,
+  placeItemsIntoInventory,
   consumeHealthPotion,
   equipItem
 } from '../helpers/items';
@@ -70,7 +70,7 @@ const reducer = (state = Map(), { type, payload } = {}) => {
       consumables
     );
   case PICK_ITEM:
-    return placeItemIntoInventory(newState, payload);
+    return placeItemsIntoInventory(newState, payload);
   case USE_HEAL_POTION:
     return consumeHealthPotion(newState, payload);
   case KILL_CREATURE:
