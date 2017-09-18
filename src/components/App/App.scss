@@ -41,6 +41,7 @@ $row_gap: 1em;
 .grid {
   grid-column: 2 / 3;
   grid-row: 3;
+  height: 1px;
 }
 
 .health, .experience {
@@ -85,6 +86,12 @@ $row_gap: 1em;
 
   & > div:first-child {
     opacity: 0.8;
+  }
+
+  @supports(height: -moz-available) {
+    ul {
+      height: 25em;
+    }
   }
 }
 

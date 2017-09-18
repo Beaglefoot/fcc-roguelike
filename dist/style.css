@@ -239,7 +239,8 @@ body {
 
 .App__grid--3VIdh {
   grid-column: 2 / 3;
-  grid-row: 3; }
+  grid-row: 3;
+  height: 1px; }
 
 .App__health--2o1go, .App__experience--n_Qyp {
   height: 1.2em; }
@@ -271,6 +272,9 @@ body {
   flex-basis: 100%; }
   .App__inventory--c85E5 > div:first-child {
     opacity: 0.8; }
+  @supports (height: -moz-available) {
+    .App__inventory--c85E5 ul {
+      height: 25em; } }
 
 .App__stats--1iZlN, .App__inventory--c85E5 {
   border-radius: 5px;
