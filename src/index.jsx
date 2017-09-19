@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import { AppContainer } from 'react-hot-loader';
 
 import App from './components/App/App';
+import Footer from './components/Footer/Footer';
 
 import reducer from './reducers/reducer';
 
@@ -33,3 +34,5 @@ if (module.hot) {
     render(App);
   });
 }
+
+new Footer().appendToDocument();

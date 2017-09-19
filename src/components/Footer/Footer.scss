@@ -1,0 +1,22 @@
+$clr_link: darken(gold, 6%);
+$clr_text: lighten(gray, 20%);
+
+.footer {
+  font-family: 'VT323';
+  font-size: 14px;
+  color: rgba($clr_text, 0.8);
+  text-align: center;
+  padding: 0.2em;
+  background: rgba(#000, 0.1);
+}
+
+.link {
+  text-decoration: none;
+  color: rgba($clr_link, 0.8);
+  outline: none;
+  transition: color 0.3s;
+
+  &:hover {
+    color: lighten($clr_link, 10%);
+  }
+}

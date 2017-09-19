@@ -1,8 +1,26 @@
 @import 'src/styles/variables.scss';
 
 :global {
+  html, body {
+    height: 100%;
+  }
+
   body {
-    background: $clr_app_background;
+    background: linear-gradient(darken($clr_app_background, 20%), $clr_app_background),
+    linear-gradient(90deg, lighten($clr_app_background, 2%), transparent),
+    linear-gradient(-90deg, darken($clr_app_background, 2%), transparent);
+
+    background-blend-mode: screen;
+    background-size: cover;
+
+    // Sticky footer
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #app {
+    flex-grow: 1;
   }
 }
 
